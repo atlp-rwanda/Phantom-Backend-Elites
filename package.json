@@ -4,7 +4,8 @@
   "description": "A backend for Phantom appalication",
   "main": "server.js",
   "scripts": {
-    "format": "prettier --write \"src/**/*.{js, mjs}\""
+    "format": "prettier --write \"src/**/*.{js, mjs}\"",
+    "lint": "eslint \"src/**/*.{js, mjs}\" --quiet"
   },
   "repository": {
     "type": "git",
