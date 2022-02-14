@@ -1,0 +1,19 @@
+{
+  "name": "phantom-backend-elites",
+  "version": "1.0.0",
+  "description": "A backend for Phantom appalication",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atlp-rwanda/Phantom-Backend-Elites.git"
+  },
+  "author": "code-elites",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/atlp-rwanda/Phantom-Backend-Elites/issues"
+  },
+  "homepage": "https://github.com/atlp-rwanda/Phantom-Backend-Elites#readme"
+}
