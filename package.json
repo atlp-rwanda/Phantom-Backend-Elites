@@ -18,5 +18,8 @@
   "homepage": "https://github.com/atlp-rwanda/Phantom-Backend-Elites#readme",
   "dependencies": {
     "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
