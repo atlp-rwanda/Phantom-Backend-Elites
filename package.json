@@ -4,6 +4,9 @@
   "description": "A backend for Phantom appalication",
   "main": "server.js",
   "scripts": {
+    "build": "babel --copy-files src --out-dir dist",
+    "start": "node dist/app.js",
+    "start:dev": "nodemon --exec babel-node src/app.js",
     "dev": "parcel src/server.js",
     "format": "prettier --write \"src/**/*.{js, mjs}\"",
     "lint": "eslint \"src/**/*.{js, mjs}\" --quiet"
