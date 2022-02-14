@@ -4,7 +4,7 @@
   "description": "A backend for Phantom appalication",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "prettier --write \"src/**/*.{js, mjs}\""
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
     "express": "^4.17.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1"
   }
 }
