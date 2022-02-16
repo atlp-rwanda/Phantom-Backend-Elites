@@ -9,7 +9,13 @@
     "start:dev": "nodemon --exec babel-node src/app.js",
     "dev": "parcel src/server.js",
     "format": "prettier --write \"src/**/*.{js, mjs}\"",
-    "lint": "eslint \"src/**/*.{js, mjs}\" --quiet"
+    "lint": "eslint \"src/**/*.{js, mjs}\" --quiet",
+
+    "make-model":"npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string",
+    "migrate": "npx sequelize-cli db:migrate",
+    "down": "npx sequelize-cli db:migrate:undo",
+    "seed": "npx sequelize-cli db:seed:all",
+    "make-seed": "npx sequelize-cli seed:generate --name demo-user"
   },
   "repository": {
     "type": "git",

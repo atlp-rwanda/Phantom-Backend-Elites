@@ -1,16 +1,11 @@
 'use strict';
 
-import * as fs from 'fs'
-import path from 'path'
-import Sequelize from 'sequelize'
-import { URL } from 'url';
-
-const __filename = new URL('', import.meta.url).pathname;
-
-const __dirname = new URL('.', import.meta.url).pathname;
+const fs = require('fs');
+const path = require('path');
+const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
-import config from '/../config/config.json'
+const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
 let sequelize;
