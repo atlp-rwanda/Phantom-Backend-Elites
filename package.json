@@ -7,6 +7,7 @@
     "build": "babel --copy-files src --out-dir dist",
     "start": "node dist/app.js",
     "start:dev": "nodemon --exec babel-node src/app.js",
+    "test": "mocha --timout 10000",
     "dev": "parcel src/server.js",
     "format": "prettier --write \"src/**/*.{js, mjs}\"",
     "lint": "eslint \"src/**/*.{js, mjs}\" --quiet",
@@ -44,10 +45,13 @@
     "@babel/core": "^7.17.2",
     "@babel/node": "^7.16.8",
     "@babel/preset-env": "^7.16.11",
+    "chai": "^4.3.6",
     "eslint": "^7.18.0",
     "eslint-config-prettier": "^8.1.0",
+    "mocha": "^9.2.0",
     "nodemon": "^2.0.15",
     "parcel": "^1.12.3",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "sinon": "^13.0.1"
   }
 }
