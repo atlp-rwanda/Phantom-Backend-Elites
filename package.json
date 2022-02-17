@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "build": "babel --copy-files src --out-dir dist",
-    "start": "node dist/app.js",
+    "start": "node dist/server.js",
     "start:dev": "nodemon --exec babel-node src/app.js",
     "test": "mocha --timout 10000",
     "dev": "parcel src/server.js",
