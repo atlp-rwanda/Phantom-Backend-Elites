@@ -1,8 +1,6 @@
-import chai from "chai";
-import app from "../src/server.js";
-import assert from "chai";
-import chaihttp from "chai-http";
-import chaiHttp from "chai-http";
+const chai = require("chai");
+const app = require("../dist/server.js").default;
+const chaiHttp = require("chai-http");
 
 let expect = chai.expect;
 chai.should();

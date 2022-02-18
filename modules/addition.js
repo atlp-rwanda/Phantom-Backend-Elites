@@ -9,5 +9,4 @@ let add = function (x, y) {
   });
 };
 
-// exports.add= add;
-export default add;
+exports.add = add;
