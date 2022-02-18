@@ -9,7 +9,7 @@ const router = express.Router();
  *     summary: Return warm welcome message to the phantom web app user.
  *     responses:
  *       200:
- *         description: The list of the books
+ *         description: Welcome message to welcome to the phantom web app.
  */
 router.get("/", (req, res, next) => {
   res.status(200).json({
