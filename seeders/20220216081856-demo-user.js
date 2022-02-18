@@ -6,10 +6,19 @@ module.exports = {
       'user',
       [
         {
-          id: 1,
+          id: 2,
           firstName: 'admin',
           lastName: 'admin_last',
-          email: 'admin@test.com',
+          email: 'admin2@test.com',
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+
+        {
+          id: 3,
+          firstName: 'admin',
+          lastName: 'admin_last',
+          email: 'admin3@test.com',
           created_at: new Date(),
           updated_at: new Date(),
         },
@@ -17,6 +26,8 @@ module.exports = {
       ],
       {}
     );
+
+
   },
 
   async down (queryInterface, Sequelize) {
