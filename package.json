@@ -7,10 +7,20 @@
     "build": "babel --copy-files src --out-dir dist",
     "start": "node dist/app.js",
     "start:dev": "nodemon --exec babel-node src/app.js",
-    "test": "mocha --timout 10000",
+    "test": "mocha --timout 10000 --watch",
+    "coverage": "nyc mocha --coverage",
+    "test:watch": "mocha --watch --reporter min",
     "dev": "parcel src/server.js",
     "format": "prettier --write \"src/**/*.{js, mjs}\"",
     "lint": "eslint \"src/**/*.{js, mjs}\" --quiet"
+  },
+  "mocha": {
+    "coverageReport": [
+      "text-summary",
+      "lcov"
+    ],
+    "collectCoverage": true,
+    "testEnvironment": "jsdom"
   },
   "repository": {
     "type": "git",
@@ -23,9 +33,16 @@
   },
   "homepage": "https://github.com/atlp-rwanda/Phantom-Backend-Elites#readme",
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-register": "^6.26.0",
     "body-parser": "^1.19.1",
+    "coverage": "^0.4.1",
     "dotenv": "^16.0.0",
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "jsdom": "^19.0.0",
+    "jsdom-global": "^3.0.2",
+    "nyc": "^15.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.0",
