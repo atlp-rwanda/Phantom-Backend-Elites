@@ -1,12 +1,15 @@
+/* eslint-env browser */
 import express from "express";
 import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import cors from "cors";
 import dotenv from "dotenv";
+import homeRoutes from "./routes/homeRoutes.js";
+
 dotenv.config();
 
+// eslint-disable-next-line no-undef
 const PORT = process.env.PORT || 3000;
-import homeRoutes from "./routes/homeRoutes.js";
 
 const options = {
   definition: {
@@ -20,6 +23,9 @@ const options = {
     servers: [
       {
         url: `http://localhost:3000`,
+      },
+      {
+        url: `https://phantom-pipe-add-expres-fk8xcu.herokuapp.com`,
       },
     ],
   },
@@ -39,5 +45,8 @@ app.use(cors());
 app.use(express.json());
 app.use(homeRoutes);
 
-// export default app;
+app.listen(PORT, () => {
+  console.log(`App listening on ${PORT}`);
+});
+
 export { app as default };
