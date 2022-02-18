@@ -45,8 +45,11 @@ app.use(cors());
 app.use(express.json());
 app.use(homeRoutes);
 
+<<<<<<< HEAD
 app.listen(PORT, () => {
   console.log(`App listening on ${PORT}`);
 });
 
+=======
+>>>>>>> 1d2c5d9 (resolving testing issues)
 export { app as default };
