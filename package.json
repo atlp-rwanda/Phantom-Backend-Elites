@@ -9,12 +9,23 @@
     "pre-dev": "babel-node src/server.js",
     "dev": "nodemon --exec npm run pre-dev",
     "test": "mocha --require @babel/register --timout 10000",
+    "start:dev": "nodemon --exec babel-node src/app.js",
+    "coverage": "nyc mocha --coverage",
+    "test:watch": "mocha --watch --reporter min",
     "format": "prettier --write \"src/**/*.{js, mjs}\"",
     "lint": "eslint \"src/**/*.{js, mjs}\" --quiet",
     "migrate": "npx sequelize-cli db:migrate",
     "down": "npx sequelize-cli db:migrate:undo",
     "seed": "npx sequelize-cli db:seed:all",
     "make-seed": "npx sequelize-cli seed:generate --name demo-user"
+  },
+  "mocha": {
+    "coverageReport": [
+      "text-summary",
+      "lcov"
+    ],
+    "collectCoverage": true,
+    "testEnvironment": "jsdom"
   },
   "repository": {
     "type": "git",
@@ -47,7 +58,14 @@
     "process": "^0.11.10",
     "sequelize": "^6.16.1",
     "swagger-jsdoc": "^6.1.0",
-    "swagger-ui-express": "^4.3.0"
+    "swagger-ui-express": "^4.3.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-register": "^6.26.0",
+    "coverage": "^0.4.1",
+    "jsdom": "^19.0.0",
+    "jsdom-global": "^3.0.2",
+    "nyc": "^15.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
