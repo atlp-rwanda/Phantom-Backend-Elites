@@ -47,4 +47,4 @@ app.use(homeRoutes);
 app.listen(PORT, () => {
   console.log(`App listening on ${PORT}`);
 });
-export { app as default };
+export default app;
