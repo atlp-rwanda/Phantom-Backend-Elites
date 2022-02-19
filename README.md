@@ -1,2 +1,2 @@
 # Phantom-Backend-Elites
-[![Actions Status](https://github.com/atlp-rwanda/Phantom-Backend-Elites/workflows/Node.js CI/badge.svg)](https://github.com/atlp-rwanda/Phantom-Backend-Elites/actions)
+[![Node.js CI](https://github.com/atlp-rwanda/Phantom-Backend-Elites/actions/workflows/node.js.yml/badge.svg)](https://github.com/atlp-rwanda/Phantom-Backend-Elites/actions/workflows/node.js.yml)
