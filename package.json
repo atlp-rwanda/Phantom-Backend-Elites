@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "A backend for Phantom appalication",
   "main": "server.js",
-  "type": "module",
   "scripts": {
     "build": "babel --copy-files src --out-dir dist",
     "start": "node dist/server.js",
