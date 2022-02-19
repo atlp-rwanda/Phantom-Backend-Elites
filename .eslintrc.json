@@ -1,7 +1,7 @@
 {
   "extends": ["airbnb", "prettier"],
   "rules": {
-    "no-console": 0
+    "no-console": 1
   },
   "plugins": [],
   "parserOptions": {
