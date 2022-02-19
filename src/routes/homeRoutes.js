@@ -11,7 +11,7 @@ const router = express.Router();
  *       200:
  *         description: Welcome message to welcome to the phantom web app.
  */
-router.get("/", (req, res, next) => {
+router.get("/", (req, res) => {
   res.status(200).json({
     status: "success",
     data: "Welcome to phantom app backend side",
