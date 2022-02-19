@@ -1,6 +1,6 @@
 let chai = require(`chai`);
 let expect = chai.expect;
-let addition = require(`../modules/addition`);
+let addition = require(`../dist/`);
 
 describe(`addition`, () => {
   it(`it should add 2 number`, (done) => {
