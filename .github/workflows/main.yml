@@ -17,10 +17,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "16.x"
-      - name: Install all dependencies
-        run: npm install
-      - name: Check linting errors
-        run: npm run lint
       - name: Run tests and generate coverage reports
         run: npm run coverage
       - name: Publish to codeclimate
