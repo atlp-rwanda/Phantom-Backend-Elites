@@ -1,5 +1,3 @@
-![example workflow](https://github.com/atlp-rwanda/Phantom-Backend-Elites/blob/develop/.github/workflows/node.js.yml/badge.svg?event=push)
-
 # Pre-requisities
 
 1. Node installed
