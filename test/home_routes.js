@@ -16,7 +16,13 @@ describe(`Home route`, () => {
         response.body.should.be.a("object");
         response.body.should.have.property("status");
         response.body.should.have.property("data");
+        expect(response.body.data).to.equals(
+          "Welcome to phantom app backend side"
+        );
         done();
       });
+  });
+  after(function (done) {
+    process.exit();
   });
 });
