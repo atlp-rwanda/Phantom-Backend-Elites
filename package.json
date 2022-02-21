@@ -50,6 +50,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
+    "jsdom": "^19.0.0",
+    "jsdom-global": "^3.0.2",
+    "nyc": "^15.1.0",
     "fs": "^0.0.1-security",
     "nodemailer": "^6.7.2",
     "path": "^0.12.7",
@@ -62,10 +65,7 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-register": "^6.26.0",
-    "coverage": "^0.4.1",
-    "jsdom": "^19.0.0",
-    "jsdom-global": "^3.0.2",
-    "nyc": "^15.1.0"
+    "coverage": "^0.4.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
