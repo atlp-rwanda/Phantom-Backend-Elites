@@ -6,23 +6,13 @@ module.exports = {
       'user',
       [
         {
-          id: 2,
+          id: 1,
           firstName: 'admin',
-          lastName: 'admin_last',
-          email: 'admin2@test.com',
+          lastName: 'admin',
+          email: 'admin@test.com',
           created_at: new Date(),
           updated_at: new Date(),
-        },
-
-        {
-          id: 3,
-          firstName: 'admin',
-          lastName: 'admin_last',
-          email: 'admin3@test.com',
-          created_at: new Date(),
-          updated_at: new Date(),
-        },
-       
+        }      
       ],
       {}
     );
