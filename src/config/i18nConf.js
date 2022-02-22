@@ -20,7 +20,7 @@ i18next.use(backend)
             if (err) return console.log('something went wrong loading', err);
         })  
 
-export default i18next
+export {i18next as default};
 
 
 
