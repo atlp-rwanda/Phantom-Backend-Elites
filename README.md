@@ -1,4 +1,3 @@
-
 # Pre-requisities
 
 1. Node installed
