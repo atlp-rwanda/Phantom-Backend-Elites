@@ -6,16 +6,17 @@ import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import cors from "cors";
 import dotenv from "dotenv";
-import i18next from "./config/i18nConf";
-import middleware from "i18next-express-middleware";
 import roleRoutes from "./routes/roleRoutes.js";
 import permissionRoutes from "./routes/permissionRoutes.js";
-import userRoute from "./routes/userRoute.js"
 import morgan from "morgan";
 import homeRoutes from "./routes/homeRoutes.js";
 import db from '../sequelize/models/index'
 import passwordResetRoutes from './routes/passwordResetRoutes.js'
+import userRoute from './routes/userRoute'
+import i18next from './config/i18nConf';
+import middleware from "i18next-express-middleware";
 
+import driverRoutes from "./routes/driverRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -60,7 +61,7 @@ app.get("/junior", (req, res) => {
     res.json("Introduction to the ones and best.");
 });
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
-
+                                                                                                                                                                                                                                      
 app.use(cors());
 app.use(express.json());
 app.use('/api/v1/users', userRoute);
@@ -70,6 +71,8 @@ app.use('/api/v1/permissions', permissionRoutes);
 app.use('/api/v1/reset-password', passwordResetRoutes)
 app.use(morgan());
 app.use(homeRoutes);
+app.use("/api/v1/register", driverRoutes);
+app.use('/api/v1/',userRoute)
 
 db.sequelize.sync({ alter: false }).then(() => {
     console.log('Database Connected!');
@@ -77,7 +80,5 @@ db.sequelize.sync({ alter: false }).then(() => {
       console.log(`Server listening on port: ${PORT}`);
     });
   });
-  
-
 
 export { app as default };

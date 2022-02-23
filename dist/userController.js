@@ -17,6 +17,8 @@ var _sendEmail = _interopRequireDefault(require("../services/sendEmail.js"));
 
 var _models = require("../../sequelize/models");
 
+var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
+
 class UserController {
   async createUser(req, res) {
     const userpassword = (0, _createPassword.default)();
@@ -136,6 +138,37 @@ class UserController {
         message: "Could not delete User with id=" + id
       });
     });
+  }
+
+  async login(req, res) {
+    try {
+      const user = await _models.User.findOne({
+        where: {
+          email: req.body.email
+        }
+      });
+      const isPasswordMatch = user != null && (await _bcrypt.default.compare(req.body.password, user.password)) ? true : false;
+
+      if (!isPasswordMatch) {
+        res.status(404).send({
+          message: req.t('incorrect-login')
+        });
+      } else {
+        const token = _jsonwebtoken.default.sign({
+          _id: user.email
+        }, process.env.SECRET_KEY);
+
+        res.status(200).send({
+          token,
+          message: req.t('login-suc'),
+          user
+        });
+      }
+    } catch (error) {
+      res.status(404).send({
+        message: error.message
+      });
+    }
   }
 
 }

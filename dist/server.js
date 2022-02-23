@@ -19,15 +19,9 @@ var _cors = _interopRequireDefault(require("cors"));
 
 var _dotenv = _interopRequireDefault(require("dotenv"));
 
-var _i18nConf = _interopRequireDefault(require("./config/i18nConf"));
-
-var _i18nextExpressMiddleware = _interopRequireDefault(require("i18next-express-middleware"));
-
 var _roleRoutes = _interopRequireDefault(require("./routes/roleRoutes.js"));
 
 var _permissionRoutes = _interopRequireDefault(require("./routes/permissionRoutes.js"));
-
-var _userRoute = _interopRequireDefault(require("./routes/userRoute.js"));
 
 var _morgan = _interopRequireDefault(require("morgan"));
 
@@ -36,6 +30,14 @@ var _homeRoutes = _interopRequireDefault(require("./routes/homeRoutes.js"));
 var _index = _interopRequireDefault(require("../sequelize/models/index"));
 
 var _passwordResetRoutes = _interopRequireDefault(require("./routes/passwordResetRoutes.js"));
+
+var _userRoute = _interopRequireDefault(require("./routes/userRoute"));
+
+var _i18nConf = _interopRequireDefault(require("./config/i18nConf"));
+
+var _i18nextExpressMiddleware = _interopRequireDefault(require("i18next-express-middleware"));
+
+var _driverRoutes = _interopRequireDefault(require("./routes/driverRoutes.js"));
 
 /*jslint devel: true */
 
@@ -82,6 +84,8 @@ app.use('/api/v1/permissions', _permissionRoutes.default);
 app.use('/api/v1/reset-password', _passwordResetRoutes.default);
 app.use((0, _morgan.default)());
 app.use(_homeRoutes.default);
+app.use("/api/v1/register", _driverRoutes.default);
+app.use('/api/v1/', _userRoute.default);
 
 _index.default.sequelize.sync({
   alter: false
@@ -91,3 +95,5 @@ _index.default.sequelize.sync({
     console.log(`Server listening on port: ${PORT}`);
   });
 });
+
+app.use('/api/v1', _userRoute.default);

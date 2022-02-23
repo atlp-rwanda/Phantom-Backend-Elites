@@ -1,3 +1,5 @@
+import { getMaxListeners } from "process";
+
 export const userMock = {
   firstName: 'test',
   lastName: 'test',
@@ -56,3 +58,11 @@ export const userWithoutFirstName = {
     email: 'admin@admin.com',
     password: 'admin',
   };
+  export const nonRegisteredUserData = {
+    email: 'none@gmail.com',
+    password: '12345'
+  }
+  export const registeredUserWrongCredentials = {
+    email: 'admin@admin.com',
+    password: '12345'
+  }

@@ -3,8 +3,11 @@ import userController from '../controllers/userController'
 import canUpdateProfile from '../middleware/canUpdateProfile';
 import isAdmin from '../middleware/isAdmin';
 import Validate from '../middleware/validator'
+import validateLogin from '../middleware/validateLogin'
 
 const router = express.Router();
+const userRoute = express.Router();
+const validator = validateLogin.fields
 
 /**
  * @swagger
@@ -100,9 +103,10 @@ const router = express.Router();
  */
 router.post('/',Validate.userFields, isAdmin, new userController().createUser);
 
-router.get('/',isAdmin,new userController().findAllUsers);
+router.get('/',new userController().findAllUsers);
 router.get('/:id',new userController().findOneUser);
 router.put('/profiles/:id',canUpdateProfile,new userController().updateProfile);
 router.delete('/:id',new userController().deleteUser);
+userRoute.post('/signin',validator, new userController().login);
 
 export {router as default};

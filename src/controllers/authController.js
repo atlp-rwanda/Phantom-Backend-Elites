@@ -7,14 +7,14 @@ class AuthController {
   async login(req, res) {
 
     const user = await User.findOne({ where: { email: req.body.email } });
-    if (!user) return res.status(400).json({ message: "Wrong email detected!" });
+    if (!user) return res.status(400).json({ message: req.t('incorrect-login') });
     const isPasswordMatch = await bcrypt.compare(req.body.password, user.password);
     if (isPasswordMatch) {
       const newToken = token({ id: user.id, role: user.roleId });
       await Token.create({ token: newToken, ownerId: user.id, status: "active" }).then(data => {
         const accessor = user.dataValues;
         res.status(200).json({
-          message: "A token for your session has been saved!",
+          message: req.t('login-suc'),
           user: {
             id: accessor.id,
             firstName: accessor.firstName,
@@ -28,7 +28,7 @@ class AuthController {
         });
       });
     } else {
-      res.status(404).json({ message: "Incorrect email or password" });
+      res.status(404).json({ message:req.t('incorrect-login') });
     }
   }
 

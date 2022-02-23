@@ -17,7 +17,7 @@ function sendEmail(output, toEmail) {
     port: 587,
     secure: false,
     auth: {
-      user: process.env.USER_EMAIL,
+      user: process.env.USER_EMAIL_P,
       pass: process.env.USER_EMAIL_P
     }
   });

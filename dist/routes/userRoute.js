@@ -17,7 +17,15 @@ var _isAdmin = _interopRequireDefault(require("../middleware/isAdmin"));
 
 var _validator = _interopRequireDefault(require("../middleware/validator"));
 
+var _validateLogin = _interopRequireDefault(require("../middleware/validateLogin"));
+
 const router = _express.default.Router();
+
+exports.default = router;
+
+const userRoute = _express.default.Router();
+
+const validator = _validateLogin.default.fields;
 /**
  * @swagger
  * /api/v1/users:
@@ -111,10 +119,9 @@ const router = _express.default.Router();
  *   
  */
 
-
-exports.default = router;
 router.post('/', _validator.default.userFields, _isAdmin.default, new _userController.default().createUser);
 router.get('/', _isAdmin.default, new _userController.default().findAllUsers);
 router.get('/:id', new _userController.default().findOneUser);
 router.put('/profiles/:id', _canUpdateProfile.default, new _userController.default().updateProfile);
 router.delete('/:id', new _userController.default().deleteUser);
+userRoute.post('/signin', validator, new _userController.default().login);
