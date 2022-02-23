@@ -13,4 +13,5 @@ const add = function (x, y) {
 };
 
 // eslint-disable-next-line no-undef
-exports.add = add;
+// exports.add = add;
+export default add;
