@@ -10,7 +10,7 @@ app.use(middleware.handle(i18next,{
     removeLngFromUrl: false
   }))
 
-app.get('/home',(req, res, next)=>{
+app.get('/home', (req, res, next)=>{
     res.send({message: req.t('hello_world')})
 })
 
