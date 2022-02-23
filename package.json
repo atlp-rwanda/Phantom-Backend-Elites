@@ -5,10 +5,10 @@
   "main": "server.js",
   "scripts": {
     "build": "babel --copy-files src --out-dir dist",
-    "start": "node dist/server.js",
+    "start": "npm run build && node dist/server.js",
     "pre-dev": "babel-node src/server.js",
     "dev": "nodemon --exec npm run pre-dev",
-    "test": "mocha --timout 10000",
+    "test": "mocha --require @babel/register --timout 10000",
     "format": "prettier --write \"src/**/*.{js, mjs}\"",
     "lint": "eslint \"src/**/*.{js, mjs}\" --quiet",
     "migrate": "npx sequelize-cli db:migrate",

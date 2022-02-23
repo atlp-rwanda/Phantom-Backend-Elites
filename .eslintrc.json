@@ -3,6 +3,9 @@
   "rules": {
     "no-console": 1
   },
+  "import/extensions": {
+    "js": "ignorePackages"
+  },
   "plugins": [],
   "parserOptions": {
     "ecmaVersion": 2021,
