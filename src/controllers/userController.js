@@ -3,10 +3,7 @@ import "dotenv/config";
 import getPassword from "../services/createPassword.js";
 import sendEmail from "../services/sendEmail.js";
 import {User} from '../../sequelize/models'
-
-
-
-
+import jwt from 'jsonwebtoken'
 
 class UserController {
    async createUser(req, res) {
@@ -28,7 +25,6 @@ class UserController {
           message:
             err.message || "Some error occurred while creating the User."
         });});};
-
 
   async findOneUser(req, res) {
     const id = req.params.id;
@@ -115,6 +111,18 @@ async updateProfile(req, res) {
         });
       });
   };
+
+  async login(req, res){
+    const project = await User.findOne({ where: { email: req.body.email } });
+    // const isPasswordMatch = req.body.password === project.password ? true: false;
+    const isPasswordMatch = await bcrypt.compare(req.body.password, project.password)
+    if (project === null || !isPasswordMatch) {
+       res.status(404).send({message: 'Incorrect email or password'});
+    } else {
+        const token = jwt.sign({_id: project.email},process.env.SECRET_KEY);
+        res.statu(200).send({token: token,message:'Login successfully',project})
+    }
+}
 
 }
 export default UserController
