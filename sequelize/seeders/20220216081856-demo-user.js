@@ -8,16 +8,17 @@ module.exports = {
         {
           id: 1,
           firstName: 'admin',
-          lastName: 'admin_last',
+          lastName: 'admin',
           email: 'admin@test.com',
           password: 'admin12',
           created_at: new Date(),
           updated_at: new Date(),
-        },
-       
+        }      
       ],
       {}
     );
+
+
   },
 
   async down (queryInterface, Sequelize) {

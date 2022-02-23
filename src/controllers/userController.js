@@ -6,7 +6,6 @@ import 'dotenv/config'
 class UserController{
     async login(req, res){
         const project = await User.findOne({ where: { email: req.body.email } });
-        // const isPasswordMatch = req.body.password === project.password ? true: false;
         const isPasswordMatch = await bcrypt.compare(req.body.password, project.password)
         if (project === null || !isPasswordMatch) {
            res.status(404).send({message: 'Incorrect email or password'});
