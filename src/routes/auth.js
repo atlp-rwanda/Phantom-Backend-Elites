@@ -4,4 +4,5 @@ const router = Router();
 
 router.get('/logout', authController.logout);
 
-export default router;
+// export default router;
+export { router as default };

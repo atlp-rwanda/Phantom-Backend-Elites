@@ -4,4 +4,5 @@ const logout = (req, res) => {
     res.redirect('/');
 };
 
-export default { logout };
+// export default { logout };
+export { logout as default };
