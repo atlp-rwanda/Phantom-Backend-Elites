@@ -20,11 +20,7 @@ i18next.use(backend)
             if (err) return console.log('something went wrong loading', err);
         })  
 
-<<<<<<< HEAD
 export {i18next as default};
-=======
-export default i18next
->>>>>>> 6dcb172 (Changes added to support multiple language setup)
 
 
 
