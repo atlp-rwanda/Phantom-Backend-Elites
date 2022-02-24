@@ -8,4 +8,4 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 const defExp = { chai, app, chaiHttp, expect };
-export default defExp;
+export { defExp as default };
