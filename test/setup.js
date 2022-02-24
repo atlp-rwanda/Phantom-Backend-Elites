@@ -7,6 +7,5 @@ chai.should();
 chai.use(chaiHttp);
 const { expect } = chai;
 
-// export { chai, chaiHttp, app, expect };
 const defExp = { chai, app, chaiHttp, expect };
 export default defExp;

@@ -1,9 +1,4 @@
-// import chai from "chai";
-// import chaiHttp from "chai-http";
-// import app from "../src/server.js";
-
-// import { chai, chaiHttp, app } from "./setup.test";
-import newSet from "./setup";
+import newSet from "./setup.js";
 
 describe(`Home route`, () => {
   it(`Should provide welcome message.`, (done) => {

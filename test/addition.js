@@ -7,7 +7,6 @@ describe(`addition`, () => {
   it(`it should add 2 number`, (done) => {
     add(1, 4)
       .then((result) => {
-        console.log(result);
         expect(result).to.equal(5);
         done();
       })
