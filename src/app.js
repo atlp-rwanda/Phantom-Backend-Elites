@@ -1,11 +1,14 @@
 import express from 'express'
-import User from './src/models/user'
+import User from './models/user'
 import sequelize from 'sequelize'
-import i18next from './src/config/i18nConf';
-import userRoute from './src/routers/userRoute'
+import i18next from './config/i18nConf';
+import userRoute from './routers/userRoute'
 import middleware from "i18next-express-middleware";
-
+import auth from './routes/auth';
 const app = express()
+
+
+app.use('/', auth);
 const port = process.env.PORT || 3000
 
 app.use(middleware.handle(i18next,{
