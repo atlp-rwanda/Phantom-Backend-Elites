@@ -5,6 +5,8 @@ import swaggerJSDoc from "swagger-jsdoc";
 import cors from "cors";
 import dotenv from "dotenv";
 import homeRoutes from "./routes/homeRoutes.js";
+import i18next from "./config/i18nConf";
+import middleware from "i18next-express-middleware";
 
 dotenv.config();
 
@@ -37,12 +39,20 @@ const app = express();
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
-app.get("/junior", (req, res) => {
-  res.send("Introduction to the ones and best.");
-});
+app.use(
+  middleware.handle(i18next, {
+    ignoreRoutes: ["/foo"], //ignore route from being internationalize ex:/foo
+    removeLngFromUrl: false,
+  })
+);
 
 app.use(cors());
 app.use(express.json());
+
+app.get("/home", (req, res, next) => {
+  res.send({ message: req.t("hello_world") });
+});
+
 app.use(homeRoutes);
 app.listen(PORT, () => {
   console.log(`App listening on ${PORT}`);
