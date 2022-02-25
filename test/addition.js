@@ -1,18 +1,16 @@
-// let chai = require(`chai`);
-import chai from "chai";
-let expect = chai.expect;
-// let addition = require(`../modules/addition`);
-import add from "../modules/addition.js";
-let addition = add;
+import { expect as _expect } from "chai";
+import add from "../src/models/addition.js";
+
+const expect = _expect;
 
 describe(`addition`, () => {
   it(`it should add 2 number`, (done) => {
     add(1, 4)
-      .then(function (result) {
+      .then((result) => {
         expect(result).to.equal(5);
         done();
       })
-      .catch(function (error) {
+      .catch((error) => {
         done(error);
       });
   });
