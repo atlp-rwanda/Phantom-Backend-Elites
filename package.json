@@ -10,6 +10,7 @@
     "pre-dev": "babel-node src/server.js",
     "dev": "nodemon --exec npm run pre-dev",
     "test": "mocha --require @babel/register --timout 10000",
+    "type": "modele",
     "start:dev": "nodemon --exec babel-node src/app.js",
     "coverage": "nyc mocha --coverage",
     "test:watch": "mocha --watch --reporter min",

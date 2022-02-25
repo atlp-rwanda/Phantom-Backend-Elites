@@ -1,8 +1,9 @@
-import express from "express";
-import i18next from "./config/i18nConf";
-import middleware from "i18next-express-middleware";
-import userRoute from "../routes/user";
-// import db from require "./db";
+// import app from "express";
+const express = require(`express`);
+// import i18next from "./config/i18nConf";
+// import middleware from "i18next-express-middleware";
+// import userRoute from "../routes/user";
+const db = require("./db");
 
 
 var app = express()
