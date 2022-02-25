@@ -3,10 +3,8 @@
   "version": "1.0.0",
   "description": "A backend for Phantom appalication",
   "main": "server.js",
-  "type": "module",
   "scripts": {
     "build": "babel --copy-files src --out-dir dist",
-    "fides": "nodemon src/server.js",
     "start": "npm run build && node dist/server.js",
     "pre-dev": "babel-node src/server.js",
     "dev": "nodemon --exec npm run pre-dev",
