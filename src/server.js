@@ -4,7 +4,9 @@ import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import cors from "cors";
 import dotenv from "dotenv";
+import morgan from "morgan";
 import homeRoutes from "./routes/homeRoutes.js";
+import driverRoutes from "./routes/driverRoutes.js";
 
 dotenv.config();
 
@@ -37,13 +39,11 @@ const app = express();
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
-app.get("/junior", (req, res) => {
-  res.send("Introduction to the ones and best.");
-});
-
 app.use(cors());
 app.use(express.json());
+app.use(morgan());
 app.use(homeRoutes);
+app.use("/api/v1/register", driverRoutes);
 app.listen(PORT, () => {
   console.log(`App listening on ${PORT}`);
 });
