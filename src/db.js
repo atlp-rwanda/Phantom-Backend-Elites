@@ -1,6 +1,6 @@
 
-import Sequelize from `sequelize`;
-module.exports = Sequelize(`phantomelites`, `Noella`, `fides123`, {
+import Sequelize from "sequelize";
+module.exports = Sequelize("phantomelites", "Noella", "fides123", {
     host: `localhost`,
     dialect: `postgres`,
     operatorsAliases: false,

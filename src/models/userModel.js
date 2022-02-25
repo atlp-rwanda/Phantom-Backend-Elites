@@ -1,6 +1,5 @@
 const Sequelize = require("sequelize");
 const db = require("../db");
-// const dbs = require('../../db')
 
 const User = db.define("phantom_user", {
   firstName: {
