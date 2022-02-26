@@ -1,5 +1,11 @@
 {
-  "extends": ["eslint:recommended", "prettier"],
+  "extends": ["airbnb", "prettier"],
+  "rules": {
+    "no-console": 1
+  },
+  "import/extensions": {
+    "js": "ignorePackages"
+  },
   "plugins": [],
   "parserOptions": {
     "ecmaVersion": 2021,
@@ -7,7 +13,7 @@
     "ecmaFeatures": {
       "mjs": true
     },
-    "env": {
+    "envs": {
       "es6": true,
       "browser": true,
       "node": true

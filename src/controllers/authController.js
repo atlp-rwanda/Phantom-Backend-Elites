@@ -5,3 +5,5 @@ const logout = (req, res) => {
 };
 
 export default { logout };
+// eslint-disable-next-line
+console.log("Auth controller to be used");
