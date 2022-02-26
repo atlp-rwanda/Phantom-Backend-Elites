@@ -8,7 +8,7 @@ import auth from './routes/auth';
 const app = express()
 
 
-app.use('/', auth);
+
 const port = process.env.PORT || 3000
 
 app.use(middleware.handle(i18next,{
@@ -19,6 +19,7 @@ app.use(middleware.handle(i18next,{
 
 app.use(express.json())                                                                                                                                                                                                                                        
 app.use('/api/v1/',userRoute)
+app.use('/', auth);
 
 
 app.listen(port,()=>console.log(`Application is running on ${port}`))

@@ -6,9 +6,9 @@
   "scripts": {
     "build": "babel --copy-files src --out-dir dist",
     "start": "node dist/app.js",
-    "start:dev": "nodemon --exec babel-node app.js",
+    "start:dev": "nodemon --exec babel-node src/app.js",
     "test": "mocha --timout 10000",
-    "dev": "parcel src/server.js",
+    "dev": "parcel src/app.js",
     "format": "prettier --write \"src/**/*.{js, mjs}\"",
     "lint": "eslint \"src/**/*.{js, mjs}\" --quiet",
     "migrate": "npx sequelize-cli db:migrate",
@@ -26,6 +26,7 @@
     "url": "https://github.com/atlp-rwanda/Phantom-Backend-Elites/issues"
   },
   "dependencies": {
+    "babel-plugin-transform-runtime": "^6.23.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.1",
     "dotenv": "^16.0.0",
@@ -51,6 +52,7 @@
     "@babel/node": "^7.16.8",
     "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
+    "babel-cli": "^6.26.0",
     "chai": "^4.3.6",
     "eslint": "^7.18.0",
     "eslint-config-prettier": "^8.1.0",
