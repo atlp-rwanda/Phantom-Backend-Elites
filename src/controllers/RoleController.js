@@ -1,6 +1,12 @@
-import Role from '../../sequelize/models/Role.js'
+import Roles from '../../sequelize/models/Role'
+import { development } from "../../sequelize/config/config.js";
+import { Sequelize } from "sequelize";
+let sequelize = new Sequelize(development);
+let Role = Roles(sequelize, Sequelize);
 
-export async function createRole(req, res) {
+class RoleController{
+
+  async createRole(req, res) {
     // Validate request
     if (!req.body.name) {
       res.status(400).send({
@@ -9,12 +15,10 @@ export async function createRole(req, res) {
       return;
     }
     // Create a Role
-    // const role = {
-    //   name: req.body.name
-    // };
+    const  { name } = req.body
     // Save Role in the database
-    console.log('At create function')
-   await Role.create({name: req.body.name}, { fields: ['name'] })
+    console.log(req.body)
+    await Role.create({ name, })
       .then(data => {
         res.send(data);
       })
@@ -24,10 +28,10 @@ export async function createRole(req, res) {
             err.message || "Some error occurred while creating the Role."
         });
       });
-  };
+};
 
 
-export function findOneRole(req, res) {
+async findOneRole(req, res) {
     const id = req.params.id;
     Role.findByPk(id)
       .then(data => {
@@ -44,10 +48,10 @@ export function findOneRole(req, res) {
           message: "Error retrieving Role with id=" + id
         });
       });
-  };
+};
 
-export function findAllRoles(req, res) {
-    Role.findAll({ where: { published: true } })
+async findAllRoles(req, res) {
+    Role.findAll()
       .then(data => {
         res.send(data);
       })
@@ -59,7 +63,7 @@ export function findAllRoles(req, res) {
       });
 };
 
-export function updateRole(req, res) {
+async updateRole(req, res) {
     const id = req.params.id;
     Role.update(req.body, {
       where: { id: id }
@@ -82,7 +86,7 @@ export function updateRole(req, res) {
       });
 };
 
-export function deleteRole(req, res) {
+async deleteRole(req, res) {
     const id = req.params.id;
     Role.destroy({
       where: { id: id }
@@ -104,3 +108,7 @@ export function deleteRole(req, res) {
         });
       });
 };
+
+}
+export default RoleController
+ 

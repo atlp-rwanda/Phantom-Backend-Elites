@@ -17,6 +17,7 @@ export default (sequelize, DataTypes) => {
     role_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      
     },
     permission_id: {
       type: DataTypes.INTEGER,

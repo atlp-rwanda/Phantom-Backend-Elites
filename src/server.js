@@ -4,11 +4,12 @@ import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import cors from "cors";
 import dotenv from "dotenv";
-import roleRoutes from "./routes/roleRoutes.js";
-
 import i18next from "./config/i18nConf";
 import middleware from "i18next-express-middleware";
 import homeRoutes from "./routes/homeRoutes.js";
+import roleRoutes from "./routes/roleRoutes.js";
+import permissionRoutes from "./routes/permissionRoutes.js";
+import assignRoutes from "./routes/assignPermissionRoutes.js";
 
 dotenv.config();
 
@@ -58,7 +59,8 @@ app.get("/junior", (req, res) => {
 app.use(cors());
 app.use(express.json());
 app.use('/api/v1/roles', roleRoutes);
-
+app.use('/api/v1/permissions', permissionRoutes);
+app.use('/api/v1/assigning', assignRoutes);
 app.listen(PORT, () => {
 console.log(`App listening on ${PORT}`);
 });
