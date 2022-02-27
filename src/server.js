@@ -6,6 +6,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import roleRoutes from "./routes/roleRoutes.js";
 
+import i18next from "./config/i18nConf";
+import middleware from "i18next-express-middleware";
+import homeRoutes from "./routes/homeRoutes.js";
 
 dotenv.config();
 
@@ -36,6 +39,16 @@ const options = {
 const specs = swaggerJSDoc(options);
 const app = express();
 
+app.use(
+  middleware.handle(i18next, {
+    ignoreRoutes: ["/foo"], //ignore route from being internationalize ex:/foo
+    removeLngFromUrl: false,
+  })
+);
+
+app.get("/home", (req, res, next) => {
+  res.send({ message: req.t("hello_world") });
+});
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
 app.get("/junior", (req, res) => {
