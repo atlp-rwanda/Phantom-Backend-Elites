@@ -1,8 +1,6 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+import { Model } from 'sequelize';
+
+export default (sequelize, DataTypes) => {
   class Permission extends Model {
     /**
      * Helper method for defining associations.
@@ -14,10 +12,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Permission.init({
-    name: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: {
+        args: true,
+        msg: 'Permission already exists',
+      },
+    },
   }, {
     sequelize,
     modelName: 'Permission',
+    timestamps: false,
   });
   return Permission;
 };

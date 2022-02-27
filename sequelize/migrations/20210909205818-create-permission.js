@@ -1,4 +1,3 @@
-'use strict';
 export default {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Permissions', {
@@ -9,16 +8,10 @@ export default {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING
-      },
-      createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.STRING,
+        unique: true,
       },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
     });
   },
   down: async (queryInterface, Sequelize) => {

@@ -1,6 +1,5 @@
-'use strict';
 export default {
-  up: async (queryInterface, Sequelize) =>{
+  up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Roles', {
       id: {
         allowNull: false,
@@ -9,7 +8,9 @@ export default {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
+        unique: true,
       },
     });
   },

@@ -5,6 +5,7 @@ import swaggerJSDoc from "swagger-jsdoc";
 import cors from "cors";
 import dotenv from "dotenv";
 import homeRoutes from "./routes/homeRoutes.js";
+import roleRoutes from './routes/roleRoutes.js'
 
 dotenv.config();
 
@@ -44,8 +45,9 @@ app.get("/junior", (req, res) => {
 app.use(cors());
 app.use(express.json());
 app.use(homeRoutes);
+app.use(roleRoutes)
 app.listen(PORT, () => {
-  console.log(`App listening on ${PORT}`);
+console.log(`App listening on ${PORT}`);
 });
 
 export { app as default };
