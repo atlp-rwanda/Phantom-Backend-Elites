@@ -1,31 +1,55 @@
-import Operator from "../models/operator.js";
-import Driver from "../models/drivers.js";
 import bcrypt from "bcrypt";
 import "dotenv/config";
 import getPassword from "../services/createPassword.js";
 import sendEmail from "../services/sendEmail.js";
+import Users from "../../sequelize/models/user.js";
+import Profiles from "../../sequelize/models/profile.js";
+import { Sequelize } from "sequelize";
+import jwt from "jsonwebtoken";
+import { development } from "../../sequelize/config/config.js";
+let sequelize = new Sequelize(development);
+let User = Users(sequelize, Sequelize);
+let Profile = Profiles(sequelize, Sequelize);
 
-class DriverAndOperatorController {
+class UserController {
+  async registerDatabase(req, res) {
+    const driverRegister = await User.sync({ alter: true });
+    const profileRegister = await Profile.sync({ alter: true });
+    res.send("database created");
+  }
   async login(req, res) {
+    let isPasswordMatch = "";
     const project = await User.findOne({ where: { email: req.body.email } });
-    const isPasswordMatch = await bcrypt.compare(
-      req.body.password,
-      project.password
-    );
+    if (project) {
+      isPasswordMatch = await bcrypt.compare(
+        req.body.password,
+        project.password
+      );
+    }
     if (project === null || !isPasswordMatch) {
       res.status(404).send({ message: "Incorrect email or password" });
     } else {
-      const token = jwt.sign({ _id: project.email }, process.env.SECRET_KEY);
-      res
-        .statu(200)
-        .send({ token: token, message: "Login successfully", project });
+      const token = jwt.sign(
+        { _id: project.email, role: project.role },
+        process.env.SECRET_KEY
+      );
+      res.status(200).json({
+        token,
+        message: "Login successfully",
+        user: {
+          firstName: project.firstName,
+          lastName: project.lastName,
+          email: project.email,
+          role: project.role,
+        },
+      });
     }
   }
 
   async registerDriver(req, res) {
     const {
       firstName,
-      secondName,
+      lastName,
       email,
       phoneNumber,
       idNumber,
@@ -34,8 +58,9 @@ class DriverAndOperatorController {
       gender,
       address,
     } = req.body;
-    const password = getPassword();
-    const dbDriver = await Driver.findOne({ where: { email } });
+    const userpassword = getPassword();
+    const password = await bcrypt.hash(userpassword, 12);
+    const dbDriver = await User.findOne({ where: { email } });
     let errors = [];
     // Validate Fields
     if (dbDriver) {
@@ -50,7 +75,7 @@ class DriverAndOperatorController {
     if (!gender) {
       errors.push({ message: "Please add your gender" });
     }
-    if (!secondName) {
+    if (!lastName) {
       errors.push({ message: "Please add a last name" });
     }
     if (!email) {
@@ -76,7 +101,7 @@ class DriverAndOperatorController {
         message: `User was not able to be registered as driver.`,
         enteredData: {
           firstName,
-          secondName,
+          lastName,
           email,
           phoneNumber,
           idNumber,
@@ -87,37 +112,41 @@ class DriverAndOperatorController {
         },
       });
     } else {
-      // const driverRegister = await Driver.sync({ alter: true });
-      const driver = await Driver.build({
+      const driver = User.build({
         firstName,
-        secondName,
+        lastName,
         email,
         password,
-        phoneNumber,
-        idNumber,
-        driverLicence,
-        dateofBirth,
         gender,
         address,
+        role: "driver",
       });
 
       await driver
         .save()
-        .then((results) => {
-          const output = `
+        .then(async (results) => {
+          const profile = Profile.build({
+            driverLicence,
+            dateofBirth,
+          });
+
+          await profile
+            .save()
+            .then((results) => {
+              const output = `
               <h2>Your account has been registered. you can login in</h2>
               <a href="http://localhost:3000/login">phantom app</a>
-              <p>Use ${req.body.email} and your password  <a href="#">${password}</a></p>
+              <p>Use ${req.body.email} and your password  <a href="#">${userpassword}</a></p>
           `;
-          sendEmail(output, email);
-          return results;
-        })
-        .then((results) => {
-          res.status(201).json({
-            status: "success",
-            message: `User registered as driver successfully!!.`,
-            results,
-          });
+              sendEmail(output, email);
+              return results;
+            })
+            .then((results) => {
+              res.status(201).json({
+                status: "success",
+                message: `User registered as driver successfully!!.`,
+              });
+            });
         })
         .catch((err) => {
           res.status(400).json({
@@ -127,12 +156,10 @@ class DriverAndOperatorController {
         });
     }
   }
-
   async registerOperator(req, res) {
-    // const driverRegister = await Operator.sync({ alter: true });
     const {
       firstName,
-      secondName,
+      lastName,
       email,
       phoneNumber,
       idNumber,
@@ -141,8 +168,9 @@ class DriverAndOperatorController {
       gender,
       address,
     } = req.body;
-    const password = getPassword();
-    const dbDriver = await Operator.findOne({ where: { email } });
+    const userpassword = getPassword();
+    const password = await bcrypt.hash(userpassword, 12);
+    const dbDriver = await User.findOne({ where: { email } });
     let errors = [];
     // Validate Fields
     if (dbDriver) {
@@ -157,7 +185,7 @@ class DriverAndOperatorController {
     if (!gender) {
       errors.push({ message: "Please add your gender" });
     }
-    if (!secondName) {
+    if (!lastName) {
       errors.push({ message: "Please add a last name" });
     }
     if (!email) {
@@ -183,7 +211,7 @@ class DriverAndOperatorController {
         message: `User was not able to be registered as driver.`,
         enteredData: {
           firstName,
-          secondName,
+          lastName,
           email,
           phoneNumber,
           idNumber,
@@ -194,35 +222,41 @@ class DriverAndOperatorController {
         },
       });
     } else {
-      const operator = await Operator.build({
+      const driver = User.build({
         firstName,
-        secondName,
+        lastName,
         email,
         password,
-        phoneNumber,
-        idNumber,
-        driverLicence,
-        dateofBirth,
         gender,
         address,
+        role: "operator",
       });
-      await operator
+
+      await driver
         .save()
-        .then((results) => {
-          const output = `
-              <h2>Your account has been registered. you can login in</h2>
-              <a href="http://localhost:3000/login">phantom app</a>
-              <p>Use ${req.body.email} and your password  <a href="#">${password}</a></p>
-          `;
-          sendEmail(output, email);
-          return results;
-        })
-        .then((results) => {
-          res.status(201).json({
-            status: "success",
-            message: `User registered as operator successfully!!.`,
-            results,
+        .then(async (results) => {
+          const profile = Profile.build({
+            driverLicence,
+            dateofBirth,
           });
+
+          await profile
+            .save()
+            .then((results) => {
+              const output = `
+              <h2>Your account has been registered as operator. you can login in</h2>
+              <a href="http://localhost:3000/login">phantom app</a>
+              <p>Use ${req.body.email} and your password  <a href="#">${userpassword}</a></p>
+          `;
+              sendEmail(output, email);
+              return results;
+            })
+            .then((results) => {
+              res.status(201).json({
+                status: "success",
+                message: `User registered as operator successfully!!.`,
+              });
+            });
         })
         .catch((err) => {
           res.status(400).json({
@@ -233,4 +267,4 @@ class DriverAndOperatorController {
     }
   }
 }
-export { DriverAndOperatorController as default };
+export { UserController as default };

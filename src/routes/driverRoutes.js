@@ -1,5 +1,6 @@
 import express from "express";
 import driverController from "../controllers/driverController.js";
+import { checkAuthentication } from "../services/check-user.js";
 
 const router = express.Router();
 
@@ -12,8 +13,11 @@ const router = express.Router();
  *       201:
  *         description: This endpoint allow admin of the system to register new driver.
  */
-router.post("/driver", new driverController().registerDriver);
-
+router.post(
+  "/driver",
+  checkAuthentication,
+  new driverController().registerDriver
+);
 /**
  * @swagger
  * /api/v1/register/driver:
@@ -23,6 +27,13 @@ router.post("/driver", new driverController().registerDriver);
  *       201:
  *         description: This endpoint allow admin of the system to register new driver.
  */
-router.post("/operator", new driverController().registerOperator);
+router.post(
+  "/operator",
+  checkAuthentication,
+  new driverController().registerOperator
+);
+router.post("/driver/register", new driverController().registerDatabase);
+
+router.post("/login", new driverController().login);
 
 export { router as default };
