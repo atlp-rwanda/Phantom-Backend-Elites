@@ -1,6 +1,7 @@
 "use strict";
-import { Model } from "sequelize";
-export default (sequelize, DataTypes) => {
+const { Model } = require("sequelize");
+// import { Model } from "sequelize";
+module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
      * Helper method for defining associations.
@@ -10,6 +11,11 @@ export default (sequelize, DataTypes) => {
     // eslint-disable-next-line no-unused-vars
     static associate(models) {
       // define association here
+      User.hasOne(Profile, { sourceKey: "email", foreignKey: "owner" }),
+        User.hasOne(Profile, {
+          foreignKey: "email",
+          onDelete: "CASCADE",
+        });
     }
   }
   User.init(
@@ -18,7 +24,6 @@ export default (sequelize, DataTypes) => {
       lastName: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.STRING,
-      dateofbirth: DataTypes.STRING,
       gender: DataTypes.STRING,
       address: DataTypes.STRING,
      
