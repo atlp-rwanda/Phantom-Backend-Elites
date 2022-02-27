@@ -1,8 +1,9 @@
-import { resolve } from 'path'
+const path = require('path');
 
-export default {
-  config: path.resolve('./sequelize/config', 'config.js'),
-  'models-path': resolve('./sequelize/models'),
-  'seeders-path': resolve('./sequelize/seeders'),
-  'migrations-path': resolve('./sequelize/migrations'),
+
+module.exports = {
+  'config': path.resolve('./sequelize/config', 'config.js'),
+  'models-path': path.resolve('./sequelize/models'),
+  'seeders-path': path.resolve('./sequelize/seeders'),
+  'migrations-path': path.resolve('./sequelize/migrations'),
 }

@@ -1,6 +1,6 @@
-import Role from '../models/Role.js'
+import Role from '../../sequelize/models/Role.js'
 
-export function createRole(req, res) {
+export async function createRole(req, res) {
     // Validate request
     if (!req.body.name) {
       res.status(400).send({
@@ -9,11 +9,12 @@ export function createRole(req, res) {
       return;
     }
     // Create a Role
-    const role = {
-      name: req.body.name
-    };
+    // const role = {
+    //   name: req.body.name
+    // };
     // Save Role in the database
-    Role.create(role)
+    console.log('At create function')
+   await Role.create({name: req.body.name}, { fields: ['name'] })
       .then(data => {
         res.send(data);
       })
