@@ -19,4 +19,3 @@ I have created migrations, seeders and seed data for testing. To use them you ne
 7. Done, now you are ready to go!
 
 [![Node.js CI](https://github.com/atlp-rwanda/Phantom-Backend-Elites/actions/workflows/node.js.yml/badge.svg)](https://github.com/atlp-rwanda/Phantom-Backend-Elites/actions/workflows/node.js.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/2b1340f723faa22a820e/maintainability)](https://codeclimate.com/github/atlp-rwanda/Phantom-Backend-Elites/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/2b1340f723faa22a820e/test_coverage)](https://codeclimate.com/github/atlp-rwanda/Phantom-Backend-Elites/test_coverage)
-
