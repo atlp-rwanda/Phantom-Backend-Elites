@@ -4,7 +4,7 @@ import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import cors from "cors";
 import dotenv from "dotenv";
-import i18next from "./config/i18nConf";
+import i18next from "./config/i18nConf.js";
 import middleware from "i18next-express-middleware";
 import homeRoutes from "./routes/homeRoutes.js";
 

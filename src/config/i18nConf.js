@@ -4,6 +4,8 @@ import middleware from "i18next-express-middleware";
 import backend from 'i18next-node-fs-backend';
 import languageDetector from 'i18next-browser-languagedetector';
 
+const __dirname = path.resolve();
+
 i18next.use(backend)
        .use(middleware.LanguageDetector)
        .init({
