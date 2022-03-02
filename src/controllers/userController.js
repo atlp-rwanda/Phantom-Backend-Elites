@@ -10,6 +10,7 @@ let User = Users(sequelize, Sequelize);
 import Profiles from "../../sequelize/models/profile.js";
 let Profile = Profiles(sequelize, Sequelize);
 
+
 class UserController{
     
 
@@ -27,9 +28,10 @@ class UserController{
     // console.log(req.body)
 
 const userpassword = getPassword();
-const password = await bcrypt.hash(userpassword, 12);
+const password = userpassword
 
-    const user=await User.create({
+
+    await User.create({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
@@ -37,13 +39,14 @@ const password = await bcrypt.hash(userpassword, 12);
         roleId: req.body.roleId,
         dateofbirth:req.body.dateofbirth,
         gender: req.body.gender,
-        address:req.body.address
+        address:req.body.address,
+        token:"",
 
 
     })
-    
+
       .then(async data => {
-        console.log(data.id)
+       
         await Profile.create({
             userId: data.id,
             
@@ -91,6 +94,10 @@ async findOneUser(req, res) {
 };
 
 async findAllUsers(req, res) {
+  
+
+
+
     User.findAll()
       .then(data => {
         res.send(data);

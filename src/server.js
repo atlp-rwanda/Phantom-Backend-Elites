@@ -1,6 +1,6 @@
 /*jslint devel: true */
 /* eslint-env browser */
-import auth from './routes/auth';
+import auth from './routes/auth.js';
 import express from "express";
 import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
@@ -15,7 +15,7 @@ import userRoute from "./routes/userRoute.js"
 // import assignRoleRoutes from "./routes/assignRolesRoutes.js";
 import morgan from "morgan";
 import homeRoutes from "./routes/homeRoutes.js";
-import driverRoutes from "./routes/driverRoutes.js";
+
 
 const app = express();
 app.use('/', auth);
@@ -24,7 +24,7 @@ app.use('/', auth);
 dotenv.config();
 
 // eslint-disable-next-line no-undef
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 const options = {
     definition: {
@@ -65,12 +65,10 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/roles', roleRoutes);
+app.use('/api/v1/auth', auth);
 app.use('/api/v1/permissions', permissionRoutes);
-// app.use('/api/v1/assign_perm', assignPermRoutes);
-// app.use('/api/v1/assign_role', assignRoleRoutes);
 app.use(morgan());
 app.use(homeRoutes);
-app.use("/api/v1/register", driverRoutes);
 app.listen(PORT, () => {
 console.log(`App listening on ${PORT}`);
 });

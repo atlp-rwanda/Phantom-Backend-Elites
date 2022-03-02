@@ -13,7 +13,6 @@ module.exports = {
         unique: true,
       },
       roleId: {
-        allowNull: false,
         type: Sequelize.INTEGER
 
       },

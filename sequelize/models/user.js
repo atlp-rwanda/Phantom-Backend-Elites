@@ -33,6 +33,7 @@ export default (sequelize, DataTypes) => {
       gender: DataTypes.STRING,
       address: DataTypes.STRING,
       roleId: DataTypes.INTEGER,
+      token:DataTypes.STRING,
     },
     {
       sequelize,
