@@ -33,9 +33,12 @@ class PermissionController{
       return;
     }
     // Create a Permission
-    const  { name } = req.body
+    // const  { name, roleId, } = req.body
+    console.log(req.body.name)
+    console.log(req.body.roleId)
     // Save Permission in the database
-    await Permission.create({ name, })
+    await Permission.create(req.body)
+    
       .then(data => {
         res.send(data);
       })

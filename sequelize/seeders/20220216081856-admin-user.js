@@ -1,22 +1,23 @@
 "use strict";
 
-export async function up(queryInterface) {
+module.exports= {
+  async up(queryInterface, Sequelize) {
   await queryInterface.bulkInsert(
-    "user",
+    "Users",
     [
       {
         id: 1,
         firstName: "admin",
         lastName: "admin",
         email: "admin@test.com",
-        created_at: new Date(),
-        updated_at: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ],
     {}
   );
-}
-export async function down(queryInterface) {
+},
+ async down(queryInterface, Sequelize) {
   /**
    * Add commands to revert seed here.
    *
@@ -24,5 +25,5 @@ export async function down(queryInterface) {
    * await queryInterface.bulkDelete('People', null, {});
    */
   // eslint-disable-next-line no-undef
-  await queryInterface.bulkDelete("user", null, bulkDeleteOptions);
-}
+  await queryInterface.bulkDelete("Users", null, bulkDeleteOptions);
+}}

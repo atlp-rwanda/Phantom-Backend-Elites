@@ -12,6 +12,11 @@ module.exports = {
         type: Sequelize.STRING,
         unique: true,
       },
+      roleId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+
+      },
     });
   },
   async down(queryInterface, Sequelize) {

@@ -9,6 +9,11 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Permission.belongsTo(models.Role, {
+        foreignKey: 'roleId',
+        as: 'permissions',
+        onDelete: 'CASCADE',
+      })
     }
   }
   Permission.init({
@@ -19,6 +24,7 @@ export default (sequelize, DataTypes) => {
         args: true,
         msg: 'Permission already exists',
       },
+    roleId: DataTypes.INTEGER,
     },
   }, {
     sequelize,

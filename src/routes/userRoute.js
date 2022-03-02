@@ -1,9 +1,14 @@
 import express from 'express'
 import userController from '../controllers/userController'
-import auth from '../middlewares/auth'
+// import auth from '../middlewares/auth'
 
-const userRoute = express.Router();
+const router = express.Router();
 
-userRoute.post('/signin',new userController().login);
+// userRoute.post('/signin',new userController().login);
+router.post('/',new userController().createUser);
+router.get('/',new userController().findAllUsers);
+router.get('/:id',new userController().findOneUser);
+router.put('/:id',new userController().updateUser);
+router.delete('/:id',new userController().deleteUser);
 
-export {userRoute as default};
+export {router as default};

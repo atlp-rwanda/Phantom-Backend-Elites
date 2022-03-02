@@ -9,8 +9,17 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-    }
-  }
+      Role.hasMany(models.User, {
+        foreignKey: 'roleId',
+        as: 'users',
+        onDelete: 'CASCADE',
+    })
+    Role.hasMany(models.Permission, {
+      foreignKey: 'roleId',
+      as: 'permissions',
+      onDelete: 'CASCADE',
+  })
+  }}
   Role.init({
     name: {
       type: DataTypes.STRING,

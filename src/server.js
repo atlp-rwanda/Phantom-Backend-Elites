@@ -6,10 +6,11 @@ import cors from "cors";
 import dotenv from "dotenv";
 import i18next from "./config/i18nConf";
 import middleware from "i18next-express-middleware";
-import homeRoutes from "./routes/homeRoutes.js";
 import roleRoutes from "./routes/roleRoutes.js";
 import permissionRoutes from "./routes/permissionRoutes.js";
-import assignRoutes from "./routes/assignPermissionRoutes.js";
+import userRoute from "./routes/userRoute.js"
+// import assignPermRoutes from "./routes/assignRoutes.js";
+// import assignRoleRoutes from "./routes/assignRolesRoutes.js";
 import morgan from "morgan";
 import homeRoutes from "./routes/homeRoutes.js";
 import driverRoutes from "./routes/driverRoutes.js";
@@ -57,9 +58,11 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
 app.use(cors());
 app.use(express.json());
+app.use('/api/v1/users', userRoute);
 app.use('/api/v1/roles', roleRoutes);
 app.use('/api/v1/permissions', permissionRoutes);
-app.use('/api/v1/assigning', assignRoutes);
+// app.use('/api/v1/assign_perm', assignPermRoutes);
+// app.use('/api/v1/assign_role', assignRoleRoutes);
 app.use(morgan());
 app.use(homeRoutes);
 app.use("/api/v1/register", driverRoutes);

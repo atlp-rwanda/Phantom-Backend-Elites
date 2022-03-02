@@ -10,10 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Profile.belongsTo(models.User, {
+        foreignKey: 'userId',
+        as: 'userProfile',
+        onDelete: 'CASCADE',
+      })
     }
   }
   Profile.init(
     {
+      userId: DataTypes.STRING,
       driverLicence: DataTypes.STRING,
       dateofBirth: DataTypes.DATE,
     },
