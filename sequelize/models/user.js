@@ -1,6 +1,6 @@
 "use strict";
-import { Model } from "sequelize";
-export default (sequelize, DataTypes) => {
+const  {Model} = require("sequelize") 
+module.exports = function (sequelize, DataTypes){
   class User extends Model {
     /**
      * Helper method for defining associations.
@@ -11,16 +11,10 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.belongsTo(models.Role, {
-        foreignKey: 'userId',
-        as: 'assignee',
+        foreignKey: 'roleId',
+        as: 'role',
         onDelete: 'CASCADE',
       })
-
-      User.hasOne(models.Profile, {
-        foreignKey: 'userId',
-        as: 'profile',
-        onDelete: 'CASCADE',
-    })
     }
   }
   User.init(
@@ -33,11 +27,18 @@ export default (sequelize, DataTypes) => {
       gender: DataTypes.STRING,
       address: DataTypes.STRING,
       roleId: DataTypes.INTEGER,
+      drivingLicenseNo: DataTypes.STRING,
+      nationalIdNo: DataTypes.STRING,
+      phoneNo: DataTypes.STRING
+
+      
     },
     {
       sequelize,
       modelName: "User",
-    }
+    },
+    
+   
   );
   return User;
 };

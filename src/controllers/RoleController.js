@@ -1,15 +1,12 @@
-import Roles from '../../sequelize/models/Role'
-import { development } from "../../sequelize/config/config.js";
-import { Sequelize } from "sequelize";
-let sequelize = new Sequelize(development);
-let Role = Roles(sequelize, Sequelize);
+import {Role} from '../../sequelize/models'
+
 
 class RoleController{
 
   async createRole(req, res) {
     // Validate request
     if (!req.body.name) {
-      res.status(400).send({
+      res.status(400).json({
         message: "Name can not be empty!"
       });
       return;
@@ -17,13 +14,13 @@ class RoleController{
     // Create a Role
     const  { name } = req.body
     // Save Role in the database
-    console.log(req.body)
-    await Role.create({ name, })
+    Role.create({ name })
       .then(data => {
-        res.send(data);
+        res.status(201).json({data, message: 'Role created successfully!'});
       })
       .catch(err => {
-        res.status(500).send({
+        console.log(err)
+        res.status(500).json({
           message:
             err.message || "Some error occurred while creating the Role."
         });
@@ -35,17 +32,10 @@ async findOneRole(req, res) {
     const id = req.params.id;
     Role.findByPk(id)
       .then(data => {
-        if (data) {
-          res.send(data);
-        } else {
-          res.status(404).send({
-            message: `Cannot find Role with id=${id}.`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Error retrieving Role with id=" + id
+          res.status(200).json({data});
+        }).catch(err => {
+        res.status(500).json({
+          message: err.message || "Error retrieving that Role" 
         });
       });
 };
@@ -53,10 +43,10 @@ async findOneRole(req, res) {
 async findAllRoles(req, res) {
     Role.findAll()
       .then(data => {
-        res.send(data);
+        res.status(200).json({message: 'List of all Roles',data});
       })
       .catch(err => {
-        res.status(500).send({
+        res.status(500).json({
           message:
             err.message || "Some error occurred while retrieving Roles."
         });
@@ -70,17 +60,17 @@ async updateRole(req, res) {
     })
       .then(num => {
         if (num == 1) {
-          res.send({
+          res.status(200).json({
             message: "Role was updated successfully."
           });
         } else {
-          res.send({
+          res.json({
             message: `Cannot update Role with id=${id}. Maybe Role was not found or req.body is empty!`
           });
         }
       })
       .catch(err => {
-        res.status(500).send({
+        res.status(500).json({
           message: "Error updating Role with id=" + id
         });
       });
@@ -93,17 +83,17 @@ async deleteRole(req, res) {
     })
       .then(num => {
         if (num == 1) {
-          res.send({
+          res.status(200).json({
             message: "Role was deleted successfully!"
           });
         } else {
-          res.send({
+          res.status(401).json({
             message: `Cannot delete Role with id=${id}. Maybe Role was not found!`
           });
         }
       })
       .catch(err => {
-        res.status(500).send({
+        res.status(500).json({
           message: "Could not delete Role with id=" + id
         });
       });

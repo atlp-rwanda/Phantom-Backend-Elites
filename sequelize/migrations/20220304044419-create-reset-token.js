@@ -1,23 +1,24 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Profiles', {
+    await queryInterface.createTable('ResetTokens', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      driverLicence: {
+      email: {
         type: Sequelize.STRING
       },
-      dateofBirth: {
+      token: {
+        type: Sequelize.STRING
+      },
+      expiration: {
         type: Sequelize.DATE
       },
-      userId: {
-        allowNull: false,
+      used: {
         type: Sequelize.INTEGER
-
       },
       createdAt: {
         allowNull: false,
@@ -30,6 +31,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Profiles');
+    await queryInterface.dropTable('ResetTokens');
   }
 };

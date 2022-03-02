@@ -1,6 +1,6 @@
 /*jslint devel: true */
 /* eslint-env browser */
-import auth from './routes/auth';
+import auth from './routes/auth.js';
 import express from "express";
 import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
@@ -11,17 +11,18 @@ import middleware from "i18next-express-middleware";
 import roleRoutes from "./routes/roleRoutes.js";
 import permissionRoutes from "./routes/permissionRoutes.js";
 import userRoute from "./routes/userRoute.js"
-// import assignPermRoutes from "./routes/assignRoutes.js";
-// import assignRoleRoutes from "./routes/assignRolesRoutes.js";
 import morgan from "morgan";
 import homeRoutes from "./routes/homeRoutes.js";
-import driverRoutes from "./routes/driverRoutes.js";
+import db from '../sequelize/models/index'
+import passwordResetRoutes from './routes/passwordResetRoutes.js'
+import viewBusesRoutes from './routes/viewBusesRoutes.js'
 
+
+dotenv.config();
 const app = express();
 app.use('/', auth);
 
 
-dotenv.config();
 
 // eslint-disable-next-line no-undef
 const PORT = process.env.PORT || 3000;
@@ -57,7 +58,7 @@ app.use(
 );
 
 app.get("/junior", (req, res) => {
-    res.send("Introduction to the ones and best.");
+    res.json("Introduction to the ones and best.");
 });
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
@@ -65,14 +66,20 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/roles', roleRoutes);
+app.use('/api/v1/auth', auth);
 app.use('/api/v1/permissions', permissionRoutes);
-// app.use('/api/v1/assign_perm', assignPermRoutes);
-// app.use('/api/v1/assign_role', assignRoleRoutes);
+app.use('/api/v1/reset-password', passwordResetRoutes)
+app.use('/api/v1/view-buses', viewBusesRoutes)
 app.use(morgan());
 app.use(homeRoutes);
-app.use("/api/v1/register", driverRoutes);
-app.listen(PORT, () => {
-console.log(`App listening on ${PORT}`);
-});
+
+db.sequelize.sync({ alter: false }).then(() => {
+    console.log('Database Connected!');
+    app.listen(PORT, () => {
+      console.log(`Server listening on port: ${PORT}`);
+    });
+  });
+  
+
 
 export { app as default };

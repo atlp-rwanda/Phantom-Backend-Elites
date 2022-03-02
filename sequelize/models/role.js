@@ -1,6 +1,5 @@
-import { Model } from 'sequelize';
-
-export default (sequelize, DataTypes) => {
+const  {Model} = require("sequelize") 
+module.exports = function (sequelize, DataTypes){
   class Role extends Model {
     /**
      * Helper method for defining associations.
@@ -11,12 +10,12 @@ export default (sequelize, DataTypes) => {
       // define association here
       Role.hasMany(models.User, {
         foreignKey: 'roleId',
-        as: 'users',
+        as: 'role',
         onDelete: 'CASCADE',
     })
     Role.hasMany(models.Permission, {
-      foreignKey: 'roleId',
-      as: 'permissions',
+      foreignKey: 'assignedId',
+      as: 'assigned',
       onDelete: 'CASCADE',
   })
   }}
@@ -24,10 +23,6 @@ export default (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: {
-        args: true,
-        msg: 'Role already exists',
-      },
     },
   }, {
     sequelize,

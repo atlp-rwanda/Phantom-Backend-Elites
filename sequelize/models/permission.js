@@ -1,6 +1,5 @@
-import { Model } from 'sequelize';
-
-export default (sequelize, DataTypes) => {
+const  {Model} = require("sequelize") 
+module.exports = function (sequelize, DataTypes){
   class Permission extends Model {
     /**
      * Helper method for defining associations.
@@ -10,8 +9,8 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Permission.belongsTo(models.Role, {
-        foreignKey: 'roleId',
-        as: 'permissions',
+        foreignKey: 'assignedId',
+        as: 'assigned',
         onDelete: 'CASCADE',
       })
     }
@@ -24,8 +23,8 @@ export default (sequelize, DataTypes) => {
         args: true,
         msg: 'Permission already exists',
       },
-    roleId: DataTypes.INTEGER,
     },
+    assignedId: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Permission',

@@ -2,153 +2,129 @@ import bcrypt from "bcrypt";
 import "dotenv/config";
 import getPassword from "../services/createPassword.js";
 import sendEmail from "../services/sendEmail.js";
-import Users from '../../sequelize/models/User'
+import Users from '../../sequelize/models/user'
 import { development } from "../../sequelize/config/config.js";
 import { Sequelize } from "sequelize";
 let sequelize = new Sequelize(development);
 let User = Users(sequelize, Sequelize);
-import Profiles from "../../sequelize/models/profile.js";
-let Profile = Profiles(sequelize, Sequelize);
-
-class UserController{
-    
-
+class UserController {
   async createUser(req, res) {
-    // Validate request
-    // if (!req.body.name) {
-    //   res.status(400).send({
-    //     message: "Name can not be empty!"
-    //   });
-    //   return;
-    // }
-    // Create a User
-    // const  { name } = req.body
-    // Save User in the database
-    // console.log(req.body)
-
-const userpassword = getPassword();
-const password = await bcrypt.hash(userpassword, 12);
-
-    const user=await User.create({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        password,
-        roleId: req.body.roleId,
-        dateofbirth:req.body.dateofbirth,
-        gender: req.body.gender,
-        address:req.body.address
+    const userpassword = getPassword();
+    const password = await bcrypt.hash(userpassword, 12);
 
 
-    })
-    
-      .then(async data => {
-        console.log(data.id)
-        await Profile.create({
-            userId: data.id,
-            
-          }).then(results =>{
+    User.create({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password,
+      roleId: req.body.roleId,
+      dateofbirth: req.body.dateofbirth,
+      gender: req.body.gender,
+      address: req.body.address,
+    }).then(async data => {
+       
             const output = `
             <h2>Your account has been registered. you can login in</h2>
             <a href="http://localhost:3000/login">phantom app</a>
             <p>Use ${req.body.email} and your password  <a href="#">${userpassword}</a></p>
         `;
-            sendEmail(output, data.email);
-            console.log(data.email)
-            return results;
-          });
-          
-          res.send(data);
-         
-        
-      })
-      .catch(err => {
+          sendEmail(output, data.email);
+          console.log(data.email)
+          return results;
+      }).catch(err => {
         res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating the User."
-        });
+          message: err.message || "Some error occurred while creating the User."
+        })
       });
-};
+  };
 
 
-async findOneUser(req, res) {
+  async findOneUser(req, res) {
     const id = req.params.id;
-    User.findByPk(id)
+    User.findByPk(id, {attributes: {
+      exclude: ['password']
+  }})
       .then(data => {
+        
         if (data) {
-          res.send(data);
+          
+          res.json({data});
         } else {
-          res.status(404).send({
+          res.status(404).json({
             message: `Cannot find User with id=${id}.`
           });
         }
       })
       .catch(err => {
-        res.status(500).send({
+        res.status(500).json({
           message: "Error retrieving User with id=" + id
         });
       });
-};
+  };
 
-async findAllUsers(req, res) {
-    User.findAll()
+  async findAllUsers(req, res) {
+    User.findAll({attributes: {
+        exclude: ['password']
+    }})
       .then(data => {
-        res.send(data);
+        
+        res.status(200).json({message:'List of all available users.',data});
+
       })
       .catch(err => {
-        res.status(500).send({
+        res.status(500).json({
           message:
             err.message || "Some error occurred while retrieving Users."
         });
       });
-};
+  };
 
-async updateUser(req, res) {
+async updateProfile(req, res) {
     const id = req.params.id;
     User.update(req.body, {
       where: { id: id }
     })
       .then(num => {
         if (num == 1) {
-          res.send({
-            message: "User was updated successfully."
+          res.json({
+            message: "Profile was updated successfully."
           });
         } else {
-          res.send({
-            message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`
+          res.json({
+            message: `Cannot update this profile. Maybe User was not found or req.body is empty!`
           });
         }
       })
       .catch(err => {
-        res.status(500).send({
-          message: "Error updating User with id=" + id
+        res.status(500).json({
+          message: "Invalid inputs detected, and we cannot update your profile id=" + id
         });
       });
-};
+  };
 
-async deleteUser(req, res) {
+  async deleteUser(req, res) {
     const id = req.params.id;
     User.destroy({
       where: { id: id }
     })
       .then(num => {
         if (num == 1) {
-          res.send({
+          res.json({
             message: "User was deleted successfully!"
           });
         } else {
-          res.send({
+          res.json({
             message: `Cannot delete User with id=${id}. Maybe User was not found!`
           });
         }
       })
       .catch(err => {
-        res.status(500).send({
+        res.status(500).json({
           message: "Could not delete User with id=" + id
         });
       });
-};
+  };
 
 }
 export default UserController
- 
