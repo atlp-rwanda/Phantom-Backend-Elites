@@ -15,23 +15,11 @@ class UserController{
     
 
   async createUser(req, res) {
-    // Validate request
-    // if (!req.body.name) {
-    //   res.status(400).send({
-    //     message: "Name can not be empty!"
-    //   });
-    //   return;
-    // }
-    // Create a User
-    // const  { name } = req.body
-    // Save User in the database
-    // console.log(req.body)
-
-const userpassword = getPassword();
-const password = userpassword
+    const userpassword = getPassword();
+    const password = userpassword
 
 
-    await User.create({
+    User.create({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
@@ -40,15 +28,15 @@ const password = userpassword
         dateofbirth:req.body.dateofbirth,
         gender: req.body.gender,
         address:req.body.address,
-        token:"",
+        
 
 
     })
 
       .then(async data => {
        
-        await Profile.create({
-            userId: data.id,
+        Profile.create({
+            ownerId: data.id,
             
           }).then(results =>{
             const output = `

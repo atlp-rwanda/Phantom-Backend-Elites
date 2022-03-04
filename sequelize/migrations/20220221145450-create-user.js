@@ -31,9 +31,13 @@ module.exports = {
         type: Sequelize.STRING
       },
       roleId: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-
+        
+          references:{
+            model: "Roles",
+            key: "id"
+          },
+        
+          type: Sequelize.INTEGER
       },
       token: {
         type: Sequelize.STRING

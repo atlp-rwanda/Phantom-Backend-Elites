@@ -15,6 +15,8 @@ import userRoute from "./routes/userRoute.js"
 // import assignRoleRoutes from "./routes/assignRolesRoutes.js";
 import morgan from "morgan";
 import homeRoutes from "./routes/homeRoutes.js";
+import db from '../sequelize/models/index'
+import passwordResetRoutes from './routes/passwordResetRoutes.js'
 
 
 const app = express();
@@ -67,10 +69,17 @@ app.use('/api/v1/users', userRoute);
 app.use('/api/v1/roles', roleRoutes);
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/permissions', permissionRoutes);
+app.use('/api/v1/reset-password', passwordResetRoutes)
 app.use(morgan());
 app.use(homeRoutes);
-app.listen(PORT, () => {
-console.log(`App listening on ${PORT}`);
-});
+
+db.sequelize.sync({ alter: false }).then(() => {
+    console.log('Database Connected!');
+    app.listen(PORT, () => {
+      console.log(`Server listening on port: ${PORT}`);
+    });
+  });
+  
+
 
 export { app as default };

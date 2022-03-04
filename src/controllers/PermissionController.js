@@ -34,20 +34,28 @@ class PermissionController{
     }
     // Create a Permission
     // const  { name, roleId, } = req.body
-    console.log(req.body.name)
-    console.log(req.body.roleId)
-    // Save Permission in the database
-    await Permission.create(req.body)
-    
-      .then(data => {
-        res.send(data);
+    const { assignedId, name } = req.body
+    try {
+      const newPermission = await Permission.create({ assignedId, name })
+
+      console.log(newPermission)
+      res.status(201).json({
+        message: "Permission created successfully",
+        data: newPermission
       })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating the Permission."
-        });
+
+    }
+    catch(error){
+      console.log(error)
+      res.status(500).send({
+        error: "Some error occurred while creating the Permission."
       });
+    }
+    // Save Permission in the database
+
+    
+    
+      
 };
 
 

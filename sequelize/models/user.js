@@ -11,14 +11,14 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.belongsTo(models.Role, {
-        foreignKey: 'userId',
-        as: 'assignee',
+        foreignKey: 'roleId',
+        as: 'role',
         onDelete: 'CASCADE',
       })
 
       User.hasOne(models.Profile, {
-        foreignKey: 'userId',
-        as: 'profile',
+        foreignKey: 'ownerId',
+        as: 'owner',
         onDelete: 'CASCADE',
     })
     }
@@ -33,7 +33,7 @@ export default (sequelize, DataTypes) => {
       gender: DataTypes.STRING,
       address: DataTypes.STRING,
       roleId: DataTypes.INTEGER,
-      token:DataTypes.STRING,
+      
     },
     {
       sequelize,

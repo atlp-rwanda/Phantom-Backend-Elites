@@ -9,7 +9,9 @@ module.exports= {
         id: 1,
         firstName: "admin",
         lastName: "admin",
-        email: "admin@test.com",
+        email: "admin@admin.com",
+        password: "admin",
+        roleId:1,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -18,12 +20,5 @@ module.exports= {
   );
 },
  async down(queryInterface, Sequelize) {
-  /**
-   * Add commands to revert seed here.
-   *
-   * Example:
-   * await queryInterface.bulkDelete('People', null, {});
-   */
-  // eslint-disable-next-line no-undef
-  await queryInterface.bulkDelete("Users", null, bulkDeleteOptions);
+  await queryInterface.bulkDelete("Users", null, {});
 }}

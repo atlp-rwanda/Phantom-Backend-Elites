@@ -1,20 +1,23 @@
 import Models from '../../sequelize/models';
+import verifyToken from '../helpers/verifyToken';
 
-const { Users } = Models;
+const { User,Token } = Models;
 
 const isOperator = async (req, res, next) => {
-  const { email, role } = req.user;
-  const user = await Users.findOne({ where: { email } });
-  if (!user) {
+  const { id } = req.user;
+  const userToken = await Token.findOne({ where: { ownerId:id, status:"active" } });
+  if (!userToken) {
     return res.status(403).json({
       status: 403,
-      message: 'The user with that email does not exist!',
+      message: res.json('The token is not exist!'),
     });
   }
-  if (role !== 'operator') {
+const userRole = verifyToken(userToken.token).role
+
+  if (userRole !== 'operator' || userRole !== 'admin') {
     return res
       .status(403)
-      .json({ status: 403, message: 'Please sign in as an operator' });
+      .json({ status: 403, message: res.json('Please sign in as an operator!') });
   }
   next();
 };

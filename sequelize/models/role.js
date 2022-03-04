@@ -11,12 +11,12 @@ export default (sequelize, DataTypes) => {
       // define association here
       Role.hasMany(models.User, {
         foreignKey: 'roleId',
-        as: 'users',
+        as: 'role',
         onDelete: 'CASCADE',
     })
     Role.hasMany(models.Permission, {
-      foreignKey: 'roleId',
-      as: 'permissions',
+      foreignKey: 'assignedId',
+      as: 'assigned',
       onDelete: 'CASCADE',
   })
   }}

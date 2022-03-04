@@ -14,7 +14,7 @@ function sendEmail(output, toEmail) {
   let mailOptions = {
     from: process.env.USER_EMAIL, // sender address
     to: toEmail, // list of receivers
-    subject: "Phantom account has been registered", // Subject line
+    subject: "Phantom is informing you that:", // Subject line
     html: output, // html body
   };
 
