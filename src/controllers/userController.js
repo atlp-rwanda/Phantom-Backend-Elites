@@ -86,9 +86,11 @@ async findAllUsers(req, res) {
 
 
 
-    User.findAll()
+    User.findAll({attributes: ['id', 'firstName','lastName', 'email', 'createdAt', 'gender','dateofbirth','updatedAt', 'roleId', 'address']})
       .then(data => {
-        res.send(data);
+        
+        res.status(200).json(data);
+
       })
       .catch(err => {
         res.status(500).send({

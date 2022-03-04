@@ -1,19 +1,19 @@
 import Models from '../../sequelize/models';
 import verifyToken from '../helpers/verifyToken';
+import ResetTokens from '../../sequelize/models/ResetToken'
+import { development } from "../../sequelize/config/config.js";
+import { Sequelize } from "sequelize";
+import Tokens from '../../sequelize/models/Token'
+let sequelize = new Sequelize(development);
 
-const { User,Token } = Models;
+
+let Token = Tokens(sequelize, Sequelize)
+
+
+
 
 const isAdmin = async (req, res, next) => {
-  
-  
-  // const userToken = await Token.findOne({ where: { ownerId:id, status:"active" } });
-  // if (!userToken) {
-  //   return res.status(403).json({
-  //     status: 403,
-  //     message: res.json('The token is not exist!'),
-  //   });
-  // }
-  // const token = req.cookies.jsonwebtoken;
+
 if (!req?.headers?.authorization
   && !req?.headers['x-access-token']
   && !req?.params.token){
@@ -23,21 +23,27 @@ if (!req?.headers?.authorization
 }
   const token = req?.headers?.authorization || req?.headers['x-access-token'] || req?.params.token
   
-  const splited = token.split(' ')[1];
-  console.log(splited)
+  const splitedToken = token.split(' ')[1];
+  const tokenExist = await Token.findOne({where: {token:splitedToken}})
+  if (tokenExist){
+    const status = tokenExist.status
+    if(status==='active'){
+      const userRoleId = verifyToken(splitedToken).role
 
-  const userRoleId = verifyToken(splited).role
 
+      if (userRoleId !== 1) {
+    
+        return res
+          .status(403)
+          .json({ message: 'Please sign in as an admin!'});
+      }
+      next();
 
-  if (userRoleId !== 1) {
-
-    return res
-      .status(403)
-      .json({ message: 'Please sign in as an admin!'});
+    }else{
+      res.status(404).json({message: "You should be authenticated to access this!"})
+    }
+  }else{
+    res.status(404).json({message: "There is no token for this user!"})
   }
-
-  console.log("Reached here!")
-  next();
 };
-
 export default isAdmin;

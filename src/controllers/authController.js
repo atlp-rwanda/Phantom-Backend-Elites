@@ -3,9 +3,11 @@ import verify from '../../src/helpers/verifyToken'
 import Users from '../../sequelize/models/User'
 import Tokens from '../../sequelize/models/Token'
 import { development } from "../../sequelize/config/config.js";
-import { Sequelize } from "sequelize";
+import { Sequelize, where } from "sequelize";
 import bcrypt from 'bcrypt'
+import ResetTokens from '../../sequelize/models/ResetToken'
 let sequelize = new Sequelize(development);
+let ResetToken = ResetTokens(sequelize, Sequelize);
 let User = Users(sequelize, Sequelize);
 let Token = Tokens(sequelize, Sequelize)
 //User login
@@ -47,6 +49,29 @@ class AuthController{
   //   }
 
 }
+
+async logout(req, res) {
+    
+  const token = req?.headers?.authorization || req?.headers['x-access-token'] || req?.params.token
+  
+  const splitedToken = token.split(' ')[1];
+  const tokenExist = await Token.findOne({where: {token:splitedToken}})
+  if (tokenExist){
+    const status = tokenExist.status
+    console.log(status)
+    if(status==='active'){
+      await Token.update({status: 'expired'},{ where: {token:splitedToken}})
+      res.status(200).json({message: 'Logged out successfully!'})
+    }else{
+      res.status(404).json({message: "There is no runing session for this user!"})
+    }
+  }else{
+    res.status(404).json({message: "There is no token for this user!"})
+
+  }  
+}
+
+
 }
 const authController = new AuthController()
 export {authController as default}
