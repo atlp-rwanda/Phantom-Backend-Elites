@@ -7,9 +7,14 @@ module.exports = {
       [
         {
           id: 1,
-          firstName: "admin",
-          lastName: "admin",
-          email: "admin@test.com",
+          firstName: "moise",
+          lastName: "NIYONKURU",
+          email: "moise@gmail.com",
+          password: "moise",
+          dateofbirth: new Date(),
+          gender: "Female",
+          address: "Rwamagana",
+          role: "User",
           createdAt: new Date(),
           updatedAt: new Date(),
         },

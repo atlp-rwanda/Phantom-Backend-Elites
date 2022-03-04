@@ -1,6 +1,6 @@
 /*jslint devel: true */
 /* eslint-env browser */
-import auth from './routes/auth';
+import auth from './routes/auth.js';
 import express from "express";
 import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
