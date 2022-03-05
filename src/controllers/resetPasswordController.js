@@ -49,7 +49,7 @@ let expireDate = new Date(new Date().getTime() + (60 * 60 * 1000))
    const previousToken = await ResetToken.findOne({where: {email: req.body.email}});
 
    if (previousToken){
-    await ResetToken.delete({
+    await ResetToken.destroy({
         where: {
           email: req.body.email
         }
@@ -88,7 +88,8 @@ let expireDate = new Date(new Date().getTime() + (60 * 60 * 1000))
       
       <p>To reset your password, please click the link below.</p>
       
-      <a href="http://${process.env.DOMAIN}api/v1/reset-password?token=${encodeURIComponent(data.token)}&email=${data.email}> Reset Password </a>
+      <a href="http://${process.env.DOMAIN}api/v1/reset-password?token=${encodeURIComponent(data.token)}&email=${data.email}"> Reset Password </a>
+      <p>Or use the following token</p>
       ${data.token}
       `;
       
@@ -144,7 +145,7 @@ async resetPassword(req, res) {
     let newPassword = crypto.pbkdf2Sync(req.body.password, newSalt, 10000, 64, 'sha512').toString('base64');
    
     await User.update({
-      password: newPassword,
+      password: req.body.password,
       
     },
     {

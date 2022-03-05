@@ -1,11 +1,12 @@
 import express from "express";
+import isAdmin from "../middlewares/isAdmin.js";
 
 const router = express.Router();
 import permissionController from '../controllers/PermissionController.js'
-router.post("/", new permissionController().createPermission)
-router.get("/", new permissionController().findAllPermissions)
-router.put("/:id", new permissionController().updatePermission)
-router.delete("/:id", new permissionController().deletePermission)
-router.get("/:id", new permissionController().findOnePermission)
+router.post("/",isAdmin, new permissionController().createPermission)
+router.get("/",isAdmin, new permissionController().findAllPermissions)
+router.put("/:id",isAdmin, new permissionController().updatePermission)
+router.delete("/:id",isAdmin, new permissionController().deletePermission)
+router.get("/:id",isAdmin, new permissionController().findOnePermission)
 
 export default router
