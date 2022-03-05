@@ -1,5 +1,5 @@
 import express from "express";
-// import isAdmin from "../middlewares/isAdmin.js";
+// import isAdmin from "../middleware/isAdmin.js";
 const router = express.Router();
 import ResetTokenController from '../controllers/resetPasswordController.js'
 router.post("/link",  new ResetTokenController().createResetLink)

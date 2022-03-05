@@ -1,7 +1,7 @@
 import express from 'express'
 import userController from '../controllers/userController'
-import isAdmin from '../middlewares/isAdmin';
-// import auth from '../middlewares/auth'
+import isAdmin from '../middleware/isAdmin';
+// import auth from '../middleware/auth'
 
 const router = express.Router();
 
