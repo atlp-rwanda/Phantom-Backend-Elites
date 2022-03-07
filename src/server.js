@@ -57,7 +57,7 @@ app.use(
 );
 
 app.get("/junior", (req, res) => {
-    res.send("Introduction to the ones and best.");
+    res.json("Introduction to the ones and best.");
 });
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 

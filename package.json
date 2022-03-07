@@ -14,7 +14,7 @@
     "format": "prettier --write \"src/**/*.{js, mjs}\"",
     "lint": "eslint \"src/**/*.{js, mjs}\" --quiet",
     "migrate": "npx sequelize-cli db:migrate",
-    "down": "npx sequelize-cli db:migrate:undo",
+    "down": "npx sequelize-cli db:migrate:undo:all",
     "seed": "npx sequelize-cli db:seed:all",
     "make-seed": "npx sequelize-cli seed:generate --name demo-user"
   },

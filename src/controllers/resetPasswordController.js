@@ -4,7 +4,7 @@ import { Sequelize } from "sequelize";
 import crypto from 'crypto'
 import sendEmail from '../services/sendEmail.js'
 import bcrypt from 'bcrypt'
-const Op = Sequelize.Op;
+
 let sequelize = new Sequelize(development);
 import ResetTokens from '../../sequelize/models/ResetToken'
 let ResetToken = ResetTokens(sequelize, Sequelize);

@@ -7,8 +7,8 @@ import { development } from "../../sequelize/config/config.js";
 import { Sequelize } from "sequelize";
 let sequelize = new Sequelize(development);
 let User = Users(sequelize, Sequelize);
-import Profiles from "../../sequelize/models/profile.js";
-let Profile = Profiles(sequelize, Sequelize);
+
+
 
 
 class UserController{
@@ -28,33 +28,20 @@ class UserController{
         dateofbirth:req.body.dateofbirth,
         gender: req.body.gender,
         address:req.body.address,
-        
-
-
     })
-
       .then(async data => {
        
-        Profile.create({
-            ownerId: data.id,
-            
-          }).then(results =>{
             const output = `
             <h2>Your account has been registered. you can login in</h2>
             <a href="http://localhost:3000/login">phantom app</a>
             <p>Use ${req.body.email} and your password  <a href="#">${userpassword}</a></p>
         `;
             sendEmail(output, data.email);
-           
-            return results;
-          });
-          
-          res.send(data);
-         
-        
-      })
-      .catch(err => {
-        res.status(500).send({
+
+            res.status(200).json({message: "User created successfully!"});
+            return
+          }).catch(err => {
+        res.status(500).json({
           message:
             err.message || "Some error occurred while creating the User."
         });
@@ -64,18 +51,22 @@ class UserController{
 
 async findOneUser(req, res) {
     const id = req.params.id;
-    User.findByPk(id)
+    User.findByPk(id, {attributes: {
+      exclude: ['password']
+  }})
       .then(data => {
+        
         if (data) {
-          res.send(data);
+          
+          res.json(data);
         } else {
-          res.status(404).send({
+          res.status(404).json({
             message: `Cannot find User with id=${id}.`
           });
         }
       })
       .catch(err => {
-        res.status(500).send({
+        res.status(500).json({
           message: "Error retrieving User with id=" + id
         });
       });
@@ -86,14 +77,16 @@ async findAllUsers(req, res) {
 
 
 
-    User.findAll({attributes: ['id', 'firstName','lastName', 'email', 'createdAt', 'gender','dateofbirth','updatedAt', 'roleId', 'address']})
+    User.findAll({attributes: {
+        exclude: ['password']
+    }})
       .then(data => {
         
         res.status(200).json(data);
 
       })
       .catch(err => {
-        res.status(500).send({
+        res.status(500).json({
           message:
             err.message || "Some error occurred while retrieving Users."
         });
@@ -107,17 +100,17 @@ async updateUser(req, res) {
     })
       .then(num => {
         if (num == 1) {
-          res.send({
+          res.json({
             message: "User was updated successfully."
           });
         } else {
-          res.send({
+          res.json({
             message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`
           });
         }
       })
       .catch(err => {
-        res.status(500).send({
+        res.status(500).json({
           message: "Error updating User with id=" + id
         });
       });
@@ -130,17 +123,17 @@ async deleteUser(req, res) {
     })
       .then(num => {
         if (num == 1) {
-          res.send({
+          res.json({
             message: "User was deleted successfully!"
           });
         } else {
-          res.send({
+          res.json({
             message: `Cannot delete User with id=${id}. Maybe User was not found!`
           });
         }
       })
       .catch(err => {
-        res.status(500).send({
+        res.status(500).json({
           message: "Could not delete User with id=" + id
         });
       });
