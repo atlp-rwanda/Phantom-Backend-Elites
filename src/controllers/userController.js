@@ -16,7 +16,7 @@ class UserController{
 
   async createUser(req, res) {
     const userpassword = getPassword();
-    const password = userpassword
+    const password = await bcrypt.hash(userpassword, 12)
 
 
     User.create({
@@ -45,7 +45,7 @@ class UserController{
             <p>Use ${req.body.email} and your password  <a href="#">${userpassword}</a></p>
         `;
             sendEmail(output, data.email);
-            console.log(data.email)
+           
             return results;
           });
           

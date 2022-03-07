@@ -11,8 +11,6 @@ import middleware from "i18next-express-middleware";
 import roleRoutes from "./routes/roleRoutes.js";
 import permissionRoutes from "./routes/permissionRoutes.js";
 import userRoute from "./routes/userRoute.js"
-// import assignPermRoutes from "./routes/assignRoutes.js";
-// import assignRoleRoutes from "./routes/assignRolesRoutes.js";
 import morgan from "morgan";
 import homeRoutes from "./routes/homeRoutes.js";
 import db from '../sequelize/models/index'

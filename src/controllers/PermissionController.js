@@ -38,7 +38,6 @@ class PermissionController{
     try {
       const newPermission = await Permission.create({ assignedId, name })
 
-      console.log(newPermission)
       res.status(201).json({
         message: "Permission created successfully",
         data: newPermission
@@ -46,7 +45,6 @@ class PermissionController{
 
     }
     catch(error){
-      console.log(error)
       res.status(500).send({
         error: "Some error occurred while creating the Permission."
       });

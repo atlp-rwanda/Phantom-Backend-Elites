@@ -9,7 +9,7 @@
     "start": "npm run build && node dist/server.js",
     "pre-dev": "babel-node src/server.js",
     "dev": "nodemon --exec npm run pre-dev",
-    "test": "mocha --require @babel/register --timout 10000",
+    "test": "mocha --timeout 40000 ./test/**.test.js --require @babel/register --exit",
     "start:dev": "nodemon --exec babel-node src/server.js",
     "format": "prettier --write \"src/**/*.{js, mjs}\"",
     "lint": "eslint \"src/**/*.{js, mjs}\" --quiet",

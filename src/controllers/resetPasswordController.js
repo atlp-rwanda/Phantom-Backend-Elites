@@ -3,6 +3,7 @@ import { development } from "../../sequelize/config/config.js";
 import { Sequelize } from "sequelize";
 import crypto from 'crypto'
 import sendEmail from '../services/sendEmail.js'
+import bcrypt from 'bcrypt'
 const Op = Sequelize.Op;
 let sequelize = new Sequelize(development);
 import ResetTokens from '../../sequelize/models/ResetToken'
@@ -19,10 +20,9 @@ class ResetTokenController{
 
          //ensure that you have a user with this email
   let user = await User.findOne({where: { email: req.body.email }});
-  if (user) console.log('User found!')
+ 
   
   const email = user.email
-  if (email) console.log('Email found!')
   if (email == null) {
   /**
    * we don't want to tell attackers that an
@@ -54,7 +54,6 @@ let expireDate = new Date(new Date().getTime() + (60 * 60 * 1000))
           email: req.body.email
         }
     });
-    console.log('Updated the previous passoword reset token!')
 
     ResetToken.create({
         email: email,
@@ -105,47 +104,28 @@ let expireDate = new Date(new Date().getTime() + (60 * 60 * 1000))
 
 async resetPassword(req, res) {
 
-    /**
-   * This code clears all expired tokens. You
-   * should move this to a cronjob if you have a
-   * big site. We just include this in here as a
-   * demonstration.
-   **/
- 
-  
-
   //find the token
   let token = await ResetToken.findOne({
     where: {
       token: req.body.token,
     }
   })
-  console.log(token)
    
 
   if (!token) {
-   
-      res.status(404).json({message: 'Token has expired. Please try password reset again.'});
+   res.status(404).json({message: 'Token has expired. Please try password reset again.'});
   }
 
   //compare passwords
-  if (!req.body.password && !req.body.token && record.token!==req.body.token ) {
+  if (!req.body.password && !req.body.confirmPassword && !req.body.token && record.token!==req.body.token ) {
     return res.json({status: 'error', message: 'Password and reset-token should be provided. Please try again.'});
   }else{
 
-     /**
-  * Ensure password is valid (isValidPassword
-  * function checks if password is >= 8 chars, alphanumeric,
-  * has special chars, etc)
-  **/
-    // if (!isValidPassword(req.body.password)) {
-    //     return res.json({status: 'error', message: 'Password does not meet minimum requirements. Please try again.'});
-
-    let newSalt = crypto.randomBytes(64).toString('hex');
-    let newPassword = crypto.pbkdf2Sync(req.body.password, newSalt, 10000, 64, 'sha512').toString('base64');
+    if(req.body.password === req.body.confirmPassword){
+    let newPassword = bcrypt.hash(req.body.password, 12)
    
     await User.update({
-      password: req.body.password,
+      password: newPassword,
       
     },
     {
@@ -153,10 +133,13 @@ async resetPassword(req, res) {
         email: token.email
       }
     });
-   
     return res.json({status: 'ok', message: 'Password reset. Please login with your new password.'});
 
-  }}
+  }else{
+    return res.json({status: 'error', message: 'Password and confirmPassword should be equivalent!'});
+  }
+}
+}
 }
 export {ResetTokenController as default}
  

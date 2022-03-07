@@ -17,7 +17,6 @@ class RoleController{
     // Create a Role
     const  { name } = req.body
     // Save Role in the database
-    console.log(req.body)
     await Role.create({ name, })
       .then(data => {
         res.send(data);

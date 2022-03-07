@@ -17,7 +17,7 @@ const isAdmin = async (req, res, next) => {
 if (!req?.headers?.authorization
   && !req?.headers['x-access-token']
   && !req?.params.token){
-    console.log(req?.headers?.authorization)
+   
     return res.status(401).json({message:"You should be authenticated to access this!"})
 
 }
