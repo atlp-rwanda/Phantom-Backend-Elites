@@ -52,10 +52,7 @@ class PermissionController{
       });
     }
     // Save Permission in the database
-
-    
-    
-      
+     
 };
 
 
