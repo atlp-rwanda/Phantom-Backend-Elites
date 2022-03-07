@@ -1,4 +1,4 @@
-import Permissions from '../../sequelize/models/Permission'
+import Permissions from '../../sequelize/models/permission'
 import { development } from "../../sequelize/config/config.js";
 import { Sequelize } from "sequelize";
 let sequelize = new Sequelize(development);
@@ -26,7 +26,7 @@ class PermissionController{
 
   async createPermission(req, res) {
     // Validate request
-    if (!req.body.name) {
+    if (!req.body.name || req.body.name==undefined) {
       res.status(400).send({
         message: "Name can not be empty!"
       });

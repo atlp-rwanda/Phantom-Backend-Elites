@@ -1,4 +1,4 @@
-import Roles from '../../sequelize/models/Role'
+import Roles from '../../sequelize/models/role'
 import { development } from "../../sequelize/config/config.js";
 import { Sequelize } from "sequelize";
 let sequelize = new Sequelize(development);

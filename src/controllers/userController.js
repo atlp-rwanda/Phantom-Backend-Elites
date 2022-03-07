@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import "dotenv/config";
 import getPassword from "../services/createPassword.js";
 import sendEmail from "../services/sendEmail.js";
-import Users from '../../sequelize/models/User'
+import Users from '../../sequelize/models/user'
 import { development } from "../../sequelize/config/config.js";
 import { Sequelize } from "sequelize";
 let sequelize = new Sequelize(development);
@@ -11,47 +11,47 @@ import Profiles from "../../sequelize/models/profile.js";
 let Profile = Profiles(sequelize, Sequelize);
 
 
-class UserController{
-    
+class UserController {
+
 
   async createUser(req, res) {
     const userpassword = getPassword();
-    const password = userpassword
+    const password = await bcrypt.hash(userpassword, 12);
 
 
     User.create({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        password,
-        roleId: req.body.roleId,
-        dateofbirth:req.body.dateofbirth,
-        gender: req.body.gender,
-        address:req.body.address,
-        
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password,
+      roleId: req.body.roleId,
+      dateofbirth: req.body.dateofbirth,
+      gender: req.body.gender,
+      address: req.body.address,
+
 
 
     })
 
       .then(async data => {
-       
+
         Profile.create({
-            ownerId: data.id,
-            
-          }).then(results =>{
-            const output = `
+          ownerId: data.id,
+
+        }).then(results => {
+          const output = `
             <h2>Your account has been registered. you can login in</h2>
             <a href="http://localhost:3000/login">phantom app</a>
             <p>Use ${req.body.email} and your password  <a href="#">${userpassword}</a></p>
         `;
-            sendEmail(output, data.email);
-            console.log(data.email)
-            return results;
-          });
-          
-          res.send(data);
-         
-        
+          sendEmail(output, data.email);
+          console.log(data.email)
+          return results;
+        });
+
+        res.send(data);
+
+
       })
       .catch(err => {
         res.status(500).send({
@@ -59,10 +59,10 @@ class UserController{
             err.message || "Some error occurred while creating the User."
         });
       });
-};
+  };
 
 
-async findOneUser(req, res) {
+  async findOneUser(req, res) {
     const id = req.params.id;
     User.findByPk(id)
       .then(data => {
@@ -79,10 +79,10 @@ async findOneUser(req, res) {
           message: "Error retrieving User with id=" + id
         });
       });
-};
+  };
 
-async findAllUsers(req, res) {
-  
+  async findAllUsers(req, res) {
+
 
 
 
@@ -96,9 +96,9 @@ async findAllUsers(req, res) {
             err.message || "Some error occurred while retrieving Users."
         });
       });
-};
+  };
 
-async updateUser(req, res) {
+  async updateUser(req, res) {
     const id = req.params.id;
     User.update(req.body, {
       where: { id: id }
@@ -119,9 +119,9 @@ async updateUser(req, res) {
           message: "Error updating User with id=" + id
         });
       });
-};
+  };
 
-async deleteUser(req, res) {
+  async deleteUser(req, res) {
     const id = req.params.id;
     User.destroy({
       where: { id: id }
@@ -142,8 +142,7 @@ async deleteUser(req, res) {
           message: "Could not delete User with id=" + id
         });
       });
-};
+  };
 
 }
 export default UserController
- 

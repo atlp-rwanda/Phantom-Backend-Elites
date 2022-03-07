@@ -1,5 +1,5 @@
-import ResetTokens from '../../sequelize/models/Permission'
-import Users from '../../sequelize/models/User'
+import ResetTokens from '../../sequelize/models/permission'
+import Users from '../../sequelize/models/user'
 import { development } from "../../sequelize/config/config.js";
 import { Sequelize } from "sequelize";
 import crypto from 'crypto'
