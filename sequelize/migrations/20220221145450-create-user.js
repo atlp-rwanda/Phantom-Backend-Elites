@@ -9,15 +9,19 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       firstName: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       lastName: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       email: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       password: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       dateofbirth: {
@@ -25,9 +29,11 @@ module.exports = {
         type: Sequelize.DATE
       },
       gender: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       address: {
+        allowNull: true,
         type: Sequelize.STRING
       },
       roleId: {
@@ -36,13 +42,23 @@ module.exports = {
             model: "Roles",
             key: "id"
           },
-        
+          allowNull: false,
           type: Sequelize.INTEGER
       },
-      token: {
-        type: Sequelize.STRING
 
+      drivingLicenseNo: {
+        allowNull: true,
+        type: Sequelize.STRING
       },
+      nationalIdNo: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
+      phoneNo: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

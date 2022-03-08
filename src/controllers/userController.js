@@ -93,7 +93,7 @@ async findAllUsers(req, res) {
       });
 };
 
-async updateUser(req, res) {
+async updateProfile(req, res) {
     const id = req.params.id;
     User.update(req.body, {
       where: { id: id }
@@ -101,11 +101,11 @@ async updateUser(req, res) {
       .then(num => {
         if (num == 1) {
           res.json({
-            message: "User was updated successfully."
+            message: "Profile was updated successfully."
           });
         } else {
           res.json({
-            message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`
+            message: `Cannot update this profile. Maybe User was not found or req.body is empty!`
           });
         }
       })

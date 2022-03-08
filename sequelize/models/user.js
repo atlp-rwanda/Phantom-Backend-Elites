@@ -33,6 +33,10 @@ export default (sequelize, DataTypes) => {
       gender: DataTypes.STRING,
       address: DataTypes.STRING,
       roleId: DataTypes.INTEGER,
+      drivingLicenseNo: DataTypes.STRING,
+      nationalIdNo: DataTypes.STRING,
+      phoneNo: DataTypes.STRING
+
       
     },
     {
