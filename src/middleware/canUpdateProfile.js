@@ -26,13 +26,13 @@ const canUpdateProfile = async (req, res, next) => {
   const tokenExist = await Token.findOne({where: {token:splitedToken, ownerId:id, status:"active" }})
 if(tokenExist){
   
-  let userRoleId = verifyToken(userToken.token).role
+  let userRoleId = verifyToken(splitedToken).role
   let roleObject = await Role.findOne({where: {id:userRoleId}})
   let roleName = roleObject.name
 
 
     
-    if (!userToken) {
+    if (!token) {
       return res.status(404).json({ message: 'You are not authorized this!'
       });
     }

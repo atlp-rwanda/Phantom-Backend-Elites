@@ -26,7 +26,6 @@ class AuthController{
         await Token.create({token:newToken,ownerId:user.id,status:"active"}
         ).then(data =>{
           const accessor = user.dataValues
-          console.log(accessor)
           res.status(200).json({message:"A token for your session has been saved!",
           user:{
             id: accessor.id,

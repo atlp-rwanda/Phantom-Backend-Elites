@@ -37,6 +37,7 @@ class UserController{
             <p>Use ${req.body.email} and your password  <a href="#">${userpassword}</a></p>
         `;
             sendEmail(output, data.email);
+            console.log(userpassword)
 
             res.status(200).json({message: "User created successfully!"});
             return
