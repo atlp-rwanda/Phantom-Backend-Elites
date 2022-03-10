@@ -19,7 +19,7 @@ class RoleController{
     // Save Role in the database
     await Role.create({ name, })
       .then(data => {
-        res.json(data);
+        res.status(201).json({data, message: 'Role created successfully!'});
       })
       .catch(err => {
         res.status(500).json({

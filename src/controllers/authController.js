@@ -26,7 +26,7 @@ class AuthController{
         await Token.create({token:newToken,ownerId:user.id,status:"active"}
         ).then(data =>{
           const accessor = user.dataValues
-          res.status(200).json({message:"A token for your session has been saved!",
+          res.status(201).json({message:"A token for your session has been saved!",
           user:{
             id: accessor.id,
             firstName:accessor.firstName,
@@ -39,7 +39,7 @@ class AuthController{
           token:data.token});
         })    
       } else {
-          res.status(200).json({
+          res.status(404).json({
               message: "Incorrect email or password"
           })
       }
