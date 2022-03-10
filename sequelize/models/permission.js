@@ -19,11 +19,7 @@ export default (sequelize, DataTypes) => {
   Permission.init({
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: {
-        args: true,
-        msg: 'Permission already exists',
-      },
+      allowNull: false
     },
     assignedId: DataTypes.INTEGER,
   }, {

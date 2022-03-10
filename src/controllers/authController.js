@@ -1,6 +1,5 @@
 import token from '../../src/helpers/generateToken';
-import verify from '../../src/helpers/verifyToken'
-import Users from '../../sequelize/models/user'
+import Users from '../../sequelize/models/User'
 import Tokens from '../../sequelize/models/Token'
 import { development } from "../../sequelize/config/config.js";
 import { Sequelize, where } from "sequelize";

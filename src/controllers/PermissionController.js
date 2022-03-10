@@ -34,6 +34,7 @@ class PermissionController{
     }
     // Create a Permission
     // const  { name, roleId, } = req.body
+    console.log(req.body)
     const { assignedId, name } = req.body
     try {
       const newPermission = await Permission.create({ assignedId, name })

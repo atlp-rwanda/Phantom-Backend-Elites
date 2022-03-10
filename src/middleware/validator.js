@@ -1,9 +1,11 @@
 import Joi from 'joi'
-import Users from '../../sequelize/models/user'
+
+import Users from '../../sequelize/models/User'
 import { development } from "../../sequelize/config/config.js";
 import { Sequelize } from "sequelize";
 import Roles from '../../sequelize/models/role'
 import Permissions from '../../sequelize/models/permission'
+
 let sequelize = new Sequelize(development);
 let User = Users(sequelize, Sequelize);
 let Role = Roles(sequelize, Sequelize)
@@ -21,7 +23,7 @@ class Validate{
             const { details } = error;
             const errors = {};
             for (let item of details) errors[item.path[0]] = item.message;
-            return res.status(400).send(errors)
+            return res.status(400).json(errors)
         }
         next()        
     }
@@ -65,7 +67,7 @@ class Validate{
             const { details } = error;
             const errors = {};
             for (let item of details) errors[item.path[0]] = item.message;
-            return res.status(400).send(errors)
+            return res.status(400).json(errors)
         }
         const role = await Role.findOne({ where: { name: req.body.name.toLowerCase() } });
         if (role) return res.status(400).json({ message: "Role already exist" });
@@ -111,21 +113,24 @@ class Validate{
         }
         const role = await Role.findOne({ where: { id: req.body.assignedId } });
         if (!role) return res.status(400).json({ message: "Assigned Role doesn't exist" });
-        
         const driverPermissions = ['start','stop','change','edit','view']
-        const adminPermissions = ['create','udpate','delete','view','edit']
-        const operatorPermission = ['create','udpate','delete','view','register','remove']
+        const adminPermissions = ['create','update','delete','view','edit']
+        const operatorPermission = ['create','update','delete','view','register','remove']
         
         switch(role.name){
             case "driver":
                 if(!driverPermissions.includes(req.body.name)) return res.status(400).json({ message: "Driver is not allowed to have that permission" })
+                break;
             case "operator":
-                if(!adminPermissions.includes(req.body.name)) return res.status(400).json({ message: "Operator is not allowed to have that permission" })
+                if(!operatorPermission.includes(req.body.name)) return res.status(400).json({ message: "Operator is not allowed to have that permission" })
+                break;
             case "admin":
                 if(!adminPermissions.includes(req.body.name)) return res.status(400).json({ message: "Administrator is not allowed to have that permission" })
+                break;
             default:
-                next()
+                return res.status(400).json({ message: "Unknown user" })
         }
+        next();
 
     }
     async updatePermission(req, res, next){
@@ -137,7 +142,7 @@ class Validate{
             const { details } = error;
             const errors = {};
             for (let item of details) errors[item.path[0]] = item.message;
-            return res.status(400).send(errors)
+            return res.status(400).json(errors)
         }
 
         const permission = await Permission.findOne({ where: { id: req.params.id } });
@@ -157,7 +162,7 @@ class Validate{
             const { details } = error;
             const errors = {};
             for (let item of details) errors[item.path[0]] = item.message;
-            return res.status(400).send(errors)
+            return res.status(400).json(errors)
         }    
         const user = await User.findOne({ where: { email: req.body.email } });
         if (!user) return res.status(400).json({ message: "Unable to reset your password!!" });
