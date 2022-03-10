@@ -21,7 +21,7 @@
     "down": "npx sequelize-cli db:migrate:undo:all",
     "seed": "npx sequelize-cli db:seed:all",
     "migrate:reset": "npm run down && npm run migrate && npm run seed",
-    "test": "cross-env NODE_ENV=test nyc mocha --timeout 40000 ./test/**.test.js --require @babel/register --exit",
+    "test": "cross-env NODE_ENV=test nyc mocha --timeout 40000 ./test/*.test.js --require @babel/register --exit",
     "pretest": "cross-env NODE_ENV=test npm run migrate:reset"
     },
   "repository": {

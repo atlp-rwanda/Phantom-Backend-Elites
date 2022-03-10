@@ -1,11 +1,9 @@
-import newSet from "./setup.js";
+import newSet from "./setup";
 
-describe(`Home route`, () => {
-  
-  // beforeAll(function (done) {
-    let token ;
-  // });
-  it(`It should return sucessfully login message`, (done) => {
+describe('Home route', () => {
+
+  let token ;
+  it('It should return sucessfully login message', (done) => {
     const user = {
       email: "admin@admin.com",
       password: "admin"
@@ -26,7 +24,7 @@ describe(`Home route`, () => {
   });
   
   
-  it(`It should return unsucessfully login message for incorrect password`, (done) => {
+  it('It should return unsucessfully login message for incorrect password', (done) => {
     const user = {
       email: "admin@admin.com",
       password: "admin123456"
@@ -44,7 +42,7 @@ describe(`Home route`, () => {
         done();
       });
   });
-  it(`It should return unsucessfully login`, (done) => {
+  it('It should return unsucessfully login', (done) => {
     const user = {
       email: "admin1@gmail.com",
       password: "admin"
@@ -62,7 +60,7 @@ describe(`Home route`, () => {
         done();
       });
   });
-  it(`It should return invalid email error`, (done) => {
+  it('It should return invalid email error', (done) => {
     const user = {
       email: "",
       password: "admin"
@@ -79,12 +77,12 @@ describe(`Home route`, () => {
         done();
       });
   });
-  it(`It should return that firstname is not allowed be empty`, (done) => {
+  it('It should return that firstname is not allowed be empty', (done) => {
     const user = {
       firstName: "",
       lastName: "Moise",
       email: "moiseniyonkuru1@gmail.com",
-      roleId: 4,
+      roleId: 1,
       dateofbirth:"2020-1-1",
       gender: "male",
       address:"kigali"
@@ -100,12 +98,12 @@ describe(`Home route`, () => {
         done();
       });
   });
-  it(`invalid email should be be detected`, (done) => {
+  it('invalid email should be be detected', (done) => {
     const user = {
       firstName: "Jane",
       lastName: "jannet",
       email: "jane1gmail.com",
-      roleId: 4,
+      roleId: 1,
       dateofbirth:"2020-1-1",
       gender: "male",
       address:"kigali"
@@ -123,12 +121,12 @@ describe(`Home route`, () => {
         done();
       });
   });
-  it(`User should be registered`, (done) => {
+  it('User should be registered', (done) => {
     const user = {
       firstName: "Jane",
       lastName: "jannet",
       email: "nkrmoise@gmail.com",
-      roleId: 7,
+      roleId: 1,
       dateofbirth:"2020-1-1",
       gender: "male",
       address:"kigali"

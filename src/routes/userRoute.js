@@ -2,7 +2,7 @@ import express from 'express'
 import userController from '../controllers/userController'
 import canUpdateProfile from '../middleware/canUpdateProfile';
 import isAdmin from '../middleware/isAdmin';
-import Validate from '../middlewares/validator'
+import Validate from '../middleware/validator'
 
 const router = express.Router();
 

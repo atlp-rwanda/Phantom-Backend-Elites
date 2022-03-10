@@ -1,6 +1,6 @@
 import express from "express";
 import isAdmin from "../middleware/isAdmin.js";
-import validate from '../middlewares/validator'
+import validate from '../middleware/validator'
 const router = express.Router();
 import permissionController from '../controllers/PermissionController.js'
 router.post("/", isAdmin, validate.createPermission, new permissionController().createPermission)
