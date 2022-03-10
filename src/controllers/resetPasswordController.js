@@ -12,40 +12,14 @@ let User = Users(sequelize, Sequelize);
 
 class ResetTokenController{
 
-    // async forgotPassword(req, res){
-    //     res.render('user/forgot-password', { });
-    // }
-
-    async createResetLink(req, res) {
-
-         //ensure that you have a user with this email
+  async createResetLink(req, res) {
   let user = await User.findOne({where: { email: req.body.email }});
- 
-  
   const email = user.email
   if (email == null) {
-  /**
-   * we don't want to tell attackers that an
-   * email doesn't exist, because that will let
-   * them use this form to find ones that do
-   * exist.
-   **/
     return res.json({status: 'ok'});
   }
-
-  /**
-   * Expire any tokens that were previously
-   * set for this user. That prevents old tokens
-   * from being used.
-   **/
-         //Create a random reset token
 let fpSalt = crypto.randomBytes(64).toString('base64');
-
-//token expires after one hour
 let expireDate = new Date(new Date().getTime() + (60 * 60 * 1000))
- 
-//insert token data into DB
-
    const previousToken = await ResetToken.findOne({where: {email: req.body.email}});
 
    if (previousToken){

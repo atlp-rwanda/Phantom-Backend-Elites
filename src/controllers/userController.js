@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import "dotenv/config";
 import getPassword from "../services/createPassword.js";
 import sendEmail from "../services/sendEmail.js";
-import Users from '../../sequelize/models/User'
+import Users from '../../sequelize/models/user'
 import { development } from "../../sequelize/config/config.js";
 import { Sequelize } from "sequelize";
 let sequelize = new Sequelize(development);
@@ -11,8 +11,8 @@ let User = Users(sequelize, Sequelize);
 
 
 
-class UserController{
-    
+class UserController {
+
 
   async createUser(req, res) {
     const userpassword = getPassword();
@@ -47,10 +47,10 @@ class UserController{
             err.message || "Some error occurred while creating the User."
         });
       });
-};
+  };
 
 
-async findOneUser(req, res) {
+  async findOneUser(req, res) {
     const id = req.params.id;
     User.findByPk(id, {attributes: {
       exclude: ['password']
@@ -71,10 +71,10 @@ async findOneUser(req, res) {
           message: "Error retrieving User with id=" + id
         });
       });
-};
+  };
 
-async findAllUsers(req, res) {
-  
+  async findAllUsers(req, res) {
+
 
 
 
@@ -92,7 +92,7 @@ async findAllUsers(req, res) {
             err.message || "Some error occurred while retrieving Users."
         });
       });
-};
+  };
 
 async updateProfile(req, res) {
     const id = req.params.id;
@@ -115,9 +115,9 @@ async updateProfile(req, res) {
           message: "Error updating User with id=" + id
         });
       });
-};
+  };
 
-async deleteUser(req, res) {
+  async deleteUser(req, res) {
     const id = req.params.id;
     User.destroy({
       where: { id: id }
@@ -138,8 +138,7 @@ async deleteUser(req, res) {
           message: "Could not delete User with id=" + id
         });
       });
-};
+  };
 
 }
 export default UserController
- 

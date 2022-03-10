@@ -1,4 +1,4 @@
-import Permissions from '../../sequelize/models/Permission'
+import Permissions from '../../sequelize/models/permission'
 import { development } from "../../sequelize/config/config.js";
 import { Sequelize } from "sequelize";
 let sequelize = new Sequelize(development);
@@ -50,10 +50,7 @@ class PermissionController{
       });
     }
     // Save Permission in the database
-
-    
-    
-      
+     
 };
 
 

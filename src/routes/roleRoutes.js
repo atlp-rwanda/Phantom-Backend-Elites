@@ -2,9 +2,10 @@ import express from "express";
 import isAdmin from "../middleware/isAdmin.js";
 const router = express.Router();
 import roleController from '../controllers/RoleController.js'
-router.post("/", isAdmin, new roleController().createRole)
+import validate from '../middlewares/validator'
+router.post("/", validate.createRole, isAdmin, new roleController().createRole)
 router.get("/", isAdmin, new roleController().findAllRoles)
-router.put("/:id", isAdmin, new roleController().updateRole)
+router.put("/:id",validate.updateRole, isAdmin, new roleController().updateRole)
 router.delete("/:id", isAdmin, new roleController().deleteRole)
 router.get("/:id", isAdmin, new roleController().findOneRole)
 

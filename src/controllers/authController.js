@@ -1,5 +1,6 @@
 import token from '../../src/helpers/generateToken';
-import Users from '../../sequelize/models/User'
+import verify from '../../src/helpers/verifyToken'
+import Users from '../../sequelize/models/user'
 import Tokens from '../../sequelize/models/Token'
 import { development } from "../../sequelize/config/config.js";
 import { Sequelize, where } from "sequelize";
@@ -18,10 +19,6 @@ class AuthController{
       
       if (isPasswordMatch)
       {
-
-      
-                  // JSON WEB TOKEN FOR ATHENTICATING LOGIN
-
         const newToken = token({id:user.id, role:user.roleId});
         await Token.create({token:newToken,ownerId:user.id,status:"active"}
         ).then(data =>{
