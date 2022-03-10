@@ -25,7 +25,7 @@ class AuthController {
         res.status(200).json({ message: "A token for your session has been saved!", user: user.dataValues, token: data.token });
       })
     } else {
-      res.status(200).json({
+      res.status(400).json({
         message: "Incorrect email or password"
       })
     }

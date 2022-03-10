@@ -26,7 +26,7 @@ app.use('/', auth);
 dotenv.config();
 
 // eslint-disable-next-line no-undef
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 const options = {
     definition: {

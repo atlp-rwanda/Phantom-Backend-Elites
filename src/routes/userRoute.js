@@ -8,11 +8,11 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/v1/users/:
+ * /api/v1/users:
  *   post: 
- *     tags: ["Phantom Signin"]
- *     description: "To signup in phantom app you have to the follow information " 
- *     operationId: "createTodo"
+ *     tags: ["Phantom Signup"]
+ *     description: "To signup in phantom app you have to the provide information, User should be Driver or Operator or Administrator only " 
+ *     operationId: "Register User"
  *     summary: "Register User"
  *     produces: 
  *          "application/json"
@@ -22,6 +22,14 @@ const router = express.Router();
  *           in : body
  *           schema:
  *               properties:
+ *                   email: 
+ *                       type: string
+ *                       format: string
+ *                       example: "admin@test.com"
+ *                   password:
+ *                       type: string
+ *                       format : string
+ *                       example: "password"
  *                   firstName: 
  *                       type: string
  *                       format: string
@@ -30,15 +38,7 @@ const router = express.Router();
  *                       type: string
  *                       format : string
  *                       example: "chris"
- *                  email: 
- *                       type: string
- *                       format: string
- *                       example: "admin@test.com"
- *                   password:
- *                       type: string
- *                       format : string
- *                       example: ""
- *                  roleId: 
+ *                   roleId: 
  *                       type: string
  *                       format: string
  *                       example: "1"
@@ -46,7 +46,7 @@ const router = express.Router();
  *                       type: string
  *                       format : string
  *                       example: "1-1-1990"
- *                  gender: 
+ *                   gender: 
  *                       type: string
  *                       format: string
  *                       example: "male"
@@ -62,20 +62,44 @@ const router = express.Router();
  *           description: "A User object"
  *           schema:
  *               properties:
- *                   firstName:
- *                     type: integer
- *                     example: "Rwema"
- *                   lastname:
- *                      type: string
- *                      example: "ngabo"
- *                   email:
- *                      type: string
- *                      example: "rwema@gmail.com"
+ *                   email: 
+ *                       type: string
+ *                       format: string
+ *                       example: "admin@test.com"
+ *                   password:
+ *                       type: string
+ *                       format : string
+ *                       example: "password"
+ *                   firstName: 
+ *                       type: string
+ *                       format: string
+ *                       example: "Rwema"
+ *                   lastName:
+ *                       type: string
+ *                       format : string
+ *                       example: "chris"
+ *                   roleId: 
+ *                       type: string
+ *                       format: string
+ *                       example: "1"
+ *                   dateofbirth:
+ *                       type: string
+ *                       format : string
+ *                       example: "1-1-1990"
+ *                   gender: 
+ *                       type: string
+ *                       format: string
+ *                       example: "male"
+ *                   adress:
+ *                       type: string
+ *                       format : string
+ *                       example: "kigali"
  *       500: 
  *         description: "Server error"
  *   
  */
 router.post('/',Validate.userFields, isAdmin, new userController().createUser);
+
 router.get('/',isAdmin,new userController().findAllUsers);
 router.get('/:id',isAdmin,new userController().findOneUser);
 router.put('/:id',isAdmin,new userController().updateUser);
