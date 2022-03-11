@@ -15,6 +15,7 @@ import morgan from "morgan";
 import homeRoutes from "./routes/homeRoutes.js";
 import db from '../sequelize/models/index'
 import passwordResetRoutes from './routes/passwordResetRoutes.js'
+import busRoute from './routes/busRoutes'
 
 
 const app = express();
@@ -68,6 +69,7 @@ app.use('/api/v1/roles', roleRoutes);
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/permissions', permissionRoutes);
 app.use('/api/v1/reset-password', passwordResetRoutes)
+app.use('/api/v1/bus', busRoute)
 app.use(morgan());
 app.use(homeRoutes);
 
