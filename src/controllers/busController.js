@@ -86,10 +86,10 @@ class BusController {
     }
     async getPaginatedList(req, res) {
         try {
-            let limit = 4;  
+            let limit = 4;
             let offset = 0;
-            let page = req.params.page; 
-            if(page == undefined || isNaN(page || page == '')){
+            let page = req.params.page;
+            if (page == undefined || isNaN(page || page == '')) {
                 return res.status(400).json({
                     message: `Check if not page is number type or is not missing`
                 })
@@ -98,16 +98,16 @@ class BusController {
                 .then((data) => {
                     let pages = Math.ceil(data.count / limit);
                     offset = limit * (page - 1);
-                   Bus.findAll({
+                    Bus.findAll({
                         limit: limit,
                         offset: offset
                     })
-                    .then((bus) => {
-                            return res.status(200).json({ 
+                        .then((bus) => {
+                            return res.status(200).json({
                                 message: 'Buses found',
-                                result: bus, 
-                                count: data.count, 
-                                pages: pages 
+                                result: bus,
+                                count: data.count,
+                                pages: pages
                             });
                         });
                 })
