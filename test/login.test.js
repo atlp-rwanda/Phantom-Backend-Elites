@@ -1,11 +1,9 @@
-import newSet from "./setup.js";
+import newSet from "./setup";
 
+describe('Home route', () => {
 
-describe(`Home route`, () => {
-  
- 
-  
-  it(`It should return a sucessfully login message`, (done) => {
+  let token ;
+  it('It should return sucessfully login message', (done) => {
     const user = {
       email: "admin@admin.com",
       password: "admin"
@@ -15,15 +13,17 @@ describe(`Home route`, () => {
       .post("/api/v1/auth/login")
       .send(user)
       .end((err, response) => {
-        response.should.have.status(200);
+        token = response.body.token;
+        response.should.have.status(201);
         response.body.should.have.property("message");
         newSet
           .expect(response.body.message)
-          .to.equals('A token for your session has been saved!')
         done();
-      });   
+      });
   });
-  it(`It should return unsucessfully login message for incorrect password`, (done) => {
+  
+  
+  it('It should return unsucessfully login message for incorrect password', (done) => {
     const user = {
       email: "admin@admin.com",
       password: "admin123456"
@@ -33,7 +33,7 @@ describe(`Home route`, () => {
       .post("/api/v1/auth/login")
       .send(user)
       .end((err, response) => {
-        response.should.have.status(200);
+        response.should.have.status(404);
         response.body.should.have.property("message");
         newSet
           .expect(response.body.message)
@@ -41,7 +41,7 @@ describe(`Home route`, () => {
         done();
       });
   });
-  it(`It should return unsucessfully login`, (done) => {
+  it('It should return unsucessfully login', (done) => {
     const user = {
       email: "admin1@gmail.com",
       password: "admin"
@@ -55,12 +55,134 @@ describe(`Home route`, () => {
         response.body.should.have.property("message");
         newSet
           .expect(response.body.message)
-          .to.equals('Incorrect email or password');
+          .to.equals('Wrong email detected!');
         done();
       });
   });
-  
-  after(function (done) {
-    process.exit();
+  it('It should return invalid email error', (done) => {
+    const user = {
+      email: "",
+      password: "admin"
+    }
+    newSet.chai
+      .request(newSet.app)
+      .post("/api/v1/auth/login")
+      .send(user)
+      .end((err, response) => {
+        response.should.have.status(400);
+        response.body.should.have.property("email");
+        newSet
+          .expect(response.body.message);
+        done();
+      });
   });
+  it('It should return that firstname is not allowed be empty', (done) => {
+    const user = {
+      firstName: "",
+      lastName: "Moise",
+      email: "moiseniyonkuru1@gmail.com",
+      roleId: 1,
+      dateofbirth:"2020-1-1",
+      gender: "male",
+      address:"kigali"
+    }
+   
+    newSet.chai
+      .request(newSet.app)
+      .post("/api/v1/users/")      
+      .send(user)
+      .end((err, response) => {
+        response.should.have.status(400);
+        response.body.should.have.property("firstName");
+        done();
+      });
+  });
+  it('invalid email should be be detected', (done) => {
+    const user = {
+      firstName: "Jane",
+      lastName: "jannet",
+      email: "jane1gmail.com",
+      roleId: 1,
+      dateofbirth:"2020-1-1",
+      gender: "male",
+      address:"kigali"
+    }
+    newSet.chai
+      .request(newSet.app)
+      .post("/api/v1/users/")
+      .send(user)
+      .end((err, response) => {
+        response.should.have.status(400);
+        response.body.should.have.property("email");
+        newSet
+          .expect(response.body.email)
+          .to.equals('"email" must be a valid email');
+        done();
+      });
+  });
+  it('Role should be create', (done) => {
+    const role = {
+      "id": "3",
+        "name": "operator"
+    }
+    newSet.chai
+      .request(newSet.app)
+      .post("/api/v1/roles")
+      .set({ "authorization": `Bearer ${token}` })
+      .send(role)
+      .end((err, response) => {
+        console.log(response.body)
+        response.should.have.status(201);
+        newSet
+          .expect(response.body.message)
+        done();
+      });
+  });
+  it('User should be registered', (done) => {
+    const user = {
+      firstName: "Jane",
+      lastName: "jannet",
+      email: "jane1@gmail.com",
+      roleId: 3,
+      dateofbirth:"2020-1-1",
+      gender: "male",
+      address:"kigali"
+    }
+    newSet.chai
+      .request(newSet.app)
+      .post("/api/v1/users/")
+      .set({ "authorization": `Bearer ${token}` })
+      .send(user)
+      .end((err, response) => {
+        console.log(response.body)
+        response.should.have.status(200);
+        newSet
+          .expect(response.body.message)
+        done();
+      });
+  });
+  it('User should not create due unauthorized role', (done) => {
+    const user = {
+      firstName: "Jane",
+      lastName: "jannet",
+      email: "nkrmoise@gmail.com",
+      roleId: 1,
+      dateofbirth:"2020-1-1",
+      gender: "male",
+      address:"kigali"
+    }
+    newSet.chai
+      .request(newSet.app)
+      .post("/api/v1/users/")
+      .set({ "authorization": `Bearer ${token}` })
+      .send(user)
+      .end((err, response) => {
+        console.log(response.body)
+        response.should.have.status(400);
+        newSet
+          .expect(response.body.message)
+        done();
+      });
+  });
+
 });
