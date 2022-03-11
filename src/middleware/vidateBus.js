@@ -36,9 +36,11 @@ class Validate{
         const bus = await Bus.findOne({ where: { plateNo: req.body.plateNo } });
         if (bus) return res.status(409).json({ message: "Bus already exists" });
 
-        const role = await Role.findOne({ where: { id: user.roleId } });
-        if (!role) return res.status(400).json({ message: "Assigned User is not a driver" });
-        
+        if(req.body.driver){
+            const role = await Role.findOne({ where: { id: user.roleId } });
+            if (!role) return res.status(400).json({ message: "Unknown Driver" });
+            if (role.name != 'driver') return res.status(400).json({ message: "Assigned Used is not a driver" });
+        }
         next()
     }
     async updateRole(req, res, next){
@@ -59,6 +61,12 @@ class Validate{
         try {
             const bus = await Bus.findOne({ where: { plateNo:req.params.plateNo } });
             if (!bus) return res.status(400).json({ message: "Bus you want to update doesn't exist" });
+            
+            if(req.body.driver){
+                const role = await Role.findOne({ where: { id: req.body.driver } });
+                if (!role) return res.status(400).json({ message: "Unknown Driver" });
+                if (role.name != 'driver') return res.status(400).json({ message: "Assigned Used is not a driver" });
+            }
             
             next() 
         } catch (error) {

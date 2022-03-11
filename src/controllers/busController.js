@@ -5,8 +5,8 @@ let sequelize = new Sequelize(development);
 let Bus = Buses(sequelize, Sequelize);
 
 class BusController {
-     async createBus(req, res){
-         try {
+    async createBus(req, res) {
+        try {
             const createdBus = await Bus.create({
                 brand: req.body.brand,
                 plateNo: req.body.plateNo,
@@ -18,71 +18,104 @@ class BusController {
                 message: 'Bus create sucessfully',
                 bus: createdBus
             })
-         } catch (error) {
-             console.log(error)
+        } catch (error) {
+            console.log(error)
             res.status(400).json({
                 message: 'Unable to create bus'
             })
-         }
-       
-     }
-     async updateBus(req, res){
+        }
+
+    }
+    async updateBus(req, res) {
         try {
-           const createdBus = await Bus.update(req.body,{
-            where: { plateNo: req.params.plateNo }
+            await Bus.update(req.body, {
+                where: { plateNo: req.params.plateNo }
+            }).then(result => {
+                res.status(201).json({
+                    message: 'Bus updated sucessfully',
+                    result
+                })
             })
-           res.status(201).json({
-               message: 'Bus updated sucessfully',
-               createdBus
-           })
         } catch (error) {
-           res.status(400).json({
-               message: 'Unable to update bus'
-           })
+            res.status(400).json({
+                message: 'Unable to update bus'
+            })
         }
     }
-    async deleteteBus(req, res){
+    async deleteteBus(req, res) {
         try {
-           await Bus.destroy({
-            where: { plateNo: req.params.plateNo }
-          })
-           res.status(201).json({
-               message: 'Bus deleted sucessfully',
-           })
+            await Bus.destroy({
+                where: { plateNo: req.params.plateNo }
+            })
+            res.status(201).json({
+                message: 'Bus deleted sucessfully',
+            })
         } catch (error) {
-           res.status(400).json({
-               message: `Unable to delete bus with plate ${req.body.plateNo}`
-           })
+            res.status(400).json({
+                message: `Unable to delete bus with plate ${req.body.plateNo}`
+            })
         }
     }
-    async getOneBus(req, res){
+    async getOneBus(req, res) {
         try {
-           const bus = await Bus.findByPk(req.params.plateNo)
-        
-           res.status(201).json({
-               message: 'Bus found',
-               bus
-           })
+            const bus = await Bus.findByPk(req.params.plateNo)
+
+            res.status(201).json({
+                message: 'Bus found',
+                bus
+            })
         } catch (error) {
-           res.status(400).json({
-               message: `Unable to find bus with plate ${req.body.plateNo}`
-           })
+            res.status(400).json({
+                message: `Unable to find bus with plate ${req.body.plateNo}`
+            })
         }
     }
-    async getAllBuses(req, res){
+    async getAllBuses(req, res) {
         try {
-           const bus = await Bus.findAll()
-        
-           res.status(201).json({
-               message: 'Buses found',
-               bus
-           })
+            const bus = await Bus.findAll()
+
+            res.status(201).json({
+                message: 'Buses found',
+                bus
+            })
         } catch (error) {
-           res.status(400).json({
-               message: `Unable to find buses`
-           })
+            res.status(400).json({
+                message: `Unable to find buses`
+            })
+        }
+    }
+    async getPaginatedList(req, res) {
+        try {
+            let limit = 4;  
+            let offset = 0;
+            let page = req.params.page; 
+            if(page == undefined || isNaN(page || page == '')){
+                return res.status(400).json({
+                    message: `Check if not page is number type or is not missing`
+                })
+            }
+            const bus = await Bus.findAndCountAll()
+                .then((data) => {
+                    let pages = Math.ceil(data.count / limit);
+                    offset = limit * (page - 1);
+                   Bus.findAll({
+                        limit: limit,
+                        offset: offset
+                    })
+                    .then((bus) => {
+                            return res.status(200).json({ 
+                                message: 'Buses found',
+                                result: bus, 
+                                count: data.count, 
+                                pages: pages 
+                            });
+                        });
+                })
+        } catch (error) {
+            res.status(400).json({
+                message: `Unable to find buses`
+            })
         }
     }
 }
-  export default BusController
-  
+export default BusController
