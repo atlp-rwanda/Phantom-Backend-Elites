@@ -10,6 +10,17 @@ export default (sequelize, DataTypes) => {
     // eslint-disable-next-line no-unused-vars
     static associate(models) {
       // define association here
+      User.belongsTo(models.Role, {
+        foreignKey: 'roleId',
+        as: 'role',
+        onDelete: 'CASCADE',
+      })
+
+      User.hasOne(models.Profile, {
+        foreignKey: 'ownerId',
+        as: 'owner',
+        onDelete: 'CASCADE',
+    })
     }
   }
   User.init(
@@ -21,12 +32,19 @@ export default (sequelize, DataTypes) => {
       dateofbirth: DataTypes.STRING,
       gender: DataTypes.STRING,
       address: DataTypes.STRING,
-      role: DataTypes.STRING,
+      roleId: DataTypes.INTEGER,
+      drivingLicenseNo: DataTypes.STRING,
+      nationalIdNo: DataTypes.STRING,
+      phoneNo: DataTypes.STRING
+
+      
     },
     {
       sequelize,
       modelName: "User",
-    }
+    },
+    
+   
   );
   return User;
 };
