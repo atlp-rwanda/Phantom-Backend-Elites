@@ -1,4 +1,5 @@
 /* eslint-env browser */
+import routeRoute from "./routes/routeRouter";
 import express from "express";
 import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
@@ -56,6 +57,8 @@ app.get("/junior", (req, res) => {
 app.use(cors());
 app.use(express.json());
 app.use(homeRoutes);
+app.use('/api/v1/route', routeRoute);
+
 app.listen(PORT, () => {
   console.log(`App listening on ${PORT}`);
 });
