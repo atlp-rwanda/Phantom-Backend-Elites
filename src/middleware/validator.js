@@ -57,7 +57,6 @@ class Validate{
     }
     async createRole(req, res, next){
         const schema = Joi.object({
-            id: Joi.number(),
             name: Joi.string().required()
         })
         const {error, value} = schema.validate(req.body,{ abortEarly: false })

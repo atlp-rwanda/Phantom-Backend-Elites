@@ -1,5 +1,5 @@
-import Roles from '../../sequelize/models/role'
 import { development } from "../../sequelize/config/config.js";
+import Roles from '../../sequelize/models/role'
 import { Sequelize } from "sequelize";
 let sequelize = new Sequelize(development);
 let Role = Roles(sequelize, Sequelize);
@@ -17,11 +17,12 @@ class RoleController{
     // Create a Role
     const  { name } = req.body
     // Save Role in the database
-    await Role.create({ name, })
+    Role.create({ name })
       .then(data => {
-        res.status(201).json({data, message: 'Role created successfully!'});
+        res.status(200).json({data, message: 'Role created successfully!'});
       })
       .catch(err => {
+        console.log(err)
         res.status(500).json({
           message:
             err.message || "Some error occurred while creating the Role."
@@ -52,7 +53,7 @@ async findOneRole(req, res) {
 async findAllRoles(req, res) {
     Role.findAll()
       .then(data => {
-        res.json(data);
+        res.status(200).json({message: 'List of all Roles',data});
       })
       .catch(err => {
         res.status(500).json({
@@ -69,7 +70,7 @@ async updateRole(req, res) {
     })
       .then(num => {
         if (num == 1) {
-          res.json({
+          res.status(200).json({
             message: "Role was updated successfully."
           });
         } else {
@@ -92,11 +93,11 @@ async deleteRole(req, res) {
     })
       .then(num => {
         if (num == 1) {
-          res.json({
+          res.status(200).json({
             message: "Role was deleted successfully!"
           });
         } else {
-          res.json({
+          res.status(401).json({
             message: `Cannot delete Role with id=${id}. Maybe Role was not found!`
           });
         }

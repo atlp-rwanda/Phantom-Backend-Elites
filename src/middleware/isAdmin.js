@@ -37,6 +37,12 @@ if (!req?.headers?.authorization
           .status(403)
           .json({ message: 'Please sign in as an admin!'});
       }
+
+      const message=`Hello there
+      
+      
+      Reached here!`
+      console.log(message)
       next();
 
     }else{

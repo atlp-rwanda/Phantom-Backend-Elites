@@ -5,7 +5,7 @@ describe(`Home route`, () => {
   
  
   
-  it(`It should return a sucessfully login message`, (done) => {
+  it(`It should return a sucessfully login message`, () => {
     const user = {
       email: "admin@admin.com",
       password: "admin"
@@ -20,10 +20,10 @@ describe(`Home route`, () => {
         newSet
           .expect(response.body.message)
           .to.equals('A token for your session has been saved!')
-        done();
+        
       });   
   });
-  it(`It should return unsucessfully login message for incorrect password`, (done) => {
+  it(`It should return unsucessfully login message for incorrect password`, () => {
     const user = {
       email: "admin@admin.com",
       password: "admin123456"
@@ -38,10 +38,9 @@ describe(`Home route`, () => {
         newSet
           .expect(response.body.message)
           .to.equals('Incorrect email or password');
-        done();
       });
   });
-  it(`It should return unsucessfully login`, (done) => {
+  it(`It should return unsucessfully login`, () => {
     const user = {
       email: "admin1@gmail.com",
       password: "admin"
@@ -56,11 +55,7 @@ describe(`Home route`, () => {
         newSet
           .expect(response.body.message)
           .to.equals('Incorrect email or password');
-        done();
+       
       });
-  });
-  
-  after(function (done) {
-    process.exit();
   });
 });

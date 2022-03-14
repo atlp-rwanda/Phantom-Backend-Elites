@@ -22,6 +22,6 @@ describe('Routs tests', async () => {
           .send({ name: 'Testing8487534dssdsd' })
           .set('authorization', token);
         setup.expect(res.status).to.be.equal(201);
-        setup.expect(res.body).to.have.keys('message', 'data');
+        setup.expect(res.body).to.have.keys('message','data');
       });
     })

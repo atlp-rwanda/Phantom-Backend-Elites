@@ -112,7 +112,7 @@ async updateProfile(req, res) {
       })
       .catch(err => {
         res.status(500).json({
-          message: "Error updating User with id=" + id
+          message: "Invalid inputs detected, and we cannot update your profile id=" + id
         });
       });
   };
