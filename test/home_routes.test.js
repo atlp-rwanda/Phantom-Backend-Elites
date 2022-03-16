@@ -16,7 +16,4 @@ describe(`Home route`, () => {
         done();
       });
   });
-  after(function (done) {
-    process.exit();
-  });
 });

@@ -1,5 +1,6 @@
+// eslint-disable-next-line no-undef
 /* eslint-env browser */
-import routeRoute from "./routes/routeRouter";
+import routeRoute from "./routes/routesRoute";
 import express from "express";
 import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
@@ -11,8 +12,6 @@ import homeRoutes from "./routes/homeRoutes.js";
 
 dotenv.config();
 
-// eslint-disable-next-line no-undef
-const PORT = process.env.PORT || 3000;
 
 const options = {
   definition: {
@@ -59,6 +58,7 @@ app.use(express.json());
 app.use(homeRoutes);
 app.use('/api/v1/route', routeRoute);
 
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`App listening on ${PORT}`);
 });

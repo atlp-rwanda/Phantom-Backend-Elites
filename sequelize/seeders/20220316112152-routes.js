@@ -2,14 +2,12 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
+
     await queryInterface.bulkInsert('Routes', [{
-      id: 1,
-      name: 'KIMIRONKO - DOWNTOWN',
-      origin: 'KIMIRONKO',
-      destination: 'DOWNTOWN',
-      distance: '10km',
-      busStops: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-      assignedBuses: [1, 2, 3, 4, 5]
+      name: "Kimironko - Downtown",
+      originId: 1,
+      destinationId: 2,
+      busstations: [1, 2]
     }], {});
   },
 
