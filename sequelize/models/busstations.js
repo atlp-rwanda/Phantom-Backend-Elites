@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   Busstations.init({
 
     busStationName: DataTypes.STRING,
-    coordinate: DataTypes.STRING
+    coordinates: DataTypes.STRING
 
     // busstationId: { type: DataTypes.UUIDV4, allowNull: false },
     // location: { type: DataTypes.STRING, allowNull: false },

@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-undef
 /* eslint-env browser */
+import busStationRoute from "./routes/busStationsRoute";
 import routeRoute from "./routes/routesRoute";
 import express from "express";
 import swaggerUI from "swagger-ui-express";
@@ -57,6 +58,7 @@ app.use(cors());
 app.use(express.json());
 app.use(homeRoutes);
 app.use('/api/v1/route', routeRoute);
+app.use('/api/v1/bus-station', busStationRoute);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

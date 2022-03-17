@@ -21,7 +21,7 @@ module.exports = {
         coordinates: '-1.9338153057022478, 30.08125132714478'
       },
       {
-        busStationName: 'Nyabugogo Park',
+        busStationName: 'Nyabugogo taxi Park',
         coordinates: '-1.940383376865865, 30.044579996208245'
       },
       {
