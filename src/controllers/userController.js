@@ -2,11 +2,13 @@ import bcrypt from "bcrypt";
 import "dotenv/config";
 import getPassword from "../services/createPassword.js";
 import sendEmail from "../services/sendEmail.js";
-import Users from '../../sequelize/models/User'
-import { development } from "../../sequelize/config/config.js";
-import { Sequelize } from "sequelize";
-let sequelize = new Sequelize(development);
-let User = Users(sequelize, Sequelize);
+import { User } from '../../sequelize/models'
+
+// import { development } from "../../sequelize/config/config.js";
+// import { Sequelize } from "sequelize";
+// let sequelize = new Sequelize(development);
+// let sequelize = new Sequelize();
+// let User = Users(sequelize, Sequelize);
 
 
 

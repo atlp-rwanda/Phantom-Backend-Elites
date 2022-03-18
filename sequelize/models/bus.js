@@ -1,6 +1,6 @@
 "use strict";
-import { Model } from "sequelize";
-export default (sequelize, DataTypes) => {
+const { Model } = require("sequelize");
+module.exports =  function(sequelize, DataTypes) {
 class Bus extends Model {
     /**
      * Helper method for defining associations.
@@ -31,7 +31,7 @@ class Bus extends Model {
       },
       driver:{
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
       },
       seats:{
         type: DataTypes.STRING,

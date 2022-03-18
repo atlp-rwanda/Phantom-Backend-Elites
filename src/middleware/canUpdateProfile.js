@@ -1,13 +1,6 @@
 import Models from '../../sequelize/models';
 import verifyToken from '../helpers/verifyToken';
-import { development } from "../../sequelize/config/config.js";
-import { Sequelize } from "sequelize";
-import Tokens from '../../sequelize/models/Token'
-import Roles from '../../sequelize/models/role'
-let sequelize = new Sequelize(development);
-let Token = Tokens(sequelize, Sequelize)
-let Role = Roles(sequelize, Sequelize)
-
+let {Token, Role} = Models
 
 
 const canUpdateProfile = async (req, res, next) => {

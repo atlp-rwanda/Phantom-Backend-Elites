@@ -13,16 +13,16 @@
     "build": "babel --copy-files src --out-dir dist",
     "start": "npm run build && node dist/server.js",
     "pre-dev": "babel-node src/server.js",
-    "dev": "nodemon --exec npm run pre-dev",
+    "dev": "cross-env NODE_ENV=test nodemon --exec npm run pre-dev",
     "start:dev": "nodemon --exec babel-node src/server.js",
     "format": "prettier --write \"src/**/*.{js, mjs}\"",
     "lint": "eslint \"src/**/*.{js, mjs}\" --quiet",
     "migrate": "npx sequelize-cli db:migrate",
     "down": "npx sequelize-cli db:migrate:undo:all",
     "seed": "npx sequelize-cli db:seed:all",
-    "migrate:reset": "npm run down && npm run migrate && npm run seed",
+    "migrate:reset": "cross-env NODE_ENV=test npm run down && cross-env NODE_ENV=test npm run migrate && cross-env NODE_ENV=test npm run seed",
     "test": "cross-env NODE_ENV=test nyc mocha --timeout 40000 ./test/*.test.js --require @babel/register --exit",
-    "pretest": "cross-env NODE_ENV=test npm run migrate:reset"
+    "pretest": "cross-env NODE_ENV=test npm run down && cross-env NODE_ENV=test npm run migrate && cross-env NODE_ENV=test npm run seed"
     },
   "repository": {
     "type": "git",

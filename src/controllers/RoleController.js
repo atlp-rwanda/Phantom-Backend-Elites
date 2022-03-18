@@ -1,8 +1,10 @@
-import Roles from '../../sequelize/models/role'
-import { development } from "../../sequelize/config/config.js";
-import { Sequelize } from "sequelize";
-let sequelize = new Sequelize(development);
-let Role = Roles(sequelize, Sequelize);
+import { Role } from '../../sequelize/models'
+// import { development } from "../../sequelize/config/config.js";
+// import { Sequelize } from "sequelize";
+// let sequelize = new Sequelize(development);
+// import db from '../../sequelize/'
+// let sequelize = new Sequelize();
+// let Role = Roles(sequelize, Sequelize);
 
 class RoleController{
 

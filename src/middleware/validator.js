@@ -1,15 +1,8 @@
 import Joi from 'joi'
 
-import Users from '../../sequelize/models/User'
-import { development } from "../../sequelize/config/config.js";
-import { Sequelize } from "sequelize";
-import Roles from '../../sequelize/models/role'
-import Permissions from '../../sequelize/models/permission'
-
-let sequelize = new Sequelize(development);
-let User = Users(sequelize, Sequelize);
-let Role = Roles(sequelize, Sequelize)
-let Permission = Permissions(sequelize, Sequelize)
+import {User} from '../../sequelize/models'
+import {Role} from '../../sequelize/models'
+import {Permission} from '../../sequelize/models'
 
 class Validate{
     loginFields(req, res, next){

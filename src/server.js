@@ -16,13 +16,15 @@ import homeRoutes from "./routes/homeRoutes.js";
 import db from '../sequelize/models/index'
 import passwordResetRoutes from './routes/passwordResetRoutes.js'
 import busRoute from './routes/busRoutes'
+// import {config} from 'dotenv'
 
-
+// config()
+dotenv.config();
 const app = express();
 app.use('/', auth);
 
 
-dotenv.config();
+
 
 // eslint-disable-next-line no-undef
 const PORT = process.env.PORT || 3000;
@@ -69,7 +71,7 @@ app.use('/api/v1/roles', roleRoutes);
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/permissions', permissionRoutes);
 app.use('/api/v1/reset-password', passwordResetRoutes)
-app.use('/api/v1/bus', busRoute)
+app.use('/api/v1/buses', busRoute)
 app.use(morgan());
 app.use(homeRoutes);
 

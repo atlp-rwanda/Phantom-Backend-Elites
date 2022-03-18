@@ -1,26 +1,16 @@
 import Joi from 'joi'
 
-import Users from '../../sequelize/models/User'
-import { development } from "../../sequelize/config/config.js";
-import { Sequelize } from "sequelize";
-import Roles from '../../sequelize/models/role'
-import Buses from '../../sequelize/models/bus'
+import {User, Role, Bus} from '../../sequelize/models'
 
-let sequelize = new Sequelize(development);
-let User = Users(sequelize, Sequelize);
-let Role = Roles(sequelize, Sequelize)
-let Bus  = Buses(sequelize, Sequelize)
 
-class Validate{
-    
-    
+class Validate{    
     
     async createBus(req, res, next){
         const schema = Joi.object({
             brand: Joi.string().required(),
-            plateNo: Joi.string().required(),
+            plateNo: Joi.string().regex(/^RA[A-Z][0-9]{3}[A-Z]/).required(),
             driver: Joi.number(),
-            seats: Joi.number().required(),
+            seats: Joi.number().required().min(3),
             status: Joi.string().required()
         })
         const {error, value} = schema.validate(req.body,{ abortEarly: false })
@@ -28,19 +18,23 @@ class Validate{
             const { details } = error;
             const errors = {};
             for (let item of details) errors[item.path[0]] = item.message;
+            if(errors.hasOwnProperty("plateNo")) errors["plateNo"]= "PlateNo is required with format like this RAA111B";
             return res.status(400).json(errors)
         }
-        const user = await User.findOne({ where: { id: req.body.driver} });
-        if (!user) return res.status(409).json({ message: "Assigned Driver doesn't exist" });
-        
         const bus = await Bus.findOne({ where: { plateNo: req.body.plateNo } });
         if (bus) return res.status(409).json({ message: "Bus already exists" });
 
         if(req.body.driver){
+            const user = await User.findOne({ where: { id: req.body.driver} });
+            if (!user) return res.status(409).json({ message: "Assigned Driver doesn't exist" });  
             const role = await Role.findOne({ where: { id: user.roleId } });
             if (!role) return res.status(400).json({ message: "Unknown Driver" });
             if (role.name != 'driver') return res.status(400).json({ message: "Assigned Used is not a driver" });
         }
+        
+        
+
+        
         next()
     }
     async updateRole(req, res, next){
@@ -56,6 +50,7 @@ class Validate{
             const { details } = error;
             const errors = {};
             for (let item of details) errors[item.path[0]] = item.message;
+            
             return res.status(400).send(errors)
         }
         try {
@@ -63,7 +58,9 @@ class Validate{
             if (!bus) return res.status(400).json({ message: "Bus you want to update doesn't exist" });
             
             if(req.body.driver){
-                const role = await Role.findOne({ where: { id: req.body.driver } });
+                const user = await User.findOne({ where: { id: req.body.driver} });
+                if (!user) return res.status(409).json({ message: "Assigned Driver doesn't exist" });
+                   const role = await Role.findOne({ where: { id: req.body.driver } });
                 if (!role) return res.status(400).json({ message: "Unknown Driver" });
                 if (role.name != 'driver') return res.status(400).json({ message: "Assigned Used is not a driver" });
             }

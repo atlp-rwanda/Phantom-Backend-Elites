@@ -1,16 +1,16 @@
 import token from '../../src/helpers/generateToken';
-import Users from '../../sequelize/models/User'
-import Tokens from '../../sequelize/models/Token'
-import { development } from "../../sequelize/config/config.js";
-import { Sequelize, where } from "sequelize";
+import {User} from '../../sequelize/models'
+import {Token} from '../../sequelize/models'
+// import { development } from "../../sequelize/config/config.js";
+// import { Sequelize, where } from "sequelize";
 import bcrypt from 'bcrypt'
-let sequelize = new Sequelize(development);
-let User = Users(sequelize, Sequelize);
-let Token = Tokens(sequelize, Sequelize)
+// let sequelize = new Sequelize(development);
+// let User = Users(sequelize, Sequelize);
+// let Token = Tokens(sequelize, Sequelize)
+
 //User login
 class AuthController{
     async login(req, res) {
-
       const user = await User.findOne({ where: {email: req.body.email }});
       if(!user) return res.status(400).json({message: "Wrong email detected!"});
      

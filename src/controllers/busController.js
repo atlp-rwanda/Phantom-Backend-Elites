@@ -1,8 +1,8 @@
-import Buses from '../../sequelize/models/bus'
-import { development } from "../../sequelize/config/config.js";
-import { Sequelize } from "sequelize";
-let sequelize = new Sequelize(development);
-let Bus = Buses(sequelize, Sequelize);
+import {Bus} from '../../sequelize/models'
+// import { development } from "../../sequelize/config/config.js";
+// import { Sequelize } from "sequelize";
+// let sequelize = new Sequelize(development);
+// let Bus = Buses(sequelize, Sequelize);
 
 class BusController {
     async createBus(req, res) {
@@ -10,7 +10,7 @@ class BusController {
             const createdBus = await Bus.create({
                 brand: req.body.brand,
                 plateNo: req.body.plateNo,
-                driver: req.body.driver,
+                driver: req.body.driver || null,
                 seats: req.body.seats,
                 status: req.body.status
             })
@@ -28,14 +28,13 @@ class BusController {
     }
     async updateBus(req, res) {
         try {
-            await Bus.update(req.body, {
+            const result = await Bus.update(req.body, {
                 where: { plateNo: req.params.plateNo }
-            }).then(result => {
-                res.status(201).json({
-                    message: 'Bus updated sucessfully',
-                    result
-                })
             })
+            if(result){
+                const bus = await Bus.findByPk(req.params.plateNo)
+                return res.status(201).json({"message":"Updated Sucessfully",bus})
+            }
         } catch (error) {
             res.status(400).json({
                 message: 'Unable to update bus'
@@ -47,7 +46,7 @@ class BusController {
             await Bus.destroy({
                 where: { plateNo: req.params.plateNo }
             })
-            res.status(201).json({
+            res.status(200).json({
                 message: 'Bus deleted sucessfully',
             })
         } catch (error) {
@@ -60,7 +59,8 @@ class BusController {
         try {
             const bus = await Bus.findByPk(req.params.plateNo)
 
-            res.status(201).json({
+
+            res.status(200).json({
                 message: 'Bus found',
                 bus
             })

@@ -1,6 +1,6 @@
-import { Model } from 'sequelize';
+const { Model } = require('sequelize');
 
-export default (sequelize, DataTypes) => {
+module.exports = function(sequelize, DataTypes)  {
   class Permission extends Model {
     /**
      * Helper method for defining associations.

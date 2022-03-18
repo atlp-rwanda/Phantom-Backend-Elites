@@ -1,17 +1,8 @@
-import Models from '../../sequelize/models';
+
 import verifyToken from '../helpers/verifyToken';
-import ResetTokens from '../../sequelize/models/ResetToken'
-import { development } from "../../sequelize/config/config.js";
-import { Sequelize } from "sequelize";
-import Tokens from '../../sequelize/models/Token'
-import Users from '../../sequelize/models/User'
-import Roles from '../../sequelize/models/role'
-let sequelize = new Sequelize(development);
-
-
-let Token = Tokens(sequelize, Sequelize)
-let User = Users(sequelize, Sequelize);
-let Role = Roles(sequelize, Sequelize)
+import {Token} from '../../sequelize/models'
+import {User} from '../../sequelize/models'
+import {Role} from '../../sequelize/models'
 
 
 

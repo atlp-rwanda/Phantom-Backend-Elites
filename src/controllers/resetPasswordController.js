@@ -1,14 +1,17 @@
-import Users from '../../sequelize/models/User'
-import { development } from "../../sequelize/config/config.js";
+import {User} from '../../sequelize/models'
+// import { development } from "../../sequelize/config/config.js";
 import { Sequelize } from "sequelize";
 import crypto from 'crypto'
 import sendEmail from '../services/sendEmail.js'
 import bcrypt from 'bcrypt'
 
-let sequelize = new Sequelize(development);
-import ResetTokens from '../../sequelize/models/ResetToken'
-let ResetToken = ResetTokens(sequelize, Sequelize);
-let User = Users(sequelize, Sequelize);
+
+// let sequelize = new Sequelize(development);
+// let sequelize = new Sequelize();
+import {ResetToken} from '../../sequelize/models'
+// let ResetToken = ResetTokens(sequelize, Sequelize);
+// let User = Users(sequelize, Sequelize);
+
 
 class ResetTokenController{
 
