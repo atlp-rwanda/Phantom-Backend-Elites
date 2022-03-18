@@ -17,11 +17,11 @@ import db from '../sequelize/models/index'
 import passwordResetRoutes from './routes/passwordResetRoutes.js'
 
 
+dotenv.config();
 const app = express();
 app.use('/', auth);
 
 
-dotenv.config();
 
 // eslint-disable-next-line no-undef
 const PORT = process.env.PORT || 3000;

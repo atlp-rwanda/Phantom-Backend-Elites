@@ -1,13 +1,6 @@
 import Joi from 'joi'
-import Users from '../../sequelize/models/user'
-import { development } from "../../sequelize/config/config.js";
-import { Sequelize } from "sequelize";
-import Roles from '../../sequelize/models/role'
-import Permissions from '../../sequelize/models/permission'
-let sequelize = new Sequelize(development);
-let User = Users(sequelize, Sequelize);
-let Role = Roles(sequelize, Sequelize)
-let Permission = Permissions(sequelize, Sequelize)
+import Models from '../../sequelize/models';
+const { Role,User,Permission } = Models;
 
 class Validate{
     loginFields(req, res, next){
@@ -37,9 +30,9 @@ class Validate{
             roleId: Joi.number().min(2).required().messages({
                 "number.min": "Choose another role"
             }),
-            dateofbirth: Joi.string().required(),
+            dateofbirth: Joi.string(),
             gender: Joi.string().required(),
-            address: Joi.string().required()
+            address: Joi.string()
         })
         const {error, value} = schema.validate(req.body,{ abortEarly: false })
         if(error){
@@ -52,8 +45,7 @@ class Validate{
         if (user) return res.status(409).json({ message: "User email already exist" });
         const role = await Role.findOne({ where: { id: req.body.roleId } });
         if (!role) return res.status(404).json({ message: "Role doesn't exist" });
-        next()
-        
+        next()  
     }
     async createRole(req, res, next){
         const schema = Joi.object({

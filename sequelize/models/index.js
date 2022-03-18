@@ -5,9 +5,11 @@ const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
+const dotenv = require('dotenv')
+dotenv.config()
 const env = process.env.NODE_ENV || "development";
 const config = require(__dirname + "/../config/config.js")[env];
-// var config    = require(__dirname + '/../config/config.js')[env]
+
 
 const db = {};
 
@@ -30,11 +32,10 @@ fs.readdirSync(__dirname)
     );
   })
   .forEach((file) => {
-    // const model = require(path.join(__dirname, file))(
-    //   sequelize,
-    //   Sequelize.DataTypes
-    // );
-    const model = sequelize.define(path.join(__dirname, file))
+    const model = require(path.join(__dirname, file))(
+      sequelize,
+      Sequelize.DataTypes)
+
 
     db[model.name] = model;
   });

@@ -1,10 +1,5 @@
 import setup from './setup'
-import mocha from 'mocha';
-import Role from '../sequelize/models/role'
 import { adminMock } from './mock/userMocks';
-const {
-    it, describe, beforeEach, afterEach,
-  } = mocha;
 
 
 const login = async (user) => {
@@ -12,53 +7,52 @@ const login = async (user) => {
     return `Bearer ${userData.body.token}`;
 
   };
+ 
   
 
 describe('Roles Tests', async () => {
-  const token =  await login(adminMock);
-  
-    it('Should Register new roles as Admin', async () => {
-      console.log(token)
-        const res= await setup.chai
-          .request(setup.app)
-          .post('/api/v1/roles')
-          .send({ name:'operator' })
-          .set('authorization', token)
-          setup.expect(res.status).to.be.equal(200);
-          setup.expect(res.body).to.have.keys('message','data');
-      });
-
-    it('Admin should not create a role without name', async (done) => {
-        const res =  await setup.chai
+    it('Admin should not create a role without role-name', async () => {
+      const token = await login(adminMock)
+        const res = await setup.chai
           .request(setup.app)
           .post('/api/v1/roles')
           .send({})
           .set('authorization', token);
         setup.expect(res.status).to.be.equal(400);
         setup.expect(res.body).to.have.keys('message');
-        done()
       });
 
-      it('Should Update a role as Admin', async (done) => {
-        const res =  await setup.chai
+    it('Should Update a role as Admin', async () => {
+        const token = await login(adminMock)
+        let res =  await setup.chai
           .request(setup.app)
           .post('/api/v1/roles')
           .send({ name: 'operations' })
           .set('authorization', token);
+
+          console.log(`
+          
+          
+          This is the id that you are looking for
+          
+          ${res.body.data.id}
+          
+          thank you!`
+          )
     
         const res1= await setup.chai
           .request(setup.app)
-          .put(`/api/v1/roles/${res.body.id}`)
+          .put(`/api/v1/roles/${res.body.data.id}`)
           .send({ name: 'operationss' })
           .set('authorization', token);
         setup.expect(res1.status).to.be.equal(200);
         setup.expect(res1.body).to.have.property('message', 'Role was updated successfully.');
-      done()
+      
       });
 
 
-      it('Should Delete  a role as Admin', async (done) => {
-        const token = login(adminMock);
+      it('Should Delete  a role as Admin', async () => {
+        const token = await login(adminMock);
     
         const res = await setup.chai
           .request(setup.app)
@@ -68,20 +62,33 @@ describe('Roles Tests', async () => {
     
         const res1 =  await setup.chai
           .request(setup.app)
-          .delete(`/api/v1/roles/${res.body.id}`)
+          .delete(`/api/v1/roles/${res.body.data.id}`)
           .set('authorization', token);
         setup.expect(res1.status).to.be.equal(200);
         setup.expect(res1.body).to.have.property('message', 'Role was deleted successfully!');
-        done()
+      
       });
     
-      it('Should Get all roles as Admin', async (done) => {
+      it('Should Get all roles as Admin', async () => {
+        const token = await login(adminMock)
         const res = await setup.chai
         .request(setup.app)
         .get('/api/v1/roles')
         .set('authorization', token);
         setup.expect(res.status).to.be.equal(200);
         setup.expect(res.body).to.have.keys('message', 'data');
-        done()
+       
       });
+
+      it('Should Register new roles as Admin', async () => {
+        const token = await login(adminMock)  
+          const res= await setup.chai
+            .request(setup.app)
+            .post('/api/v1/roles')
+            .send({ name: 'operator' })
+            .set('authorization', token)
+            setup.expect(res.status).to.be.equal(201);
+            setup.expect(res.body).to.have.keys('message','data');
+            
+        });
     })

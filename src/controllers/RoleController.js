@@ -1,8 +1,5 @@
-import { development } from "../../sequelize/config/config.js";
-import Roles from '../../sequelize/models/role'
-import { Sequelize } from "sequelize";
-let sequelize = new Sequelize(development);
-let Role = Roles(sequelize, Sequelize);
+import {Role} from '../../sequelize/models'
+
 
 class RoleController{
 
@@ -19,7 +16,7 @@ class RoleController{
     // Save Role in the database
     Role.create({ name })
       .then(data => {
-        res.status(200).json({data, message: 'Role created successfully!'});
+        res.status(201).json({data, message: 'Role created successfully!'});
       })
       .catch(err => {
         console.log(err)

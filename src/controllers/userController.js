@@ -2,11 +2,8 @@ import bcrypt from "bcrypt";
 import "dotenv/config";
 import getPassword from "../services/createPassword.js";
 import sendEmail from "../services/sendEmail.js";
-import Users from '../../sequelize/models/user'
-import { development } from "../../sequelize/config/config.js";
-import { Sequelize } from "sequelize";
-let sequelize = new Sequelize(development);
-let User = Users(sequelize, Sequelize);
+import {User} from '../../sequelize/models'
+
 
 
 
@@ -25,9 +22,8 @@ class UserController {
         email: req.body.email,
         password,
         roleId: req.body.roleId,
-        dateofbirth:req.body.dateofbirth,
         gender: req.body.gender,
-        address:req.body.address,
+       
     })
       .then(async data => {
        
@@ -37,7 +33,6 @@ class UserController {
             <p>Use ${req.body.email} and your password  <a href="#">${userpassword}</a></p>
         `;
             sendEmail(output, data.email);
-            console.log(userpassword)
 
             res.status(200).json({message: "User created successfully!"});
             return
@@ -74,10 +69,6 @@ class UserController {
   };
 
   async findAllUsers(req, res) {
-
-
-
-
     User.findAll({attributes: {
         exclude: ['password']
     }})

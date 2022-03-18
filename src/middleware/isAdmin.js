@@ -1,16 +1,6 @@
-import Models from '../../sequelize/models';
 import verifyToken from '../helpers/verifyToken';
-import ResetTokens from '../../sequelize/models/ResetToken'
-import { development } from "../../sequelize/config/config.js";
-import { Sequelize } from "sequelize";
-import Tokens from '../../sequelize/models/Token'
-let sequelize = new Sequelize(development);
-
-
-let Token = Tokens(sequelize, Sequelize)
-
-
-
+import Models from '../../sequelize/models';
+const { ResetToken,Token } = Models;
 
 const isAdmin = async (req, res, next) => {
 
@@ -37,12 +27,6 @@ if (!req?.headers?.authorization
           .status(403)
           .json({ message: 'Please sign in as an admin!'});
       }
-
-      const message=`Hello there
-      
-      
-      Reached here!`
-      console.log(message)
       next();
 
     }else{

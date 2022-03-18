@@ -1,6 +1,6 @@
 'use strict';
-import { Model } from 'sequelize';
-export default (sequelize, DataTypes) => {
+const  {Model} = require("sequelize") 
+module.exports = function (sequelize, DataTypes){
   class ResetToken extends Model {
     /**
      * Helper method for defining associations.

@@ -1,7 +1,7 @@
 import Models from '../../sequelize/models';
 import verifyToken from '../helpers/verifyToken';
 
-const { User,Token } = Models;
+const { Token } = Models;
 
 const isOperator = async (req, res, next) => {
   const { id } = req.user;

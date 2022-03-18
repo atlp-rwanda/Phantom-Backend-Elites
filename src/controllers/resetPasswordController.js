@@ -1,14 +1,9 @@
-import Users from '../../sequelize/models/User'
-import { development } from "../../sequelize/config/config.js";
-import { Sequelize } from "sequelize";
 import crypto from 'crypto'
 import sendEmail from '../services/sendEmail.js'
 import bcrypt from 'bcrypt'
+import {User} from '../../sequelize/models'
+import {ResetToken} from '../../sequelize/models'
 
-let sequelize = new Sequelize(development);
-import ResetTokens from '../../sequelize/models/ResetToken'
-let ResetToken = ResetTokens(sequelize, Sequelize);
-let User = Users(sequelize, Sequelize);
 
 class ResetTokenController{
 
@@ -16,7 +11,7 @@ class ResetTokenController{
   let user = await User.findOne({where: { email: req.body.email }});
   const email = user.email
   if (email == null) {
-    return res.json({status: 'ok'});
+    return res.status(400).json({message: 'Email cannot be null'});
   }
 let fpSalt = crypto.randomBytes(64).toString('base64');
 let expireDate = new Date(new Date().getTime() + (60 * 60 * 1000))

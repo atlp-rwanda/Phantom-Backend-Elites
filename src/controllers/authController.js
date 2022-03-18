@@ -1,14 +1,8 @@
 import token from '../../src/helpers/generateToken';
 import verify from '../../src/helpers/verifyToken'
-import Users from '../../sequelize/models/user'
-import Tokens from '../../sequelize/models/Token'
-import { development } from "../../sequelize/config/config.js";
-import { Sequelize, where } from "sequelize";
+import {User} from '../../sequelize/models'
+import {Token} from '../../sequelize/models'
 import bcrypt from 'bcrypt'
-let sequelize = new Sequelize(development);
-let User = Users(sequelize, Sequelize);
-let Token = Tokens(sequelize, Sequelize)
-//User login
 class AuthController{
     async login(req, res) {
 

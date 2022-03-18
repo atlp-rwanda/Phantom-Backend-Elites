@@ -1,6 +1,6 @@
 "use strict";
-import { Model } from "sequelize";
-export default (sequelize, DataTypes) => {
+const  {Model} = require("sequelize") 
+module.exports = function (sequelize, DataTypes){
   class User extends Model {
     /**
      * Helper method for defining associations.
@@ -15,12 +15,6 @@ export default (sequelize, DataTypes) => {
         as: 'role',
         onDelete: 'CASCADE',
       })
-
-      User.hasOne(models.Profile, {
-        foreignKey: 'ownerId',
-        as: 'owner',
-        onDelete: 'CASCADE',
-    })
     }
   }
   User.init(
