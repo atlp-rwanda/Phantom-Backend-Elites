@@ -9,42 +9,25 @@ import {User} from '../../sequelize/models'
 
 
 class UserController {
-
-
-  async createUser(req, res) {
+   async createUser(req, res) {
     const userpassword = getPassword();
     console.log(userpassword)
     const password = await bcrypt.hash(userpassword, 12)
-
-
     User.create({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        password,
-        roleId: req.body.roleId,
-        gender: req.body.gender,
-       
+        firstName: req.body.firstName,lastName: req.body.lastName,email: req.body.email,password, roleId: req.body.roleId,gender: req.body.gender,
     })
-      .then(async data => {
-       
-       
-            const output = `
+      .then(async data => { const output = `
             <h2>Your account has been registered. you can login in</h2>
             <a href="http://localhost:3000/login">phantom app</a>
             <p>Use ${req.body.email} and your password  <a href="#">${userpassword}</a></p>
         `;
             sendEmail(output, data.email);
-
             res.status(201).json({message: "User created successfully!",data});
-            return
           }).catch(err => {
         res.status(500).json({
           message:
             err.message || "Some error occurred while creating the User."
-        });
-      });
-  };
+        });});};
 
 
   async findOneUser(req, res) {

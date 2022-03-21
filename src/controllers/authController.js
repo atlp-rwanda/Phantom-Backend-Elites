@@ -8,14 +8,11 @@ class AuthController{
 
       const user = await User.findOne({ where: {email: req.body.email }});
       if(!user) return res.status(400).json({message: "Wrong email detected!"});
-     
       const isPasswordMatch = await bcrypt.compare(req.body.password,user.password);
-      
       if (isPasswordMatch)
       {
-        const newToken = token({id:user.id, role:user.roleId});
-        await Token.create({token:newToken,ownerId:user.id,status:"active"}
-        ).then(data =>{
+      const newToken = token({id:user.id, role:user.roleId});
+      await Token.create({token:newToken,ownerId:user.id,status:"active"}).then(data =>{
           const accessor = user.dataValues
           res.status(201).json({message:"A token for your session has been saved!",
           user:{
@@ -29,18 +26,13 @@ class AuthController{
           },
           token:data.token});
         })    
-      } else {
-          res.status(404).json({
-              message: "Incorrect email or password"
-          })
+      } else { res.status(404).json({ message: "Incorrect email or password"})
       }
-
 }
 
 async logout(req, res) {
     
   const token = req?.headers?.authorization || req?.headers['x-access-token'] || req?.params.token
-  
   const splitedToken = token.split(' ')[1];
   const tokenExist = await Token.findOne({where: {token:splitedToken}})
   if (tokenExist){

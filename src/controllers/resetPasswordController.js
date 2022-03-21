@@ -8,44 +8,28 @@ import {ResetToken} from '../../sequelize/models'
 class ResetTokenController{
 
   async createResetLink(req, res) {
+    
   let user = await User.findOne({where: { email: req.body.email }});
-
-  if (!user) {
-    return res.status(400).json({message: 'User can not be found!'});
-  }
+  if (!user) return res.status(400).json({message: 'User can not be found!'});
   let fpSalt = crypto.randomBytes(64).toString('base64');
   let expireDate = new Date(new Date().getTime() + (60 * 60 * 1000))
   const previousToken = await ResetToken.findOne({where: {email: user.email}});
-
  if(previousToken) {
-   await ResetToken.destroy({
-        where: {
-          email: req.body.email
-        }
-    });
+   await ResetToken.destroy({ where: { email: req.body.email}});
   }
-
-    ResetToken.create({
-        email: user.email,
-        expiration: expireDate,
-        token: fpSalt,
-        used: 0
+  ResetToken.create({
+        email: user.email, expiration: expireDate, token: fpSalt, used: 0
       }).then(data => {
-          //create email
       const message = `
-      
       <p>To reset your password, please click the link below.</p>
-      
       <a href="http://${process.env.DOMAIN}api/v1/reset-password?token=${encodeURIComponent(data.token)}&email=${data.email}"> Reset Password </a>
       <p>Or use the following token</p>
       ${data.token}
       `;
-      
       sendEmail(message, data.email);
       res.status(200).json({message: `Your password reset link has successfully been sent to your email ${data.email}`})
       return data
-      })
-   
+      }) 
 }
 
 async resetPassword(req, res) {
