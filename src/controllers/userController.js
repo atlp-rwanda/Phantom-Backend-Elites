@@ -13,6 +13,7 @@ class UserController {
 
   async createUser(req, res) {
     const userpassword = getPassword();
+    console.log(userpassword)
     const password = await bcrypt.hash(userpassword, 12)
 
 
@@ -27,6 +28,7 @@ class UserController {
     })
       .then(async data => {
        
+       
             const output = `
             <h2>Your account has been registered. you can login in</h2>
             <a href="http://localhost:3000/login">phantom app</a>
@@ -34,7 +36,7 @@ class UserController {
         `;
             sendEmail(output, data.email);
 
-            res.status(200).json({message: "User created successfully!"});
+            res.status(201).json({message: "User created successfully!",data});
             return
           }).catch(err => {
         res.status(500).json({
@@ -54,7 +56,7 @@ class UserController {
         
         if (data) {
           
-          res.json(data);
+          res.json({data});
         } else {
           res.status(404).json({
             message: `Cannot find User with id=${id}.`
@@ -74,7 +76,7 @@ class UserController {
     }})
       .then(data => {
         
-        res.status(200).json(data);
+        res.status(200).json({message:'List of all available users.',data});
 
       })
       .catch(err => {

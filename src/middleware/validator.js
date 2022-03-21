@@ -89,7 +89,6 @@ class Validate{
     }
     async createPermission(req, res, next){
         const schema = Joi.object({
-            id: Joi.number(),
             name: Joi.string().required(),
             assignedId: Joi.number().required(),
         })
@@ -117,7 +116,6 @@ class Validate{
             default:
                 next()
         }
-
     }
     async updatePermission(req, res, next){
         const schema = Joi.object({
@@ -140,8 +138,10 @@ class Validate{
     }
     async resetPassword(req, res, next){
         const schema = Joi.object({
-            email: Joi.string().required()
-            .email({ minDomainSegments: 2})
+            password: Joi.string().required(),
+            confirmPassword: Joi.string().required(),
+            token: Joi.string().required()
+            
         })
         const {error, value} = schema.validate(req.body,{ abortEarly: false })
         if(error){

@@ -32,17 +32,10 @@ async findOneRole(req, res) {
     const id = req.params.id;
     Role.findByPk(id)
       .then(data => {
-        if (data) {
-          res.json(data);
-        } else {
-          res.status(404).json({
-            message: `Cannot find Role with id=${id}.`
-          });
-        }
-      })
-      .catch(err => {
+          res.status(200).json({data});
+        }).catch(err => {
         res.status(500).json({
-          message: "Error retrieving Role with id=" + id
+          message: err.message || "Error retrieving that Role" 
         });
       });
 };

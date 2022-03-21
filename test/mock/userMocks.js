@@ -5,6 +5,17 @@ export const userMock = {
   gender: 'male',
   roleId: 2,
 };
+//Pre-created user for testing reset password
+export const userPasswordReset = {
+  email:"reset@password.com",
+  password:"reset@password" 
+}
+//For reseting a password with an invalid token
+export const resetPasswordWithInvalidToken = {
+  token:"slkdfjsduerueiow943509238-0elsdfoeir304923-49sk..,xcccxcsdfwerudfdsifsdisdffsfs",
+  password:"reset@password",
+  confirmPassword:"reset@password"
+}
 export const userWithoutFirstName = {
     lastName: 'test',
     email: 'user@gmail.com',

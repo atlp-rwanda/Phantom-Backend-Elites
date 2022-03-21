@@ -20,15 +20,6 @@ class PermissionController{
     };
 
   async createPermission(req, res) {
-    // Validate request
-    if (!req.body.name) {
-      res.status(400).json({
-        message: "Name can not be empty!"
-      });
-      return;
-    }
-    // Create a Permission
-    // const  { name, roleId, } = req.body
     const { assignedId, name } = req.body
     try {
       const newPermission = await Permission.create({ assignedId, name })
