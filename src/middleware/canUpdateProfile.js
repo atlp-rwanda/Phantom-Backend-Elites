@@ -1,5 +1,5 @@
-import Models from '../../sequelize/models';
 import verifyToken from '../helpers/verifyToken';
+import Models from '../../sequelize/models'
 let {Token, Role} = Models
 
 
@@ -41,7 +41,7 @@ if(tokenExist){
   
 
   }else{
-    return res.status(404).json({message: 'You must be logged in to do this!'})
+    return res.status(404).json({message: 'You can only update your own profile. Try logging into your account!'})
   }
 }
  

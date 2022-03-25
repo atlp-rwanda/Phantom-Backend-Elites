@@ -18,11 +18,9 @@ import passwordResetRoutes from './routes/passwordResetRoutes.js'
 import busRoute from './routes/busRoutes'
 // import {config} from 'dotenv'
 
-// config()
 dotenv.config();
 const app = express();
 app.use('/', auth);
-
 
 
 

@@ -15,12 +15,6 @@ module.exports = function (sequelize, DataTypes)  {
         as: 'role',
         onDelete: 'CASCADE',
       })
-
-    //   User.hasOne(models.Profile, {
-    //     foreignKey: 'ownerId',
-    //     as: 'owner',
-    //     onDelete: 'CASCADE',
-    // })
     }
   }
   User.init(

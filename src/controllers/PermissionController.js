@@ -1,8 +1,4 @@
 import {Permission} from '../../sequelize/models'
-// import { development } from "../../sequelize/config/config.js";
-// import { Sequelize } from "sequelize";
-// let sequelize = new Sequelize(development);
-// let Permission = Permissions(sequelize, Sequelize);
 
 class PermissionController{
     async findOnePermission(req, res) {

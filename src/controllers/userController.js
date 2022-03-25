@@ -4,14 +4,6 @@ import getPassword from "../services/createPassword.js";
 import sendEmail from "../services/sendEmail.js";
 import { User } from '../../sequelize/models'
 
-// import { development } from "../../sequelize/config/config.js";
-// import { Sequelize } from "sequelize";
-// let sequelize = new Sequelize(development);
-// let sequelize = new Sequelize();
-// let User = Users(sequelize, Sequelize);
-
-
-
 
 class UserController {
 
@@ -27,9 +19,8 @@ class UserController {
         email: req.body.email,
         password,
         roleId: req.body.roleId,
-        dateofbirth:req.body.dateofbirth,
         gender: req.body.gender,
-        address:req.body.address,
+       
     })
       .then(async data => {
        
@@ -39,7 +30,6 @@ class UserController {
             <p>Use ${req.body.email} and your password  <a href="#">${userpassword}</a></p>
         `;
             sendEmail(output, data.email);
-            console.log(userpassword)
 
             res.status(200).json({message: "User created successfully!"});
             return
@@ -76,10 +66,6 @@ class UserController {
   };
 
   async findAllUsers(req, res) {
-
-
-
-
     User.findAll({attributes: {
         exclude: ['password']
     }})
@@ -114,7 +100,7 @@ async updateProfile(req, res) {
       })
       .catch(err => {
         res.status(500).json({
-          message: "Error updating User with id=" + id
+          message: "Invalid inputs detected, and we cannot update your profile id=" + id
         });
       });
   };

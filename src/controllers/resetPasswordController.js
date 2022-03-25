@@ -1,26 +1,20 @@
 import {User} from '../../sequelize/models'
-// import { development } from "../../sequelize/config/config.js";
-import { Sequelize } from "sequelize";
 import crypto from 'crypto'
 import sendEmail from '../services/sendEmail.js'
 import bcrypt from 'bcrypt'
-
-
-// let sequelize = new Sequelize(development);
-// let sequelize = new Sequelize();
 import {ResetToken} from '../../sequelize/models'
-// let ResetToken = ResetTokens(sequelize, Sequelize);
-// let User = Users(sequelize, Sequelize);
+
 
 
 class ResetTokenController{
 
   async createResetLink(req, res) {
   let user = await User.findOne({where: { email: req.body.email }});
-  const email = user.email
-  if (email == null) {
-    return res.json({status: 'ok'});
+  
+  if (!user) {
+    return res.status(400).json({message: 'Email doesn\'t exist'});
   }
+  const email = user.email
 let fpSalt = crypto.randomBytes(64).toString('base64');
 let expireDate = new Date(new Date().getTime() + (60 * 60 * 1000))
    const previousToken = await ResetToken.findOne({where: {email: req.body.email}});
@@ -49,6 +43,7 @@ let expireDate = new Date(new Date().getTime() + (60 * 60 * 1000))
       `;
       
       sendEmail(message, data.email);
+      console.log(data)
       res.status(200).json({message: `Your password reset link has successfully been sent to your email ${data.email}`})
       return data
       })
@@ -99,7 +94,7 @@ async resetPassword(req, res) {
   }else{
 
     if(req.body.password === req.body.confirmPassword){
-    let newPassword = bcrypt.hash(req.body.password, 12)
+    let newPassword = await bcrypt.hash(req.body.password, 12)
    
     await User.update({
       password: newPassword,

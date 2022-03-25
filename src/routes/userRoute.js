@@ -102,7 +102,7 @@ router.post('/',Validate.userFields, isAdmin, new userController().createUser);
 
 router.get('/',isAdmin,new userController().findAllUsers);
 router.get('/:id',new userController().findOneUser);
-router.put('/profile/update/:id',canUpdateProfile,new userController().updateProfile);
+router.put('/profiles/:id',canUpdateProfile,new userController().updateProfile);
 router.delete('/:id',new userController().deleteUser);
 
 export {router as default};

@@ -1,7 +1,7 @@
 import Models from '../../sequelize/models';
 import verifyToken from '../helpers/verifyToken';
+const { Token } = Models;
 
-const { User,Token } = Models;
 
 const isDriver = async (req, res, next) => {
   const { id } = req.user;

@@ -1,11 +1,38 @@
 export const userMock = {
-    firstName: 'tester1',
-    lastName: 'tester60',
-    email: 'operator2@test.test',
-    nationalId: 1392417020048424,
-    phone: '0935045502',
-    language: 'en',
-    role: 'operator',
+  firstName: 'test',
+  lastName: 'test',
+  email: 'user@gmail.com',
+  gender: 'male',
+  roleId: 2,
+};
+export const userWithoutFirstName = {
+    lastName: 'test',
+    email: 'user@gmail.com',
+    gender: 'male',
+    roleId: 2,
+  };
+  export const userWithoutLastName = {
+    firstName: 'test',
+    email: 'user@gmail.com',
+    gender: 'male',
+    roleId: 2,
+  };
+  export const userWithoutEmail = {
+    firstName: 'test',
+    lastName: 'test',
+    gender: 'male',
+    roleId: 2,
+  };
+  export const userWithoutGender = {
+    firstName: 'test',
+    lastName: 'test',
+    email: 'user@gmail.com',
+    roleId: 2,
+  };
+  export const userWithoutRole = {
+    firstName: 'test',
+    lastName: 'test',
+    email: 'user@gmail.com',
   };
   export const adminMock = {
     email: 'admin@admin.com',
