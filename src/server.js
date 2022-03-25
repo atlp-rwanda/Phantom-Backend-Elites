@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-undef
 /* eslint-env browser */
 import busStationRoute from "./routes/busStationsRoute";
-import routeRoute from "./routes/routesRoute";
+import routesRoute from "./routes/routesRoute";
 import express from "express";
 import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
@@ -10,9 +10,9 @@ import dotenv from "dotenv";
 import i18next from "./config/i18nConf";
 import middleware from "i18next-express-middleware";
 import homeRoutes from "./routes/homeRoutes.js";
+import db from '../sequelize/models/index';
 
 dotenv.config();
-
 
 const options = {
   definition: {
@@ -57,12 +57,16 @@ app.get("/junior", (req, res) => {
 app.use(cors());
 app.use(express.json());
 app.use(homeRoutes);
-app.use('/api/v1/route', routeRoute);
-app.use('/api/v1/bus-station', busStationRoute);
+app.use('/api/v1/routes', routesRoute);
+app.use('/api/v1/bus-stations', busStationRoute);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`App listening on ${PORT}`);
+
+db.sequelize.sync({ alter: false }).then(() => {
+  console.log('Database Connected!');
+  app.listen(PORT, () => {
+    console.log(`Server listening on port: ${PORT}`);
+  });
 });
 
 export { app as default };

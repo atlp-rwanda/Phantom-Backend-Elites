@@ -1,39 +1,34 @@
 'use strict';
-
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Routes', {
       id: {
         allowNull: false,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
+        primaryKey: true
       },
       name: {
         type: Sequelize.STRING
       },
-      originId: {
-        onDelete: 'CASCADE',
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Busstations',
-          key: 'id'
-        }
-      },
-      destinationId: {
-        onDelete: 'CASCADE',
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Busstations',
-          key: 'id'
-        }
-      },
       busstations: {
         type: Sequelize.ARRAY(Sequelize.INTEGER)
+      },
+      routeData: {
+        type: Sequelize.JSON
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
   },
-  async down(queryInterface, Sequelize) {
+
+  async down(queryInterface) {
     await queryInterface.dropTable('Routes');
   }
 };

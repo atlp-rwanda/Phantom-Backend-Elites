@@ -1,16 +1,9 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Route extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      Route.hasMany(models.busstations, {
+      Route.hasMany(models.Busstations, {
         foreignKey: 'id',
         as: 'busStationId',
         onDelete: 'CASCADE'
@@ -19,9 +12,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   Route.init({
     name: DataTypes.STRING,
-    originId: DataTypes.INTEGER,
-    destinationId: DataTypes.INTEGER,
-    busstations: DataTypes.ARRAY(DataTypes.INTEGER)
+    busstations: DataTypes.ARRAY(DataTypes.INTEGER),
+    routeData: DataTypes.JSON
   }, {
     sequelize,
     modelName: 'Route',

@@ -7,15 +7,16 @@
     "build": "babel --copy-files src --out-dir dist",
     "start": "npm run build && node dist/server.js",
     "pre-dev": "babel-node src/server.js",
-    "dev": "nodemon --exec npm run pre-dev",
-    "test": "cross-env NODE_ENV=test nyc mocha --timeout 40000 ./test/*.js --require @babel/register --exit",
+    "dev": "cross-env NODE_ENV=development nodemon --exec npm run pre-dev",
     "format": "prettier --write \"src/**/*.{js, mjs}\"",
     "lint": "eslint \"src/**/*.{js, mjs}\" --quiet",
     "migrate": "npx sequelize-cli db:migrate",
     "down": "npx sequelize-cli db:migrate:undo",
     "seed": "npx sequelize-cli db:seed:all",
     "undo-seeds": "npx sequelize-cli db:seed:undo",
-    "make-seed": "npx sequelize-cli seed:generate --name demo-user"
+    "make-seed": "npx sequelize-cli seed:generate --name demo-user",
+    "test": "cross-env NODE_ENV=test nyc mocha --timeout 40000 ./test/*.test.js --require @babel/register --exit",
+    "pretest": "cross-env NODE_ENV=test npm run down && cross-env NODE_ENV=test npm run migrate && cross-env NODE_ENV=test npm run seed"
   },
   "repository": {
     "type": "git",
@@ -49,6 +50,7 @@
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
     "process": "^0.11.10",
+    "request": "^2.88.2",
     "sequelize": "^6.16.1",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.3.0",
