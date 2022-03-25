@@ -9,53 +9,59 @@ describe('Password reset tests', async () =>{
         token = `Bearer ${user.body.token}`;
     })
 
-    it.only('Should not get a reset password link sent to the email', async () => {
+    it ('Should not get a reset password link sent to the email', async () => {
         const res1= await setup.chai
         .request(setup.app)
         .post('/api/v1/reset-password/link')
         .send({email:"reset@gmail.com"})
-        .set('authorization', token)
         setup.expect(res1.status).to.be.equal(400);
         setup.expect(res1.body).to.have.keys('message');        
     });
 
-    it.only('Should get a reset password link sent to the email', async () => {
+    it ('Should get a reset password link sent to the email', async () => {
           const res1= await setup.chai
           .request(setup.app)
           .post('/api/v1/reset-password/link')
           .send({email:"reset@password.com"})
-          .set('authorization', token)
+
           setup.expect(res1.status).to.be.equal(200);
-          setup.expect(res1.body).to.have.keys('message');          
+          setup.expect(res1.body).to.have.keys('message', 'token');          
       });
 
-      it.only('Should not successfully reset a password without a password reset token.', async () => {
+      it ('Should not successfully reset a password without a password reset token.', async () => {
         const res1= await setup.chai
         .request(setup.app)
         .post('/api/v1/reset-password/new-password')
         .send({password:'Testing', confirmPassword:'Testing'})
-        .set('authorization', token)
         setup.expect(res1.status).to.be.equal(400);
         setup.expect(res1.body).to.have.property('token','"token" is required');
     });
 
-    it.only('Should not successfully reset a password with an invalid password reset token.', async () => {
+    it ('Should not successfully reset a password with an invalid password reset token.', async () => {
         const res1= await setup.chai
         .request(setup.app)
         .post('/api/v1/reset-password/new-password')
         .send(resetPasswordWithInvalidToken)
-        .set('authorization', token)
-        setup.expect(res1.status).to.be.equal(404);
-        setup.expect(res1.body).to.have.property('message', 'Token has expired. Please try password reset again.');
+        setup.expect(res1.status).to.be.equal(500);
+        setup.expect(res1.body).to.have.keys('status', 'message')
     });
 
-    it.only('Should reset the user password successfully.', async () => {
-          const res1= await setup.chai
-          .request(setup.app)
-          .post('/api/v1/reset-password/new-password')
-          .send({email:"reset@password.com"})
-          .set('authorization', token)
-          setup.expect(res1.status).to.be.equal(200);
-          setup.expect(res1.body).to.have.keys('message');
+    it ('Should reset the user password successfully.', async () => {
+        const res= await setup.chai
+        .request(setup.app)
+        .post('/api/v1/reset-password/link')
+        .send({email:"reset@password.com"})
+
+
+        let res1= await setup.chai
+        .request(setup.app)
+        .post('/api/v1/reset-password/new-password')
+        .send(
+            {token:res.body.token,
+            password:'password',
+            confirmPassword:'password'
+        })
+        setup.expect(res1.status).to.be.equal(200);
+        setup.expect(res1.body).to.have.keys('status','message');
       });
 })

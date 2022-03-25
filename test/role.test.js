@@ -14,7 +14,7 @@ describe('Roles Tests', async () => {
         token = `Bearer ${userData.body.token}`;
     })
 
-    it.only('Admin should not create a role without role-name', async () => {
+    it ('Admin should not create a role without role-name', async () => {
         const res = await setup.chai
           .request(setup.app)
           .post('/api/v1/roles')
@@ -24,7 +24,7 @@ describe('Roles Tests', async () => {
         setup.expect(res.body).to.have.keys('message');
       });
 
-    it.only('Should Update a role as Admin', async () => {
+    it ('Should Update a role as Admin', async () => {
     
         const res1= await setup.chai
           .request(setup.app)
@@ -37,7 +37,7 @@ describe('Roles Tests', async () => {
       });
 
 
-      it.only('Should not Update a role as Admin', async () => {
+      it ('Should not Update a role as Admin', async () => {
     
         const res1= await setup.chai
           .request(setup.app)
@@ -50,7 +50,7 @@ describe('Roles Tests', async () => {
       });
 
 
-    it.only('Should Delete  a role as Admin', async () => {
+    it ('Should Delete  a role as Admin', async () => {
     const id=3
         const res1 =  await setup.chai
           .request(setup.app)
@@ -60,7 +60,7 @@ describe('Roles Tests', async () => {
         setup.expect(res1.body).to.have.property('message', 'Role was deleted successfully!');
       });
 
-      it.only('Should Get a specific role as Admin', async () => {
+      it ('Should Get a specific role as Admin', async () => {
 
         const res = await setup.chai
         .request(setup.app)
@@ -70,7 +70,7 @@ describe('Roles Tests', async () => {
         setup.expect(res.body).to.have.key('data');
       });
 
-      it.only('Should not Get unavailable role as Admin', async () => {
+      it ('Should not Get unavailable role as Admin', async () => {
 
         const res = await setup.chai
         .request(setup.app)
@@ -81,7 +81,7 @@ describe('Roles Tests', async () => {
       });
 
     
-    it.only('Should Get all roles as Admin', async () => {
+    it ('Should Get all roles as Admin', async () => {
 
         const res = await setup.chai
         .request(setup.app)
@@ -91,7 +91,7 @@ describe('Roles Tests', async () => {
         setup.expect(res.body).to.have.keys('message', 'data');
       });
 
-      it.only('Should not Get all roles as Admin', async () => {
+      it ('Should not Get all roles as Admin', async () => {
 
         const res = await setup.chai
         .request(setup.app)
@@ -101,7 +101,17 @@ describe('Roles Tests', async () => {
         setup.expect(res.body).to.have.keys('message');
       });
 
-    it.only('Should Register new roles as Admin', async () => {
+      // it('Should not Register new role with more than required inputs in the body as Admin', async () => {
+      //   const res= await setup.chai
+      //     .request(setup.app)
+      //     .post('/api/v1/roles')
+      //     .send({ name: 1 })
+      //     .set('authorization', token)
+      //     setup.expect(res.status).to.be.equal(500);
+      //     setup.expect(res.body).to.have.keys('message','data');
+      // });
+
+    it ('Should Register new roles as Admin', async () => {
           const res= await setup.chai
             .request(setup.app)
             .post('/api/v1/roles')

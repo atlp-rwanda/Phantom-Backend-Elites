@@ -11,15 +11,12 @@ class RoleController{
       });
       return;
     }
-    // Create a Role
     const  { name } = req.body
-    // Save Role in the database
     Role.create({ name })
       .then(data => {
         res.status(201).json({data, message: 'Role created successfully!'});
       })
       .catch(err => {
-        console.log(err)
         res.status(500).json({
           message:
             err.message || "Some error occurred while creating the Role."

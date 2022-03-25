@@ -5,6 +5,13 @@ export const userMock = {
   gender: 'male',
   roleId: 2,
 };
+export const userToDelete = {
+        firstName: "delete",
+        lastName: "user",
+        email: "delete1@user.com",
+        gender: "unknown",
+        roleId:2,
+}
 //Pre-created user for testing reset password
 export const userPasswordReset = {
   email:"reset@password.com",
