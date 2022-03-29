@@ -17,7 +17,7 @@
     "start:dev": "nodemon --exec babel-node src/server.js",
     "format": "prettier --write \"src/**/*.{js, mjs}\"",
     "lint": "eslint \"src/**/*.{js, mjs}\" --quiet",
-      "install": "npm i",
+    "install": "npm i",
     "migrate": "npx sequelize-cli db:migrate",
     "down": "npx sequelize-cli db:migrate:undo:all",
     "seed": "npx sequelize-cli db:seed:all",
