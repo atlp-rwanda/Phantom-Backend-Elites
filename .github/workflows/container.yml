@@ -12,8 +12,8 @@ jobs:
       postgres:
         image: postgres
         env:
-           DATABASE_USERNAME: postgres
-           DATABASE_PASSWORD: postgres
+           POSTGRES_USER: postgres
+           POSTGRES_PASSWORD: postgres
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -38,14 +38,15 @@ jobs:
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
+
     - run: npm run build --if-present
     - name: Run Tests
       run: npm run coverage
       env:
         CI: true
-        DATABASE_PASSWORD: postgres
-        DATABASE_USERNAME: postgres
-        TESTING_DATABASE_NAME: postgres
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        DATABASE_NAME: postgres
         DIALECT: ${{ secrets.DIALECT }}
         HOST: ${{ secrets.HOST }}
 
