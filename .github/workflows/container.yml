@@ -3,7 +3,7 @@ on: ["push"]
 jobs:
   test:
     name: Testing
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [16.x]
