@@ -43,7 +43,7 @@ jobs:
       run: npm run coverage
       env:
         CI: true
-        DATABASE_USERNAME: postgres
+        POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
         TESTING_DATABASE_NAME: postgres
         DIALECT: ${{ secrets.DIALECT }}
