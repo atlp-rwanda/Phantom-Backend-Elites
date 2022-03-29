@@ -39,9 +39,9 @@ jobs:
       run: npm run test
       env:
         CI: true
-        DATABASE_USERNAME: ${{secrets.DATABASE_USERNAME}}
+        DATABASE_USERNAME: postgres
         POSTGRES_PASSWORD: postgres
-        TESTING_DATABASE_NAME: ${{ secrets.TESTING_DATABASE_NAME}}
+        TESTING_DATABASE_NAME: postgres
         DIALECT: ${{ secrets.DIALECT }}
         HOST: ${{ secrets.HOST }}
 
