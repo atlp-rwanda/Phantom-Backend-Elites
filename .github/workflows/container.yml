@@ -22,7 +22,7 @@ jobs:
         ports:
           - 5432:5432
     steps:
-    - run: npm run install
+    - run: npm i
     - name: Cache node modules
       uses: actions/cache@v2
       env:
