@@ -40,7 +40,7 @@ jobs:
       env:
         CI: true
         DATABASE_USERNAME: ${{secrets.DATABASE_USERNAME}}
-        DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
+        POSTGRES_PASSWORD: postgres
         TESTING_DATABASE_NAME: ${{ secrets.TESTING_DATABASE_NAME}}
         DIALECT: ${{ secrets.DIALECT }}
         HOST: ${{ secrets.HOST }}
