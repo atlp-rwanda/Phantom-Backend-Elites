@@ -16,11 +16,8 @@ jobs:
         image: postgres
         # Provide the password for postgres
         env:
-           DATABASE_USERNAME: ${{secrets.DATABASE_USERNAME}}
-           DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
-           TESTING_DATABASE_NAME: ${{ secrets.TESTING_DATABASE_NAME}}
-           DIALECT: ${{ secrets.DIALECT }}
-           HOST: ${{ secrets.HOST }}
+           POSTGRES_USER: postgres
+           POSTGRES_PASSWORD: postgres
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
