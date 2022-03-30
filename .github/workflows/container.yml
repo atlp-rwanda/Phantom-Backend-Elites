@@ -48,7 +48,7 @@ jobs:
         POSTGRES_PASSWORD: postgres
         DATABASE_NAME: postgres
         DIALECT: postgres
-        HOST: locahost
+        HOST: localhost
 
     - name: Coveralls
       uses: coverallsapp/github-action@master
