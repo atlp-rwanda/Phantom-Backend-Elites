@@ -41,16 +41,14 @@ jobs:
 
     - run: npm run build --if-present
     - name: Run Tests
-      run: npm run coverage
+      run: npm run test
       env:
         CI: true
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
         DATABASE_NAME: postgres
-        DIALECT: ${{ secrets.DIALECT }}
-        HOST: ${{ secrets.HOST }}
-
-
+        DIALECT: postgres
+        HOST: locahost
 
     - name: Coveralls
       uses: coverallsapp/github-action@master
