@@ -1,33 +1,33 @@
-import setup from './setup'
-import { adminMock } from './mock/userMocks';
-describe('Permissions Tests', async () => {
+// import setup from './setup'
+// import { adminMock } from './mock/userMocks';
+// describe('Permissions Tests', async () => {
 
-    let token
-    before(async ()=> {
-        const userData = await setup.chai.request(setup.app).post('/api/v1/auth/login').send(adminMock);
-        token = `Bearer ${userData.body.token}`;
-    })
+//     let token
+//     before(async ()=> {
+//         const userData = await setup.chai.request(setup.app).post('/api/v1/auth/login').send(adminMock);
+//         token = `Bearer ${userData.body.token}`;
+//     })
 
-    it ('Admin should not create a permission without permission-name', async () => {
+//     it ('Admin should not create a permission without permission-name', async () => {
 
-        const res = await setup.chai
-          .request(setup.app)
-          .post('/api/v1/permissions')
-          .send({assignedId:1})
-          .set('authorization', token);
-        setup.expect(res.status).to.be.equal(400);
-        setup.expect(res.body).to.have.property('name', '"name" is required');
-      });
+//         const res = await setup.chai
+//           .request(setup.app)
+//           .post('/api/v1/permissions')
+//           .send({assignedId:1})
+//           .set('authorization', token);
+//         setup.expect(res.status).to.be.equal(400);
+//         setup.expect(res.body).to.have.property('name', '"name" is required');
+//       });
 
-      it ('Admin should not create a permission without assignedId of the corresponding role', async () => {
-        const res = await setup.chai
-          .request(setup.app)
-          .post('/api/v1/permissions')
-          .send({name:'create'})
-          .set('authorization', token);
-        setup.expect(res.status).to.be.equal(400);
-        setup.expect(res.body).to.have.property('assignedId', '"assignedId" is required');
-      });
+//       it ('Admin should not create a permission without assignedId of the corresponding role', async () => {
+//         const res = await setup.chai
+//           .request(setup.app)
+//           .post('/api/v1/permissions')
+//           .send({name:'create'})
+//           .set('authorization', token);
+//         setup.expect(res.status).to.be.equal(400);
+//         setup.expect(res.body).to.have.property('assignedId', '"assignedId" is required');
+//       });
 
     // it ('Should Update a permission as Admin', async () => {
 
@@ -61,4 +61,4 @@ describe('Permissions Tests', async () => {
     //         setup.expect(res.status).to.be.equal(201);
     //         setup.expect(res.body).to.have.keys('message','data');
     //     });
-    })
+    // })
