@@ -1,8 +1,5 @@
 {
   "extends": ["airbnb", "prettier"],
-  "rules": {
-    "no-console": 1
-  },
   "import/extensions": {
     "js": "ignorePackages"
   },
@@ -18,5 +15,9 @@
       "browser": true,
       "node": true
     }
+  },
+  "rules": {
+    "no-console": 0,
+    "no-undef": "off"
   }
 }

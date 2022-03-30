@@ -1,5 +1,5 @@
 import Request from 'request';
-import Sequelize, { Op } from 'sequelize';
+import Sequelize from 'sequelize';
 import { pick } from 'lodash';
 import validate from '../helpers/routesValidation';
 import { Busstations, Route } from '../../sequelize/models/';
@@ -19,26 +19,34 @@ const createRoute = async (req, res) => {
         let route = {
             busstations: req.body.busstation
         };
-        debug(`THIS IS ROUTE BUS STATIONS ${route.busstations}`);
 
         // VALIDATE INPUTS
         // const { error } = validate(req.body);
         // if (error) return res.status(400).send({ errorMsg: error.details[0].message });
+
         const firstIndex = route.busstations[0];
         const lastIndex = route.busstations[route.busstations.length - 1];
 
         // CHECK IF ORIGIN IS EXIST AS A BUS STATION IN BUS STATION TABLE
-        const firstIndexCheck = await Busstations.findByPk(firstIndex);
+        const { id: firstIndexCheck, busStationName: fsBsName } = await Busstations.findByPk(firstIndex);
         if (!firstIndexCheck) return res.status(404).json({ status: 404, message: 'Destination with the given ID was not found' });
 
+        console.log();
+        console.log('THIS IS THE FIRST BUS STATION', firstIndexCheck, fsBsName);
+        console.log();
+
         // CHECK IF DESTINATION IS EXIST AS A BUS STATION IN BUS STATION TABLE
-        const lastIndexCheck = await Busstations.findByPk(lastIndex);
+        const { id: lastIndexCheck, busStationName: lsBsName } = await Busstations.findByPk(lastIndex);
         if (!lastIndexCheck) return res.status(404).json({ status: 404, message: 'Destination with the given ID was not found' });
+
+        console.log();
+        console.log('THIS IS THE LAST BUS STATION', lastIndexCheck, lsBsName);
+        console.log();
 
         const duplicateBusStationCheck = () => {
             for (let i = 0; i < route.busstations.length; i += 1) {
                 for (let j = i + 1; j < route.busstations.length; j += 1) {
-                    if (route.busstations[i] == route.busstations[j]) {
+                    if (route.busstations[i] === route.busstations[j]) {
                         return true;
                     }
                 }
@@ -46,56 +54,54 @@ const createRoute = async (req, res) => {
             }
         };
 
-        if (duplicateBusStationCheck()) return res.status(409).json({ status: 409, message: 'You have a duplication of bus stations' });
+        if (duplicateBusStationCheck()) return res.status(409).json({ status: 409, message: 'You have a duplication of bus station' });
 
-        const result = await Busstations.count({ where: { id: { [Sequelize.Op.in]: route.busstations } } });
-        if (result != route.busstations.length) return res.status(404).json({ status: 404, message: 'You have entered too many bus stations' });
+        const Op = Sequelize;
+        // const result = await Busstations.count({ where: { id: { [Op.in]: route.busstations[0] } } });
+        // if (result != route.busstations.length) return res.status(404).json({ status: 404, message: 'You have entered too many bus stations' });
+
+        // console.log();
+        // debug(`This is a result of count ==== ${result}`);
+        // console.log();
+
+        console.log('THIS IS LINE 67==============');
+        console.log('ROUTE =======', route.busstations);
+        const routeBs = route.busstations;
+        const routeBusStations = await Busstations.findAll({ where: { id: routeBs } });
+
+        console.log();
+        console.log('ROUTE BUS STATIONS: ', routeBusStations);
+        console.log();
 
         let busStationsNames = [];
-        route.busstations.forEach((element) => {
-            // const allBusStations = await Busstations.findAll({ where: { id: element } });
-            // const allBusStations = await Busstations.findOne({ where: { id: element } });
-            // if (!allBusStations) return res.status(404).json({ status: 404, message: 'No bus stations found' });
-            // debug(`NAME OF THE BUS STATION:::::: ${allBusStations.busStationName}`);
-            // busStationsNames.push(allBusStations.busStationName);
-
-            Busstations.findOne({ where: { id: element } })
-                .then((error, allBusStations) => {
-                    if (!allBusStations) return res.status(404).json({ status: 404, message: 'No bus stations found' });
-                    debug(`NAME OF THE BUS STATION:::::: ${allBusStations.busStationName}`);
-                    busStationsNames.push(allBusStations.busStationName);
-                });
-
+        routeBusStations.forEach(element => {
+            busStationsNames.push(element.busStationName);
         });
 
-        debug(`BUS STATIONS NAMES:::: ${busStationsNames}`);
-
-        const routeName = busStationsNames.join('-');
-        debug(`THIS IS ROUTNAME:::: ${routeName}`);
+        const routeName = busStationsNames.join(' - ');
         route.name = routeName;
-        debug(`THIS IS ROUTNAME:::: ${route.name}`);
 
         const isRouteExists = await Route.findOne({ where: { name: route.name } });
         if (isRouteExists) return res.status(409).send({ status: 409, message: `Route with the given name ${route.name} exists` });
 
-        const origin = await Busstations.findByPk(route.busstations[0]);
-        const destination = await Busstations.findByPk(route.busstations[route.busstations.length - 1]);
+        console.log();
+        console.log('BUS STATION ORIGIN', route.busstations[0]);
+        console.log();
+        const { coordinates: origin } = await Busstations.findByPk(route.busstations[0]);
+        console.log();
+        console.log('BUS STATION DESTINATION', route.busstations[route.busstations.length - 1]);
+        console.log();
+        const { coordinates: destination } = await Busstations.findByPk(route.busstations[route.busstations.length - 1]);
 
-        Request.get(`https://api.mapbox.com/directions/v5/mapbox/driving/${origin.coordinates};${destination.coordinates}?geometries=geojson&access_token=pk.eyJ1IjoiaWlzaGltd2UiLCJhIjoiY2wwd2Q3aW15MGM2dTNrcGVkZ2kzYTZ3eiJ9._jFYEUoc19EZW-WYArxx4g`, (err, body) => {
-            if (err) debug(`FATAL ERROR: ${err}`);
-            debug(`THIS IS THE BODY OF ROUTE DATA::::: ${body}`);
+        Request.get(`https://api.mapbox.com/directions/v5/mapbox/driving/${origin};${destination}?geometries=geojson&access_token=pk.eyJ1IjoiaWlzaGltd2UiLCJhIjoiY2wwd2Q3aW15MGM2dTNrcGVkZ2kzYTZ3eiJ9._jFYEUoc19EZW-WYArxx4g`, async (err, res, body) => {
+            if (err) return debug(`ERROR OCCURED HERE: ${err}`);
+
             const routeData = body;
-            // route.routeData = JSON.parse(routeData);
-            route.routeData = routeData;
+            route.routeData = JSON.parse(routeData);
 
-            (async () => {
-                route = await Route.create(route);
-                if (route) {
-                    res.status(201).json({ status: 201, message: 'The Route created successfully', data: route });
-                } else {
-                    throw new Error('Something went wrong');
-                };
-            })();
+            const createRoute = await Route.create(route);
+            return res.status(201).json({ status: 201, message: 'The Route created successfully', data: createRoute });
+
         });
 
     } catch (err) {

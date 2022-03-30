@@ -28,7 +28,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        busStationName: 'KBC Bus Station, Kamihurura',
+        busStationName: 'KBC Bus Station, Kimihurura',
         coordinates: '-1.9520925429239238, 30.091449309700156',
         createdAt: new Date(),
         updatedAt: new Date()
