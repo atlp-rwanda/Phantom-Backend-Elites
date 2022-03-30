@@ -11,11 +11,11 @@ import { adminMock,
   
 
 describe('User related Tests', async () => {
-  let token
-  before(async ()=> {
-      const userData = await setup.chai.request(setup.app).post('/api/v1/auth/login').send(adminMock);
-      token = `Bearer ${userData.body.token}`;
-  })
+  // let token
+  // before(async ()=> {
+  //     const userData = await setup.chai.request(setup.app).post('/api/v1/auth/login').send(adminMock);
+  //     token = `Bearer ${userData.body.token}`;
+  // })
 
     // it ('Admin should not create a user without firstName', async () => {
     //     const res =  await setup.chai
