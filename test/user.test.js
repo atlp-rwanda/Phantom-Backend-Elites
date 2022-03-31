@@ -10,22 +10,28 @@ import { adminMock,
 
   
 
-    let token
-    beforeEach( (done)=> {
-        setup.chai
-         .request(setup.app)
-         .post('/api/v1/auth/login')
-         .send(adminMock)
-         .end((err, res) =>{
-          if (err) done(err)
-          done()
-          return token = `Bearer ${res.body.token}`
+    // let token
+    // beforeEach( (done)=> {
+    //     setup.chai
+    //      .request(setup.app)
+    //      .post('/api/v1/auth/login')
+    //      .send(adminMock)
+    //      .end((err, res) =>{
+    //       if (err) done(err)
+    //       done()
+    //       return token = `Bearer ${res.body.token}`
           
-        })
-    })
+    //     })
+    // })
+    const login = async (user) => {
+      const tokenData = await chai.request(app).post('/api/v1/auth/login').send(user);
+      return `Bearer ${tokenData.body.data.token}`;
+    };
+
 describe('User related Tests', async () => {
 
     it ('Admin should not create a user without firstName', (done) => {
+      const token = login(adminMock)
       setup.chai
           .request(setup.app)
           .post('/api/v1/users')
