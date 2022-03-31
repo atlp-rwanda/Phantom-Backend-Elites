@@ -21,6 +21,13 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
+    env:
+        CI: true
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        DATABASE_NAME: postgres
+        DIALECT: postgres
+        HOST: localhost
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}

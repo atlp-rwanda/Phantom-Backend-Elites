@@ -12,7 +12,7 @@ import { adminMock,
 
     let token
     before( (done)=> {
-         setup.chai
+        setup.chai
          .request(setup.app)
          .post('/api/v1/auth/login')
          .send(adminMock)
@@ -24,20 +24,20 @@ import { adminMock,
     })
 describe('User related Tests', async () => {
 
-    // it ('Admin should not create a user without firstName', (done) => {
-    //   setup.chai
-    //       .request(setup.app)
-    //       .post('/api/v1/users')
-    //       .send(userWithoutFirstName)
-    //       .set('authorization', token)
-    //       .end( (err, res) => {
-    //         if (err) done(err)
-    //         setup.expect(res.status).to.be.equal(400);
-    //         setup.expect(res.body).to.have.property('firstName', '"firstName" is required');
-    //         done()
+    it ('Admin should not create a user without firstName', (done) => {
+      setup.chai
+          .request(setup.app)
+          .post('/api/v1/users')
+          .send(userWithoutFirstName)
+          .set('authorization', token)
+          .end( (err, res) => {
+            if (err) done(err)
+            setup.expect(res.status).to.be.equal(400);
+            setup.expect(res.body).to.have.property('firstName', '"firstName" is required');
+            done()
 
-    //       })
-    //   });
+          })
+      });
     
 //     it ('Admin should not create a user without lastName', async () => {
 //       const userData = await setup.chai.request(setup.app).post('/api/v1/auth/login').send(adminMock);
