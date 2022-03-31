@@ -15,15 +15,26 @@ import morgan from "morgan";
 import homeRoutes from "./routes/homeRoutes.js";
 import db from '../sequelize/models/index'
 import passwordResetRoutes from './routes/passwordResetRoutes.js'
+<<<<<<< HEAD
 import viewBusesRoutes from './routes/viewBusesRoutes.js'
 import assignDriversRoutes from './routes/assignDriversRoutes.js'
 
 
+=======
+import busRoute from './routes/busRoutes'
+// import {config} from 'dotenv'
+
+// config()
+>>>>>>> 96d055bc859f8f66b27a98b083612ec903d3bd8e
 dotenv.config();
 const app = express();
 app.use('/', auth);
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 96d055bc859f8f66b27a98b083612ec903d3bd8e
 
 // eslint-disable-next-line no-undef
 const PORT = process.env.PORT || 3000;
@@ -72,6 +83,7 @@ app.use('/api/v1/permissions', permissionRoutes);
 app.use('/api/v1/reset-password', passwordResetRoutes)
 app.use('/api/v1/view-buses', viewBusesRoutes)
 app.use('/api/v1/drivers', assignDriversRoutes)
+app.use('/api/v1/buses', busRoute)
 app.use(morgan());
 app.use(homeRoutes);
 

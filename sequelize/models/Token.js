@@ -1,6 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
-module.exports = function (sequelize, DataTypes){
+module.exports = function(sequelize, DataTypes)  {
 
   class Token extends Model {
     static associate(models) {

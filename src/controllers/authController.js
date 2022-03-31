@@ -5,7 +5,6 @@ import {Token} from '../../sequelize/models'
 import bcrypt from 'bcrypt'
 class AuthController{
     async login(req, res) {
-
       const user = await User.findOne({ where: {email: req.body.email }});
       if(!user) return res.status(400).json({message: "Wrong email detected!"});
       const isPasswordMatch = await bcrypt.compare(req.body.password,user.password);

@@ -3,11 +3,6 @@ import "dotenv/config";
 import getPassword from "../services/createPassword.js";
 import sendEmail from "../services/sendEmail.js";
 import {User} from '../../sequelize/models'
-
-
-
-
-
 class UserController {
    async createUser(req, res) {
     const userpassword = getPassword();
