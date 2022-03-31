@@ -58,7 +58,7 @@ class UserController {
         exclude: ['password']
     }})
       .then(data => {
-        
+        console.log(data)
         res.status(200).json({message:'List of all available users.',data});
 
       })
