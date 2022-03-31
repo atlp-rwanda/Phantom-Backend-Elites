@@ -13,7 +13,11 @@ import { adminMock,
 describe('User related Tests', async () => {
   let token
   before( (done)=> {
-       setup.chai.request(setup.app).post('/api/v1/auth/login').send(adminMock).end((err, res) =>{
+       setup.chai
+       .request(setup.app)
+       .post('/api/v1/auth/login')
+       .send(adminMock)
+       .end((err, res) =>{
         if (err) done(err)
         token = `Bearer ${res.body.token}`
         done()
@@ -25,7 +29,8 @@ describe('User related Tests', async () => {
           .request(setup.app)
           .post('/api/v1/users')
           .send(userWithoutFirstName)
-          .set('authorization', token).end( (err, res) => {
+          .set('authorization', token)
+          .end( (err, res) => {
             if (err) done(err)
             setup.expect(res.status).to.be.equal(400);
             setup.expect(res.body).to.have.property('firstName', '"firstName" is required');
