@@ -18,8 +18,9 @@ import { adminMock,
          .send(adminMock)
          .end((err, res) =>{
           if (err) done(err)
-          token = `Bearer ${res.body.token}`
           done()
+          return token = `Bearer ${res.body.token}`
+          
         })
     })
 describe('User related Tests', async () => {
