@@ -11,7 +11,7 @@ import { adminMock,
   
 
     let token
-    before( (done)=> {
+    beforeEach( (done)=> {
         setup.chai
          .request(setup.app)
          .post('/api/v1/auth/login')

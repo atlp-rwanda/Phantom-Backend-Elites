@@ -32,11 +32,7 @@ jobs:
     - name: Cache node modules
       uses: actions/cache@v2
       env:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
-        DATABASE_NAME: postgres
-        DIALECT: postgres
-        HOST: localhost
+        
         cache-name: cache-node-modules
       with:
         path: ~/.npm
