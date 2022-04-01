@@ -6,16 +6,13 @@ module.exports = {
       "Roles",
       [
         {
-          id: 1,
           name: "admin",
         },
         {
-          id:2,
           name: 'operator'
         },
         {
-          id:3,
-          name: 'fakeRole'
+          name: 'driver'
         }
       ],
       {}

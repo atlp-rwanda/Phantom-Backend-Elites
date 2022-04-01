@@ -7,7 +7,6 @@ module.exports= {
     "Users",
     [
       {
-        id: 1,
         firstName: "admin",
         lastName: "admin",
         email: "admin@admin.com",
@@ -18,7 +17,6 @@ module.exports= {
         updatedAt: new Date(),
       },
       {
-        id: 2,
         firstName: "reset",
         lastName: "password",
         email: "reset@password.com",
@@ -30,7 +28,6 @@ module.exports= {
       },
 
       {
-        id: 3,
         firstName: "delete",
         lastName: "user",
         email: "delete@user.com",

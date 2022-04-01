@@ -1,13 +1,6 @@
 import Joi from 'joi'
-<<<<<<< HEAD
 import Models from '../../sequelize/models';
 const { Role,User,Permission } = Models;
-=======
-
-import {User} from '../../sequelize/models'
-import {Role} from '../../sequelize/models'
-import {Permission} from '../../sequelize/models'
->>>>>>> 96d055bc859f8f66b27a98b083612ec903d3bd8e
 
 class Validate{
     loginFields(req, res, next){

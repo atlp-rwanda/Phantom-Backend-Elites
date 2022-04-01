@@ -1,6 +1,6 @@
 import Models from '../../sequelize/models';
 const { Route, Bus } = Models;
-export const viewListOfBuses = async (req, res) => {
+const viewListOfBuses = async (req, res) => {
   try {
     const { origin, destination } = req.body;
     const route = await Route.findAll({ where: { origin, destination } });
@@ -19,3 +19,5 @@ export const viewListOfBuses = async (req, res) => {
     return res.status(500).json({message: 'There was an error while getting the list of buses on this route'})
   }
 };
+
+export default viewListOfBuses
