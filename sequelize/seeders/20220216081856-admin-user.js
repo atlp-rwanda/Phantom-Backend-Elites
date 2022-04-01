@@ -1,28 +1,48 @@
 "use strict";
+const bcrypt = require('bcrypt')
 
-export async function up(queryInterface) {
+module.exports= {  
+  async up(queryInterface, Sequelize) {
   await queryInterface.bulkInsert(
-    "user",
+    "Users",
     [
       {
-        id: 1,
         firstName: "admin",
         lastName: "admin",
-        email: "admin@test.com",
-        created_at: new Date(),
-        updated_at: new Date(),
+        email: "admin@admin.com",
+        gender: "unknown",
+        password: await bcrypt.hash("admin",12),
+        roleId:1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        
+        firstName: "reset",
+        lastName: "password",
+        email: "reset@password.com",
+        gender: "unknown",
+        password: await bcrypt.hash("reset@password",12),
+        roleId:2,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+
+      {
+      
+        firstName: "delete",
+        lastName: "user",
+        email: "delete@user.com",
+        gender: "unknown",
+        password: await bcrypt.hash("reset@password",12),
+        roleId:2,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ],
     {}
   );
-}
-export async function down(queryInterface) {
-  /**
-   * Add commands to revert seed here.
-   *
-   * Example:
-   * await queryInterface.bulkDelete('People', null, {});
-   */
-  // eslint-disable-next-line no-undef
-  await queryInterface.bulkDelete("user", null, bulkDeleteOptions);
-}
+},
+ async down(queryInterface, Sequelize) {
+  await queryInterface.bulkDelete("Users", null, {});
+}}
