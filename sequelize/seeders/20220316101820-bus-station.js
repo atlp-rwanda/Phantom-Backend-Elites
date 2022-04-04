@@ -4,6 +4,12 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Busstations', [
       {
+        busStationName: "Nyamirambo stadium",
+        coordinates: "-1.97765015168153, 30.043772241508982",
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
         busStationName: 'Kimironko Taxi Park',
         coordinates: '-1.9492878887819718, 30.12555476738672',
         createdAt: new Date(),
@@ -36,6 +42,18 @@ module.exports = {
       {
         busStationName: 'Peyage Bus Station',
         coordinates: '-1.9459768675713864, 30.067219753411035',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        busStationName: "Kabuga taxi park",
+        coordinates: "-1.9790587698087654, 30.22315178013423",
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        busStationName: "Remera taxi park",
+        coordinates: "-1.9584973715427072, 30.118855280122258",
         createdAt: new Date(),
         updatedAt: new Date()
       }

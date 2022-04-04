@@ -20,28 +20,18 @@ const createRoute = async (req, res) => {
             busstations: req.body.busstation
         };
 
-        // VALIDATE INPUTS
         // const { error } = validate(req.body);
         // if (error) return res.status(400).send({ errorMsg: error.details[0].message });
 
         const firstIndex = route.busstations[0];
         const lastIndex = route.busstations[route.busstations.length - 1];
 
-        // CHECK IF ORIGIN IS EXIST AS A BUS STATION IN BUS STATION TABLE
         const { id: firstIndexCheck, busStationName: fsBsName } = await Busstations.findByPk(firstIndex);
         if (!firstIndexCheck) return res.status(404).json({ status: 404, message: 'Destination with the given ID was not found' });
 
-        console.log();
-        console.log('THIS IS THE FIRST BUS STATION', firstIndexCheck, fsBsName);
-        console.log();
-
-        // CHECK IF DESTINATION IS EXIST AS A BUS STATION IN BUS STATION TABLE
         const { id: lastIndexCheck, busStationName: lsBsName } = await Busstations.findByPk(lastIndex);
         if (!lastIndexCheck) return res.status(404).json({ status: 404, message: 'Destination with the given ID was not found' });
 
-        console.log();
-        console.log('THIS IS THE LAST BUS STATION', lastIndexCheck, lsBsName);
-        console.log();
 
         const duplicateBusStationCheck = () => {
             for (let i = 0; i < route.busstations.length; i += 1) {
@@ -60,18 +50,8 @@ const createRoute = async (req, res) => {
         // const result = await Busstations.count({ where: { id: { [Op.in]: route.busstations[0] } } });
         // if (result != route.busstations.length) return res.status(404).json({ status: 404, message: 'You have entered too many bus stations' });
 
-        // console.log();
-        // debug(`This is a result of count ==== ${result}`);
-        // console.log();
-
-        console.log('THIS IS LINE 67==============');
-        console.log('ROUTE =======', route.busstations);
         const routeBs = route.busstations;
         const routeBusStations = await Busstations.findAll({ where: { id: routeBs } });
-
-        console.log();
-        console.log('ROUTE BUS STATIONS: ', routeBusStations);
-        console.log();
 
         let busStationsNames = [];
         routeBusStations.forEach(element => {
@@ -84,23 +64,19 @@ const createRoute = async (req, res) => {
         const isRouteExists = await Route.findOne({ where: { name: route.name } });
         if (isRouteExists) return res.status(409).send({ status: 409, message: `Route with the given name ${route.name} exists` });
 
-        console.log();
-        console.log('BUS STATION ORIGIN', route.busstations[0]);
-        console.log();
         const { coordinates: origin } = await Busstations.findByPk(route.busstations[0]);
-        console.log();
-        console.log('BUS STATION DESTINATION', route.busstations[route.busstations.length - 1]);
-        console.log();
         const { coordinates: destination } = await Busstations.findByPk(route.busstations[route.busstations.length - 1]);
 
-        Request.get(`https://api.mapbox.com/directions/v5/mapbox/driving/${origin};${destination}?geometries=geojson&access_token=pk.eyJ1IjoiaWlzaGltd2UiLCJhIjoiY2wwd2Q3aW15MGM2dTNrcGVkZ2kzYTZ3eiJ9._jFYEUoc19EZW-WYArxx4g`, async (err, res, body) => {
-            if (err) return debug(`ERROR OCCURED HERE: ${err}`);
+        Request.get(`https://api.mapbox.com/directions/v5/mapbox/driving/${origin};${destination}?geometries=geojson&access_token=pk.eyJ1IjoiaWlzaGltd2UiLCJhIjoiY2wwd2Q3aW15MGM2dTNrcGVkZ2kzYTZ3eiJ9._jFYEUoc19EZW-WYArxx4g`, async (error, response, body) => {
+            if (error) return debug(`ERROR OCCURED HERE: ${error}`);
 
             const routeData = body;
             route.routeData = JSON.parse(routeData);
 
-            const createRoute = await Route.create(route);
-            return res.status(201).json({ status: 201, message: 'The Route created successfully', data: createRoute });
+            (async () => {
+                const createdRoute = await Route.create(route);
+                return res.status(201).json({ status: 201, message: 'A Route created successfully', createdRoute });
+            })();
 
         });
 
