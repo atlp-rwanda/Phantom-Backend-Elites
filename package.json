@@ -11,19 +11,21 @@
   },
   "scripts": {
     "build": "babel --copy-files src --out-dir dist",
-    "start": "npm run build && node dist/server.js",
+    "start": "node dist/server.js",
     "pre-dev": "babel-node src/server.js",
-    "dev": "cross-env NODE_ENV=development nodemon --exec npm run pre-dev",
+    "dev": "npm run dev:migrate:reset && cross-env NODE_ENV=development nodemon --exec npm run pre-dev ",
     "start:dev": "nodemon --exec babel-node src/server.js",
-    "format": "prettier --write \"src/**/*.{js, mjs}\"",
-    "lint": "eslint \"src/**/*.{js, mjs}\" --quiet",
+    "format": "prettier --write \"src/*/.{js, mjs}\"",
+    "lint": "eslint \"src/*/.{js, mjs}\" --quiet",
     "migrate": "npx sequelize-cli db:migrate",
     "down": "npx sequelize-cli db:migrate:undo:all",
     "seed": "npx sequelize-cli db:seed:all",
+    "undo-seeds": "npx sequelize-cli db:seed:undo",
+    "make-seed": "npx sequelize-cli seed:generate --name demo-user",
+    "test": "cross-env NODE_ENV=test nyc mocha --timeout 40000 ./test/*.test.js --require @babel/register --exit",
+    "pretest": "cross-env NODE_ENV=test npm run down && cross-env NODE_ENV=test npm run migrate && cross-env NODE_ENV=test npm run seed",
     "migrate:reset": "cross-env NODE_ENV=test npm run down && cross-env NODE_ENV=test npm run migrate && cross-env NODE_ENV=test npm run seed",
-    "test": "cross-env NODE_ENV=test mocha ./test/**.test.js --require @babel/register --timeout 40000 --exit",
-    "pretest": "cross-env NODE_ENV=test npm run migrate:reset",
-    "coverage": "nyc npm run test && nyc report --reporter=text-lcov --reporter=lcov | node ./node_modules/coveralls/bin/coveralls.js --verbose"
+    "dev:migrate:reset": "cross-env NODE_ENV=development npm run down && cross-env NODE_ENV=development npm run migrate && cross-env NODE_ENV=development npm run seed"
   },
   "repository": {
     "type": "git",
