@@ -22,10 +22,10 @@ if (!req?.headers?.authorization
       next();
 
     }else{
-      res.status(404).json({message: "You should be authenticated to access this!"})
+      res.status(401).json({message: "You should be authenticated to access this!"})
     }
   }else{
-    res.status(404).json({message: "There is no token for this user!"})
+    res.status(401).json({message: "There is no token for this user!"})
   }
 };
 export default isAdmin;

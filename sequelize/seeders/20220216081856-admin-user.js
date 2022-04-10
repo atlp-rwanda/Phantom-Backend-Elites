@@ -17,6 +17,10 @@ module.exports= {
         updatedAt: new Date(),
       },
       {
+<<<<<<< HEAD
+=======
+        
+>>>>>>> develop
         firstName: "reset",
         lastName: "password",
         email: "reset@password.com",
@@ -28,6 +32,10 @@ module.exports= {
       },
 
       {
+<<<<<<< HEAD
+=======
+      
+>>>>>>> develop
         firstName: "delete",
         lastName: "user",
         email: "delete@user.com",

@@ -4,6 +4,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert(
       "Roles",
+<<<<<<< HEAD
       [
         {
           name: "admin",
@@ -14,6 +15,12 @@ module.exports = {
         {
           name: 'driver'
         }
+=======
+      [ 
+        { name: "admin" },
+        {  name: 'operator'},
+        { name: 'fakeRole'}
+>>>>>>> develop
       ],
       {}
     )

@@ -142,11 +142,9 @@ class Validate{
     }
     async resetPassword(req, res, next){
         const schema = Joi.object({
+            token: Joi.string().required(),
             password: Joi.string().required(),
-            confirmPassword: Joi.string().required(),
-            token: Joi.string().required()
-            
-        })
+            confirmPassword: Joi.string().required()})
         const {error, value} = schema.validate(req.body,{ abortEarly: false })
         if(error){
             const { details } = error;
@@ -154,8 +152,6 @@ class Validate{
             for (let item of details) errors[item.path[0]] = item.message;
             return res.status(400).json(errors)
         }    
-        const user = await User.findOne({ where: { email: req.body.email } });
-        if (!user) return res.status(400).json({ message: "Unable to reset your password!!" });
         next()
     }
 
