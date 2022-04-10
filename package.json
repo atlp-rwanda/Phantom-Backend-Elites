@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build": "babel --copy-files ./src/** --out-dir dist",
-    "start": "npm run migrate && npm run seed && node dist/server.js",
+    "start": "npm run migrate && node dist/server.js",
     "pre-dev": "babel-node src/server.js",
     "dev": "npm run dev:migrate:reset && cross-env NODE_ENV=development nodemon --exec npm run pre-dev ",
     "start:dev": "nodemon --exec babel-node src/server.js",
