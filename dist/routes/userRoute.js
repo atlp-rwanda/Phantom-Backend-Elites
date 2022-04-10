@@ -113,8 +113,8 @@ const router = _express.default.Router();
 
 
 exports.default = router;
-router.post('/', _validator.default.userFields, _isAdmin.default, new _userController.default().createUser);
-router.get('/', _isAdmin.default, new _userController.default().findAllUsers);
+router.post('/', _validator.default.userFields, new _userController.default().createUser);
+router.get('/', new _userController.default().findAllUsers);
 router.get('/:id', new _userController.default().findOneUser);
 router.put('/profiles/:id', _canUpdateProfile.default, new _userController.default().updateProfile);
 router.delete('/:id', new _userController.default().deleteUser);
