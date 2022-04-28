@@ -3,6 +3,8 @@ import sendEmail from '../services/sendEmail.js'
 import bcrypt from 'bcrypt'
 import {User} from '../../sequelize/models'
 import {ResetToken} from '../../sequelize/models'
+import { nextTick } from 'process'
+import CreateToken from '../services/createResetToken'
 
 
 class ResetTokenController{
@@ -11,7 +13,7 @@ class ResetTokenController{
     
   let user = await User.findOne({where: { email: req.body.email }});
   if (!user) return res.status(400).json({message: 'User can not be found!'});
-  let fpSalt = crypto.randomBytes(64).toString('base64');
+  let fpSalt = CreateToken()
   let expireDate = new Date(new Date().getTime() + (60 * 60 * 1000))
   const previousToken = await ResetToken.findOne({where: {email: user.email}});
  if(previousToken) {
@@ -20,9 +22,10 @@ class ResetTokenController{
   const data = await ResetToken.create({
         email: user.email, expiration: expireDate, token: fpSalt, used: 0
       })
+      console.log(data.token)
   const message = `
       <p>To reset your password, please click the link below.</p>
-      <a href="http://${process.env.DOMAIN}api/v1/reset-password?token=${encodeURIComponent(data.token)}&email=${data.email}"> Reset Password </a>
+      <a href="http://localhost:8080/reset-password?token=${encodeURIComponent(data.token)}&email=${data.email}"> Reset Password </a>
       <p>Or use the following token</p>
       ${data.token}
       `;
@@ -51,5 +54,22 @@ async resetPassword(req, res) {
   return res.status(500).json({status: 'error', message: 'An error occured while trying to reset the password.'});
 }
 
-}}
+}
+
+async isResetTokenValid(req, res, next) {
+  const { token, email } = req.query
+  try{
+    let tokenData = await ResetToken.findOne({ where: { token }})
+    if (!tokenData) {
+     return res.status(401).json({message: 'Password Reset Token not found!'});
+    }
+    const userData = await User.findOne({where: { email }})
+    if(!userData) return res.status(404).json({message: 'There is no user with that email'});
+    next()
+  }catch(err){
+    return res.status(500).json({status: 'error', message: 'An error occured while trying to verify your token.'});
+  }
+}
+
+}
 export {ResetTokenController as default}
