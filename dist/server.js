@@ -46,7 +46,7 @@ const app = (0, _express.default)();
 exports.default = app;
 app.use('/', _auth.default); // eslint-disable-next-line no-undef
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3006;
 const options = {
   definition: {
     openapi: "3.0.0",
