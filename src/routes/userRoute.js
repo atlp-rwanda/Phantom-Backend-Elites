@@ -98,9 +98,8 @@ const router = express.Router();
  *         description: "Server error"
  *   
  */
-router.post('/',Validate.userFields, isAdmin, new userController().createUser);
-
-router.get('/',isAdmin,new userController().findAllUsers);
+router.post('/',Validate.userFields, new userController().createUser);
+router.get('/',new userController().findAllUsers);
 router.get('/:id',new userController().findOneUser);
 router.put('/profiles/:id',canUpdateProfile,new userController().updateProfile);
 router.delete('/:id',new userController().deleteUser);
