@@ -19,7 +19,6 @@ class BusController {
                 bus: createdBus
             })
         } catch (error) {
-            console.log(error)
             res.status(400).json({
                 message: 'Unable to create bus'
             })

@@ -37,15 +37,10 @@ class PermissionController {
       assignedId,
       name
     });
-    console.log(newPermission);
     return res.status(201).json({
       message: "Permission created successfully",
       data: newPermission
-    }); // catch(error){
-    //   res.status(500).json({
-    //     error: "Some error occurred while creating the Permission."
-    //   });
-    // }
+    }); 
   }
 
   async findAllPermissions(req, res) {

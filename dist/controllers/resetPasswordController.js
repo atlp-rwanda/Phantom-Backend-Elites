@@ -70,7 +70,6 @@ class ResetTokenController {
           token: req.body.token
         }
       });
-      console.log(tokenData.email);
 
       if (!tokenData) {
         return res.status(404).json({
@@ -87,7 +86,6 @@ class ResetTokenController {
 
       if (req.body.password === req.body.confirmPassword) {
         let newPassword = await _bcrypt.default.hash(req.body.password, 12);
-        console.log(newPassword);
         await _models.User.update({
           password: newPassword
         }, {

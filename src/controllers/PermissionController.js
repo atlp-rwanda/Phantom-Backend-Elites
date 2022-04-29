@@ -16,7 +16,7 @@ class PermissionController{
     const { assignedId, name } = req.body
    
       const newPermission = await Permission.create({ assignedId, name })
-      console.log(newPermission)
+    
       return res.status(201).json({
         message: "Permission created successfully",
         data: newPermission

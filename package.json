@@ -23,7 +23,7 @@
     "seed": "npx sequelize-cli db:seed:all",
     "undo-seeds": "npx sequelize-cli db:seed:undo",
     "make-seed": "npx sequelize-cli seed:generate --name demo-user",
-    "test": "cross-env NODE_ENV=test nyc mocha --timeout 40000 ./test/*.test.js --require @babel/register --exit",
+    "test": "nyc mocha test/buscrud.test.js --require @babel/register --timeout 40000 --exit",
     "pretest": "cross-env NODE_ENV=test npm run down && cross-env NODE_ENV=test npm run migrate && cross-env NODE_ENV=test npm run seed",
     "migrate:reset": "cross-env NODE_ENV=test npm run down && cross-env NODE_ENV=test npm run migrate && cross-env NODE_ENV=test npm run seed",
     "dev:migrate:reset": "cross-env NODE_ENV=development npm run down && cross-env NODE_ENV=development npm run migrate && cross-env NODE_ENV=development npm run seed"

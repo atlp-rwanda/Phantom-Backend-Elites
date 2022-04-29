@@ -30,7 +30,6 @@ describe('Bus Crud', function(){
       .set({ "authorization": `${token}` })
       .send(role)
       .end((err, response) => {
-        // console.log('======================================================>',response)
         response.should.have.status(201);
         response.body.should.have.property("message");
         newSet
@@ -49,7 +48,7 @@ describe('Bus Crud', function(){
       .set({ "authorization": `${token}` })
       .send(role)
       .end((err, response) => {
-        // console.log('======================================================>',response)
+       
         response.should.have.status(201);
         response.body.should.have.property("message");
         newSet
@@ -69,7 +68,7 @@ describe('Bus Crud', function(){
       .set({ "authorization": `${token}` })
       .send(role)
       .end((err, response) => {
-        // console.log('======================================================>',response)
+        
         response.should.have.status(201);
         response.body.should.have.property("message");
         newSet
@@ -93,7 +92,7 @@ describe('Bus Crud', function(){
       .set({ "authorization": `${token}` })
       .send(user)
       .end((err, response) => {
-        response.should.have.status(200);
+        response.should.have.status(201);
         response.body.should.have.property("message");
         newSet
           .expect(response.body.message)
@@ -139,7 +138,7 @@ describe('Bus Crud', function(){
       .set({ "authorization": `${token}` })
       .send(user)
       .end((err, response) => {
-        response.should.have.status(200);
+        response.should.have.status(201);
         response.body.should.have.property("message");
         newSet.expect(response.body.message)
       done();
@@ -159,12 +158,6 @@ describe('Bus Crud', function(){
       .set({ "authorization": `${token}` })
       .send(bus)
       .end((err, response) => {
-        console.log(response)
-        // response.should.have.status(201);
-        // response.body.should.have.property("message");
-        // newSet
-        //   .expect(response.body.message)
-        // done();
       });
   });
   it('should create bus', (done) => {

@@ -6,7 +6,7 @@ import {User} from '../../sequelize/models'
 class UserController {
    async createUser(req, res) {
     const userpassword = getPassword();
-    console.log(userpassword)
+   
     const password = await bcrypt.hash(userpassword, 12)
     User.create({
         firstName: req.body.firstName,lastName: req.body.lastName,email: req.body.email,password, roleId: req.body.roleId,gender: req.body.gender,
@@ -53,7 +53,6 @@ class UserController {
         exclude: ['password']
     }})
       .then(data => {
-        console.log(data)
         res.status(200).json(data);
 
       })

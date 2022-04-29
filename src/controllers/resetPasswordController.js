@@ -22,7 +22,7 @@ class ResetTokenController{
   const data = await ResetToken.create({
         email: user.email, expiration: expireDate, token: fpSalt, used: 0
       })
-      console.log(data.token)
+      
   const message = `
       <p>To reset your password, please click the link below.</p>
       <a href="http://localhost:8080/reset-password?token=${encodeURIComponent(data.token)}&email=${data.email}"> Reset Password </a>
@@ -37,7 +37,7 @@ class ResetTokenController{
 async resetPassword(req, res) {
   try{
   let tokenData = await ResetToken.findOne({ where: { token: req.body.token }})
-  console.log(tokenData.email)
+  
   if (!tokenData) {
    return res.status(404).json({message: 'Token has expired. Please try password reset again.'});
   }
@@ -47,7 +47,6 @@ async resetPassword(req, res) {
   if(req.body.password === req.body.confirmPassword){
 
   let newPassword = await bcrypt.hash(req.body.password, 12)
-  console.log(newPassword)
   await User.update({password: newPassword},{where: {email: tokenData.email}});
   return res.json({status: 'ok', message: 'Password reset. Please login with your new password.'});
 }}catch(err){

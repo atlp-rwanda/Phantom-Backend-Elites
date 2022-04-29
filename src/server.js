@@ -86,7 +86,7 @@ db.sequelize.sync({ alter: false }).then(() => {
       console.log(`Server listening on port: ${PORT}`);
     });
   });
-  
+
 
 
 export { app as default };

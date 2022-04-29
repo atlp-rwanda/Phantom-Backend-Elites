@@ -49,7 +49,6 @@ export const assignDriverToBus = async (req, res) => {
      res.status(200).json({message: 'Assigned Driver to bus successfully.',result})
        
     } catch (error) {
-      console.log(error)
       return res.status(500).json({message: 'Error assigning driver to bus'});
     }
   };
@@ -57,11 +56,6 @@ export const assignDriverToBus = async (req, res) => {
   export const unAssignDriverFromBus = async (req, res) => {
     try {
       const {driverId} = req.params;
-      console.log(`
-      
-      This the id  ${driverId}
-      
-      enjoy to the fullest!`)
       const bus = await Bus.findOne({ where: { driver: driverId } });
       if (!bus) return res.status(404).json({message: 'This driver is not assigned to a bus.'})
       await Bus.update({ driver: null }, { where: { plateNo: bus.plateNo } });

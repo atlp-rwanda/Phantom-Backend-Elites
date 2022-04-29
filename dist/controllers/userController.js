@@ -20,7 +20,6 @@ var _models = require("../../sequelize/models");
 class UserController {
   async createUser(req, res) {
     const userpassword = (0, _createPassword.default)();
-    console.log(userpassword);
     const password = await _bcrypt.default.hash(userpassword, 12);
 
     _models.User.create({
@@ -78,7 +77,6 @@ class UserController {
         exclude: ['password']
       }
     }).then(data => {
-      console.log(data);
       res.status(200).json(data);
     }).catch(err => {
       res.status(500).json({
