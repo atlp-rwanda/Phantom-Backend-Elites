@@ -1,11 +1,23 @@
-import express from 'express'
-import userController from '../controllers/userController'
-import canUpdateProfile from '../middleware/canUpdateProfile';
-import isAdmin from '../middleware/isAdmin';
-import Validate from '../middleware/validator'
+"use strict";
 
-const router = express.Router();
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _express = _interopRequireDefault(require("express"));
+
+var _userController = _interopRequireDefault(require("../controllers/userController"));
+
+var _canUpdateProfile = _interopRequireDefault(require("../middleware/canUpdateProfile"));
+
+var _isAdmin = _interopRequireDefault(require("../middleware/isAdmin"));
+
+var _validator = _interopRequireDefault(require("../middleware/validator"));
+
+const router = _express.default.Router();
 /**
  * @swagger
  * /api/v1/users:
@@ -98,10 +110,11 @@ const router = express.Router();
  *         description: "Server error"
  *   
  */
-router.post('/',Validate.userFields, new userController().createUser);
-router.get('/',new userController().findAllUsers);
-router.get('/:id',new userController().findOneUser);
-router.put('/profiles/:id',new userController().updateProfile);
-router.delete('/:id',new userController().deleteUser);
 
-export {router as default};
+
+exports.default = router;
+router.post('/', _validator.default.userFields, new _userController.default().createUser);
+router.get('/', new _userController.default().findAllUsers);
+router.get('/:id', new _userController.default().findOneUser);
+router.put('/profiles/:id', _canUpdateProfile.default, new _userController.default().updateProfile);
+router.delete('/:id', new _userController.default().deleteUser);

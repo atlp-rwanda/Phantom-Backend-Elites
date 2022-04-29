@@ -15,6 +15,7 @@ import morgan from "morgan";
 import homeRoutes from "./routes/homeRoutes.js";
 import db from '../sequelize/models/index'
 import passwordResetRoutes from './routes/passwordResetRoutes.js'
+import contactRoute from './routes/contactRoute'
 
 
 dotenv.config();
@@ -83,6 +84,7 @@ app.use('/api/v1/permissions', permissionRoutes);
 app.use('/api/v1/reset-password', passwordResetRoutes)
 app.use(morgan());
 app.use(homeRoutes);
+app.use('/api/v1/contacts', contactRoute);
 
 db.sequelize.sync({ alter: false }).then(() => {
     console.log('Database Connected!');
