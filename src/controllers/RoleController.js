@@ -10,15 +10,12 @@ class RoleController{
       });
       return;
     }
-    // Create a Role
     const  { name } = req.body
-    // Save Role in the database
     Role.create({ name })
       .then(data => {
         res.status(201).json({data, message: 'Role created successfully!'});
       })
       .catch(err => {
-        console.log(err)
         res.status(500).json({
           message:
             err.message || "Some error occurred while creating the Role."
@@ -31,17 +28,10 @@ async findOneRole(req, res) {
     const id = req.params.id;
     Role.findByPk(id)
       .then(data => {
-        if (data) {
-          res.json(data);
-        } else {
-          res.status(404).json({
-            message: `Cannot find Role with id=${id}.`
-          });
-        }
-      })
-      .catch(err => {
+          res.status(200).json({data});
+        }).catch(err => {
         res.status(500).json({
-          message: "Error retrieving Role with id=" + id
+          message: err.message || "Error retrieving that Role" 
         });
       });
 };

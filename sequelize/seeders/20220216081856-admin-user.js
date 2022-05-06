@@ -16,6 +16,29 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+
+          firstName: "reset",
+          lastName: "password",
+          email: "reset@password.com",
+          gender: "unknown",
+          password: await bcrypt.hash("reset@password", 12),
+          roleId: 2,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+
+        {
+
+          firstName: "delete",
+          lastName: "user",
+          email: "delete@user.com",
+          gender: "unknown",
+          password: await bcrypt.hash("reset@password", 12),
+          roleId: 2,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );

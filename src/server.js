@@ -25,8 +25,6 @@ dotenv.config();
 const app = express();
 app.use('/', auth);
 
-
-
 const options = {
   definition: {
     openapi: "3.0.0",
