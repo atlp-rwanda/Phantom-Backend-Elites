@@ -1,6 +1,7 @@
 import verifyToken from '../helpers/verifyToken';
-import Models from '../../sequelize/models';
-const { ResetToken,Token } = Models;
+import {Token} from '../../sequelize/models'
+
+
 
 const isAdmin = async (req, res, next) => {
 

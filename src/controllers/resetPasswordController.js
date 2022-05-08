@@ -11,27 +11,26 @@ class ResetTokenController{
 
   async createResetLink(req, res) {
     
-  let user = await User.findOne({where: { email: req.body.email }});
-  if (!user) return res.status(400).json({message: 'User can not be found!'});
-  let fpSalt = CreateToken()
-  let expireDate = new Date(new Date().getTime() + (60 * 60 * 1000))
-  const previousToken = await ResetToken.findOne({where: {email: user.email}});
- if(previousToken) {
-   await ResetToken.destroy({ where: { email: req.body.email}});
+    let user = await User.findOne({where: { email: req.body.email }});
+    if (!user) return res.json({status: 400,message: 'User can not be found!'});
+    let fpSalt = crypto.randomBytes(64).toString('base64');
+    let expireDate = new Date(new Date().getTime() + (60 * 60 * 1000))
+    const previousToken = await ResetToken.findOne({where: {email: user.email}});
+   if(previousToken) {
+     await ResetToken.destroy({ where: { email: req.body.email}});
+    }
+    const data = await ResetToken.create({
+          email: user.email, expiration: expireDate, token: fpSalt, used: 0
+        })
+    const message = `
+        <p>To reset your password, please click the link below.</p>
+        <a href="https://phantom-frontend-elites.herokuapp.com/reset-password?token=${encodeURIComponent(data.token)}&email=${data.email}"> Reset Password </a>
+        <p>Or use the following token</p>
+        `;
+    sendEmail(message, data.email);
+    res.status(200).json({message: `Your password reset link has successfully been sent to your email ${data.email}`,token:`${data.token}`})
+    return data
   }
-  const data = await ResetToken.create({
-        email: user.email, expiration: expireDate, token: fpSalt, used: 0
-      })
-      
-  const message = `
-      <p>To reset your password, please click the link below.</p>
-      <a href="https://phantom-frontend-elites.herokuapp.com/reset-password?token=${encodeURIComponent(data.token)}&email=${data.email}"> Reset Password </a> <br/>
-      <p>Thank you!</p>
-      `;
-  sendEmail(message, data.email);
-  res.status(200).json({message: `Your password reset link has successfully been sent to your email ${data.email}`,token:`${data.token}`})
-  return data
-}
 
 async resetPassword(req, res) {
   try{

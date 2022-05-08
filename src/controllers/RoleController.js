@@ -56,26 +56,27 @@ class RoleController {
   };
 
   async updateRole(req, res) {
-    const id = req.params.id;
-    Role.update(req.body, {
-      where: { id: id }
-    })
-      .then(num => {
-        if (num == 1) {
-          res.status(200).json({
-            message: "Role was updated successfully."
-          });
-        } else {
-          res.json({
-            message: `Cannot update Role with id=${id}. Maybe Role was not found or req.body is empty!`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).json({
-          message: "Error updating Role with id=" + id
-        });
+    try {
+      const id = req.params.id;
+      const updatedRole = await Role.update(req.body, {
+        where: { id: id },
+        returning: true
       });
+      if (updatedRole[1].length) {
+        res.status(200).json({
+          message: "Role updated successfully.",
+          data: updatedRole[1][0]
+        });
+      } else {
+        res.status(404).json({
+          error: `Role with the ${id} does not exist`
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        error: "Oops, something went wrong"
+      });
+    }
   };
 
   async deleteRole(req, res) {
