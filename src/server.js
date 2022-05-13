@@ -20,6 +20,7 @@ import db from '../sequelize/models/index'
 import passwordResetRoutes from './routes/passwordResetRoutes.js'
 import contactRoute from './routes/contactRoute'
 import busRoute from './routes/busRoutes';
+import changePasswordRoute from './routes/changePasswordRoute'
 
 
 dotenv.config();
@@ -87,6 +88,7 @@ app.use(homeRoutes);
 app.use('/api/v1/contacts', contactRoute);
 app.use('/api/v1/routes', routesRoute);
 app.use('/api/v1/bus-stations', busStationRoute);
+app.use('/api/v1/changepassword', changePasswordRoute)
 
 const PORT = process.env.PORT || 3000;
 
