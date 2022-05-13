@@ -44,8 +44,7 @@ class Bus extends Model {
     },
     {
       sequelize,
-      modelName: "Bus",
-      timestamps: false
+      modelName: "Bus"
     }   
   );
   return Bus;

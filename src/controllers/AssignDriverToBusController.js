@@ -1,5 +1,4 @@
 import { Op } from 'sequelize';
-import { paginate } from 'paginate-info';
 import sendAssignEmail from "../services/sendAssignEmail.js";
 import sendUnassignEmail from '../services/sendUnassignEmail.js';
 import Models from '../../sequelize/models'
@@ -80,23 +79,22 @@ export const assignDriverToBus = async (req, res) => {
 
 
 export const allDriverToBusAssignments = async (req, res) => {
-    try {
-      const { page = 1, limit = 8 } = req.query;
-      const offset = (page - 1) * limit;
-      const { rows, count } = await Bus.findAndCountAll({
-        page,
-        limit,
-        where: { driverId: { [Op.ne]: null } },
-        include: ['drivers'],
-        order: [['updatedAt', 'DESC']],
-      });
-      const pagination = paginate(page, count, rows, limit);
-  
-      if (offset >= count) {
-        return res.status(404).json({error: "There are no drivers assigned to buses yet"});
-      }
-      return res.status(200).json({message:'Successfully got a list of drivers assigned to buses.', pagination, rows})
-    }catch (error) {
-      return res.status(500).json({error:'Error while getting occupied drivers'});
+    const Op = require('sequelize').Op
+    if (Bus.driverId !== null) {
+      return Bus
+        .findAll({
+          where: {
+            driverId: { [Op.ne]: null }
+          },
+          attributes: {
+            exclude: ['driverId']
+          },
+          include: {
+            model: User,
+            as: "drivers",
+            attributes: ['firstName', 'lastName', 'email']
+          }
+        })
+        .then(buses => res.status(200).send(buses))
     }
   };

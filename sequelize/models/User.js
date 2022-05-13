@@ -38,7 +38,8 @@ module.exports = function (sequelize, DataTypes) {
       roleId: DataTypes.INTEGER,
       drivingLicenseNo: DataTypes.STRING,
       nationalIdNo: DataTypes.STRING,
-      phoneNo: DataTypes.STRING
+      phoneNo: DataTypes.STRING,
+      profilePic: DataTypes.STRING
     },
     {
       sequelize,

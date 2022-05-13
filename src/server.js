@@ -78,6 +78,7 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/roles', roleRoutes);
 app.use('/api/v1/auth', auth);

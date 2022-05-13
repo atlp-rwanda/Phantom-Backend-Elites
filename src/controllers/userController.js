@@ -5,9 +5,6 @@ import sendEmail from "../services/sendEmail.js";
 import {User} from '../../sequelize/models'
 
 
-
-
-
 class UserController {
    async createUser(req, res) {
     const userpassword = getPassword();
@@ -29,7 +26,6 @@ class UserController {
           message:
             err.message || "Some error occurred while creating the User."
         });});};
-
 
   async findOneUser(req, res) {
     const id = req.params.id;
@@ -74,7 +70,14 @@ class UserController {
 async updateProfile(req, res) {
   try {
     const id = req.params.id;
-    const updatedUser = await User.update(req.body, {
+    const profilePic = req.file?.path;
+    console.log(profilePic,"----")
+    const bodyData = req.body
+    const body = profilePic
+      ? { ...bodyData, profilePic}
+      : bodyData
+    console.log(body)
+    const updatedUser = await User.update(body, {
       where: { id: id },
       returning: true
     })
@@ -89,6 +92,7 @@ async updateProfile(req, res) {
           });
         }
   } catch (error) {
+    console.log(error);
     res.status(500).json({
           error: "Oops, something went wrong"
         });
