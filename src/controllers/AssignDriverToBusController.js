@@ -20,17 +20,17 @@ export const assignDriverToBus = async (req, res) => {
     try {
       const { driverId, plateNo } = req.body;
       const driver = await User.findOne({ where: { id: driverId } });
-      if (!driver) return res.status(404).json({message: 'This Driver does not exist.'})
+      if (!driver) return res.status(404).json({error: 'This Driver does not exist.'})
     
       if (driver.roleId !== 3) {
-        return res.status(400).json({message: 'This user is not a driver.'})
+        return res.status(400).json({error: 'This user is not a driver.'})
       }
       
       const searchBus = await Bus.findOne({ where: { plateNo: plateNo } });
-      if (!searchBus) res.status(404).json({message: 'This Bus does not exist.'})
+      if (!searchBus) res.status(404).json({error: 'This Bus does not exist.'})
 
       if (searchBus.driverId !== null) {
-        return res.status(400).json({message: 'The bus is already assigned to a driver.'})
+        return res.status(400).json({error: 'The bus is already assigned to a driver.'})
       }
      
       await Bus.update({ driverId: driverId }, { where: { plateNo: plateNo } });
@@ -49,7 +49,7 @@ export const assignDriverToBus = async (req, res) => {
      res.status(200).json({message: 'Assigned Driver to bus successfully.',result})
        
     } catch (error) {
-      return res.status(500).json({message: 'Error assigning driver to bus'});
+      return res.status(500).json({error: 'Error assigning driver to bus'});
     }
   };
 
@@ -57,7 +57,7 @@ export const assignDriverToBus = async (req, res) => {
     try {
       const {driverId} = req.params;
       const bus = await Bus.findOne({ where: { driverId: driverId } });
-      if (!bus) return res.status(404).json({message: 'This driver is not assigned to a bus.'})
+      if (!bus) return res.status(404).json({error: 'This driver is not assigned to a bus.'})
       await Bus.update({ driverId: null }, { where: { plateNo: bus.plateNo } });
   
       await notification(
@@ -74,7 +74,7 @@ export const assignDriverToBus = async (req, res) => {
       res.status(200).json({message: 'UnAssigned Driver to bus successfully',result})
       
     } catch (error) {
-       return res.status(500).json({message: 'Error occured while unassigning driver from bus'});
+       return res.status(500).json({error: 'Error occured while unassigning driver from bus'});
     }
   };
 
@@ -93,10 +93,10 @@ export const allDriverToBusAssignments = async (req, res) => {
       const pagination = paginate(page, count, rows, limit);
   
       if (offset >= count) {
-        return res.status(404).json({message: "We can't get that page"});
+        return res.status(404).json({error: "There are no drivers assigned to buses yet"});
       }
       return res.status(200).json({message:'Successfully got a list of drivers assigned to buses.', pagination, rows})
     }catch (error) {
-      return res.status(500).json({message:'Error while getting occupied drivers'});
+      return res.status(500).json({error:'Error while getting occupied drivers'});
     }
   };
