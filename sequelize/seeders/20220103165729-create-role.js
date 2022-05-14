@@ -7,7 +7,7 @@ module.exports = {
       [
         { name: "admin" },
         { name: 'operator' },
-        { name: 'fakeRole' }
+        { name: 'driver' }
       ],
       {}
     );

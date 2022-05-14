@@ -9,7 +9,7 @@ class Validate{
         const schema = Joi.object({
             brand: Joi.string().required(),
             plateNo: Joi.string().regex(/^RA[A-Z][0-9]{3}[A-Z]/).required(),
-            driver: Joi.number(),
+            driverId: Joi.number(),
             seats: Joi.number().required().min(3),
             status: Joi.string().required()
         })
@@ -24,8 +24,8 @@ class Validate{
         const bus = await Bus.findOne({ where: { plateNo: req.body.plateNo } });
         if (bus) return res.status(409).json({ message: "Bus already exists" });
 
-        if(req.body.driver){
-            const user = await User.findOne({ where: { id: req.body.driver} });
+        if(req.body.driverId){
+            const user = await User.findOne({ where: { id: req.body.driverId} });
             if (!user) return res.status(409).json({ message: "Assigned Driver doesn't exist" });  
             const role = await Role.findOne({ where: { id: user.roleId } });
             if (!role) return res.status(400).json({ message: "Unknown Driver" });
@@ -41,7 +41,7 @@ class Validate{
         const schema = Joi.object({
             brand: Joi.string(),
             plateNo: Joi.string().required(),
-            driver: Joi.number(),
+            driverId: Joi.number(),
             seats: Joi.number(),
             status: Joi.string()
         })
@@ -57,10 +57,10 @@ class Validate{
             const bus = await Bus.findOne({ where: { plateNo:req.params.plateNo } });
             if (!bus) return res.status(400).json({ message: "Bus you want to update doesn't exist" });
             
-            if(req.body.driver){
-                const user = await User.findOne({ where: { id: req.body.driver} });
+            if(req.body.driverId){
+                const user = await User.findOne({ where: { id: req.body.driverId} });
                 if (!user) return res.status(409).json({ message: "Assigned Driver doesn't exist" });
-                   const role = await Role.findOne({ where: { id: req.body.driver } });
+                   const role = await Role.findOne({ where: { id: req.body.driverId } });
                 if (!role) return res.status(400).json({ message: "Unknown Driver" });
                 if (role.name != 'driver') return res.status(400).json({ message: "Assigned Used is not a driver" });
             }

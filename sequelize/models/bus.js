@@ -7,6 +7,7 @@ class Bus extends Model {
       // define association here
       Bus.belongsTo(models.User, {
         foreignKey: 'driverId',
+        as: 'drivers',
         onDelete: 'CASCADE',
       });
       
@@ -43,8 +44,7 @@ class Bus extends Model {
     },
     {
       sequelize,
-      modelName: "Bus",
-      timestamps: false
+      modelName: "Bus"
     }   
   );
   return Bus;

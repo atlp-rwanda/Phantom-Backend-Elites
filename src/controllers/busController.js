@@ -1,18 +1,18 @@
-import {Bus} from '../../sequelize/models'
+import {Bus, User} from '../../sequelize/models'
 
 class BusController {
     async createBus(req, res) {
         try {
-            const createdBus = await Bus.create({
+            const bus = await Bus.create({
                 brand: req.body.brand,
                 plateNo: req.body.plateNo,
-                driver: req.body.driver || null,
+                driverId: req.body.driverId || null,
                 seats: req.body.seats,
                 status: req.body.status
             })
             res.status(201).json({
                 message: 'Bus create sucessfully',
-                bus: createdBus
+                bus
             })
         } catch (error) {
             console.log(error)
@@ -68,8 +68,14 @@ class BusController {
     }
     async getAllBuses(req, res) {
         try {
-            const bus = await Bus.findAll()
-
+            const bus = await Bus
+            .findAll({
+              include: {
+                model: User,
+                as: "drivers",
+                attributes: ['id','firstName', 'lastName', 'email']
+              }
+            })
             res.status(201).json(bus)
         } catch (error) {
             console.log('-------------------',error)
