@@ -30,7 +30,7 @@ app.use('/', auth);
 
 
 // eslint-disable-next-line no-undef
-const PORT = process.env.PORT || 3006;
+const PORT = process.env.PORT || 3000;
 
 const options = {
     definition: {
