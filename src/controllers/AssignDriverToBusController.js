@@ -1,6 +1,7 @@
 import { Op } from 'sequelize';
 import { paginate } from 'paginate-info';
-import sendEmail from "../services/sendEmail.js";
+import sendAssignEmail from "../services/sendAssignEmail.js";
+import sendUnassignEmail from '../services/sendUnassignEmail.js';
 import Models from '../../sequelize/models'
 
 const { User, Bus, Notification } = Models;
@@ -27,7 +28,6 @@ export const assignDriverToBus = async (req, res) => {
       
       const searchBus = await Bus.findOne({ where: { plateNo: plateNo } });
       if (!searchBus) res.status(404).json({message: 'This Bus does not exist.'})
-      console.log("**********", searchBus.driverId, "************")
 
       if (searchBus.driverId !== null) {
         return res.status(400).json({message: 'The bus is already assigned to a driver.'})
@@ -41,7 +41,7 @@ export const assignDriverToBus = async (req, res) => {
       );
       const notifyMessage=`You have been successfully assigned to a bus: Plate no:${searchBus.plateNo} Brand: ${searchBus.brand}`
   
-      sendEmail(notifyMessage, driver.email);
+      sendAssignEmail(notifyMessage, driver.email);
       const result = await Bus.findOne({
         where: { driverId: driverId },
         include: ['drivers'],
@@ -70,7 +70,7 @@ export const assignDriverToBus = async (req, res) => {
         include: ['notifications'],
       });
       const driver = await User.findOne({ where: { id: driverId } });
-      sendEmail('You are Unassigned from the bus you were driving', driver.email);
+      sendUnassignEmail('You are Unassigned from the bus you were driving', driver.email);
       res.status(200).json({message: 'UnAssigned Driver to bus successfully',result})
       
     } catch (error) {
