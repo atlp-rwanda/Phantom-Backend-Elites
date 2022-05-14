@@ -17,7 +17,13 @@ module.exports = function (sequelize, DataTypes) {
       });
       User.hasOne(models.Bus, {
         foreignKey: 'driverId',
-      })
+      });
+      User.hasMany(models.Notification, {
+        as: 'notifications',
+        foreignKey: 'receiverId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
     }
   }
   User.init(

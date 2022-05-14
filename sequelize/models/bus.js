@@ -7,6 +7,7 @@ class Bus extends Model {
       // define association here
       Bus.belongsTo(models.User, {
         foreignKey: 'driverId',
+        as: 'drivers',
         onDelete: 'CASCADE',
       });
       

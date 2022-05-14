@@ -8,6 +8,11 @@ dotenv.config()
 const changePassword = (req, res) => {
   const { id } = req.params
   const { currentPassword, newPassword, confirmPassword } = req.body
+  if (currentPassword ==="" || newPassword === "" || confirmPassword === "") {
+    return res.status(400).json({
+      error: "Complete all the fields"
+    })
+  }
   return User.findOne({
     where: {
       id
@@ -35,7 +40,7 @@ const changePassword = (req, res) => {
           // If the current password does not match with the password in the database
         } else if (!(bcrypt.compareSync(currentPassword, user.password))) {
           return res.status(400).json({
-            error: "The password or eamil are incorrect"
+            error: "Please enter correct passwords"
           })
         }
       }
