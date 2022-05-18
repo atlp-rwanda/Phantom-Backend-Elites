@@ -8,12 +8,6 @@ module.exports = function (sequelize, DataTypes)  {
         foreignKey: 'roleId',
         as: 'role',
         onDelete: 'CASCADE',
-      })
-      User.hasMany(models.Notification, {
-        as: 'notifications',
-        foreignKey: 'receiverId',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
       });
     }
   }
@@ -30,15 +24,11 @@ module.exports = function (sequelize, DataTypes)  {
       drivingLicenseNo: DataTypes.STRING,
       nationalIdNo: DataTypes.STRING,
       phoneNo: DataTypes.STRING
-
-      
     },
     {
       sequelize,
       modelName: "User",
     },
-    
-   
   );
   return User;
 };

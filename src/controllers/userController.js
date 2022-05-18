@@ -4,37 +4,42 @@ import getPassword from "../services/createPassword.js";
 import sendEmail from "../services/sendEmail.js";
 import {User} from '../../sequelize/models'
 class UserController {
-   async createUser(req, res) {
+  async createUser(req, res) {
     const userpassword = getPassword();
    
     const password = await bcrypt.hash(userpassword, 12)
     User.create({
-        firstName: req.body.firstName,lastName: req.body.lastName,email: req.body.email,password, roleId: req.body.roleId,gender: req.body.gender,
+      firstName: req.body.firstName, lastName: req.body.lastName, email: req.body.email, password, roleId: req.body.roleId, gender: req.body.gender,
     })
-      .then(async data => { const output = `
+      .then(async data => {
+        const output = `
             <h2>Your account has been registered. you can login in</h2>
             <a href="http://localhost:3000/login">phantom app</a>
             <p>Use ${req.body.email} and your password  <a href="#">${userpassword}</a></p>
         `;
-            sendEmail(output, data.email);
-            res.status(201).json({message: "User created successfully!",data});
-          }).catch(err => {
+        sendEmail(output, data.email);
+        res.status(201).json({ message: "User created successfully!", data });
+      }).catch(err => {
         res.status(500).json({
           message:
             err.message || "Some error occurred while creating the User."
-        });});};
+        });
+      });
+  };
 
 
   async findOneUser(req, res) {
     const id = req.params.id;
-    User.findByPk(id, {attributes: {
-      exclude: ['password']
-  }})
+    User.findByPk(id, {
+      attributes: {
+        exclude: ['password']
+      }
+    })
       .then(data => {
-        
+
         if (data) {
-          
-          res.json({data});
+
+          res.json({ data });
         } else {
           res.status(404).json({
             message: `Cannot find User with id=${id}.`
@@ -49,9 +54,11 @@ class UserController {
   };
 
   async findAllUsers(req, res) {
-    User.findAll({attributes: {
+    User.findAll({
+      attributes: {
         exclude: ['password']
-    }})
+      }
+    })
       .then(data => {
         res.status(200).json(data);
 
@@ -64,7 +71,7 @@ class UserController {
       });
   };
 
-async updateProfile(req, res) {
+  async updateProfile(req, res) {
     const id = req.params.id;
     User.update(req.body, {
       where: { id: id }
@@ -111,4 +118,4 @@ async updateProfile(req, res) {
   };
 
 }
-export default UserController
+export default UserController;

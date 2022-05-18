@@ -11,9 +11,9 @@ var _verifyToken = _interopRequireDefault(require("../helpers/verifyToken"));
 
 var _models = _interopRequireDefault(require("../../sequelize/models"));
 
-const {
-  Role,
-  Token
+let {
+  Token,
+  Role
 } = _models.default;
 
 const canUpdateProfile = async (req, res, next) => {

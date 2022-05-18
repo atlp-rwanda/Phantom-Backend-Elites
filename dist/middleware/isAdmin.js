@@ -9,12 +9,7 @@ exports.default = void 0;
 
 var _verifyToken = _interopRequireDefault(require("../helpers/verifyToken"));
 
-var _models = _interopRequireDefault(require("../../sequelize/models"));
-
-const {
-  ResetToken,
-  Token
-} = _models.default;
+var _models = require("../../sequelize/models");
 
 const isAdmin = async (req, res, next) => {
   if (!req?.headers?.authorization && !req?.headers['x-access-token'] && !req?.params.token) {
@@ -25,7 +20,7 @@ const isAdmin = async (req, res, next) => {
 
   const token = req?.headers?.authorization || req?.headers['x-access-token'] || req?.params.token;
   const splitedToken = token.split(' ')[1];
-  const tokenExist = await Token.findOne({
+  const tokenExist = await _models.Token.findOne({
     where: {
       token: splitedToken
     }

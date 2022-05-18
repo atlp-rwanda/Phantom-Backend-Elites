@@ -43,16 +43,15 @@ async resetPassword(req, res) {
   if (!req.body.password && !req.body.confirmPassword && !req.body.token) {
     return res.status(400).json({status: 'error', message: 'Password and reset-token should be provided. Please try again.'});
   }
-  if(req.body.password === req.body.confirmPassword){
 
   let newPassword = await bcrypt.hash(req.body.password, 12)
   await User.update({password: newPassword},{where: {email: tokenData.email}});
   return res.json({status: 'ok', message: 'Password reset. Please login with your new password.'});
-}}catch(err){
+}catch(err){
   return res.status(500).json({status: 'error', message: 'An error occured while trying to reset the password.'});
-}
+}}
 
-}
+
 
 async isResetTokenValid(req, res, next) {
   const { token, email } = req.query

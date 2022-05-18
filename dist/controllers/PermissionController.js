@@ -1,18 +1,16 @@
 "use strict";
 
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
 
-var _models = _interopRequireDefault(require("../../sequelize/models"));
+var _models = require("../../sequelize/models");
 
 class PermissionController {
   async findOnePermission(req, res) {
     const id = req.params.id;
-    await _models.default.findOne({
+    await _models.Permission.findOne({
       where: {
         id: id
       }
@@ -33,7 +31,7 @@ class PermissionController {
       assignedId,
       name
     } = req.body;
-    const newPermission = await _models.default.create({
+    const newPermission = await _models.Permission.create({
       assignedId,
       name
     });
@@ -44,7 +42,7 @@ class PermissionController {
   }
 
   async findAllPermissions(req, res) {
-    await _models.default.findAll().then(data => {
+    await _models.Permission.findAll().then(data => {
       res.json(data);
     }).catch(err => {
       res.status(500).json({
@@ -55,7 +53,7 @@ class PermissionController {
 
   async updatePermission(req, res) {
     const id = req.params.id;
-    await _models.default.update(req.body, {
+    await _models.Permission.update(req.body, {
       where: {
         id: id
       }
@@ -78,7 +76,7 @@ class PermissionController {
 
   async deletePermission(req, res) {
     const id = req.params.id;
-    await _models.default.destroy({
+    await _models.Permission.destroy({
       where: {
         id: id
       }

@@ -9,13 +9,7 @@ exports.default = void 0;
 
 var _joi = _interopRequireDefault(require("joi"));
 
-var _models = _interopRequireDefault(require("../../sequelize/models"));
-
-const {
-  Role,
-  User,
-  Permission
-} = _models.default;
+var _models = require("../../sequelize/models");
 
 class Validate {
   loginFields(req, res, next) {
@@ -41,7 +35,7 @@ class Validate {
 
       for (let item of details) errors[item.path[0]] = item.message;
 
-      return res.status(400).send(errors);
+      return res.status(400).json(errors);
     }
 
     next();
@@ -80,7 +74,7 @@ class Validate {
       return res.status(400).json(errors);
     }
 
-    const user = await User.findOne({
+    const user = await _models.User.findOne({
       where: {
         email: req.body.email
       }
@@ -88,7 +82,7 @@ class Validate {
     if (user) return res.status(409).json({
       message: "User email already exist"
     });
-    const role = await Role.findOne({
+    const role = await _models.Role.findOne({
       where: {
         id: req.body.roleId
       }
@@ -119,10 +113,10 @@ class Validate {
 
       for (let item of details) errors[item.path[0]] = item.message;
 
-      return res.status(400).send(errors);
+      return res.status(400).json(errors);
     }
 
-    const role = await Role.findOne({
+    const role = await _models.Role.findOne({
       where: {
         name: req.body.name.toLowerCase()
       }
@@ -165,7 +159,7 @@ class Validate {
     }
 
     try {
-      const role = await Role.findOne({
+      const role = await _models.Role.findOne({
         where: {
           id: req.params.id
         }
@@ -205,7 +199,7 @@ class Validate {
       return res.status(400).send(errors);
     }
 
-    const role = await Role.findOne({
+    const role = await _models.Role.findOne({
       where: {
         id: req.body.assignedId
       }
@@ -214,27 +208,32 @@ class Validate {
       message: "Assigned Role doesn't exist"
     });
     const driverPermissions = ['start', 'stop', 'change', 'edit', 'view'];
-    const adminPermissions = ['create', 'udpate', 'delete', 'view', 'edit'];
-    const operatorPermission = ['create', 'udpate', 'delete', 'view', 'register', 'remove'];
+    const adminPermissions = ['create', 'update', 'delete', 'view', 'edit'];
+    const operatorPermission = ['create', 'update', 'delete', 'view', 'register', 'remove'];
 
     switch (role.name) {
       case "driver":
         if (!driverPermissions.includes(req.body.name)) return res.status(400).json({
           message: "Driver is not allowed to have that permission"
         });
+        break;
 
       case "operator":
-        if (!adminPermissions.includes(req.body.name)) return res.status(400).json({
+        if (!operatorPermission.includes(req.body.name)) return res.status(400).json({
           message: "Operator is not allowed to have that permission"
         });
+        break;
 
       case "admin":
         if (!adminPermissions.includes(req.body.name)) return res.status(400).json({
           message: "Administrator is not allowed to have that permission"
         });
+        break;
 
       default:
-        next();
+        return res.status(400).json({
+          message: "Unknown user"
+        });
     }
   }
 
@@ -260,10 +259,10 @@ class Validate {
 
       for (let item of details) errors[item.path[0]] = item.message;
 
-      return res.status(400).send(errors);
+      return res.status(400).json(errors);
     }
 
-    const permission = await Permission.findOne({
+    const permission = await _models.Permission.findOne({
       where: {
         id: req.params.id
       }
@@ -271,7 +270,7 @@ class Validate {
     if (!permission) return res.status(400).json({
       message: "Permission you are trying to update doesn't exists"
     });
-    const role = await Role.findOne({
+    const role = await _models.Role.findOne({
       where: {
         id: req.body.assignedId
       }
@@ -304,7 +303,7 @@ class Validate {
 
       for (let item of details) errors[item.path[0]] = item.message;
 
-      return res.status(400).send(errors);
+      return res.status(400).json(errors);
     }
 
     next();

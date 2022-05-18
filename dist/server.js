@@ -7,6 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _busStationsRoute = _interopRequireDefault(require("./routes/busStationsRoute"));
+
+var _routesRoute = _interopRequireDefault(require("./routes/routesRoute"));
+
 var _auth = _interopRequireDefault(require("./routes/auth.js"));
 
 var _express = _interopRequireDefault(require("express"));
@@ -37,16 +41,19 @@ var _index = _interopRequireDefault(require("../sequelize/models/index"));
 
 var _passwordResetRoutes = _interopRequireDefault(require("./routes/passwordResetRoutes.js"));
 
-/*jslint devel: true */
+var _busRoutes = _interopRequireDefault(require("./routes/busRoutes"));
+
+// eslint-disable-next-line no-undef
 
 /* eslint-env browser */
+
+/*jslint devel: true */
+// import {config} from 'dotenv'
 _dotenv.default.config();
 
 const app = (0, _express.default)();
 exports.default = app;
-app.use('/', _auth.default); // eslint-disable-next-line no-undef
-
-const PORT = process.env.PORT || 3006;
+app.use('/', _auth.default);
 const options = {
   definition: {
     openapi: "3.0.0",
@@ -80,8 +87,12 @@ app.use('/api/v1/roles', _roleRoutes.default);
 app.use('/api/v1/auth', _auth.default);
 app.use('/api/v1/permissions', _permissionRoutes.default);
 app.use('/api/v1/reset-password', _passwordResetRoutes.default);
+app.use('/api/v1/buses', _busRoutes.default);
 app.use((0, _morgan.default)());
 app.use(_homeRoutes.default);
+app.use('/api/v1/routes', _routesRoute.default);
+app.use('/api/v1/bus-stations', _busStationsRoute.default);
+const PORT = process.env.PORT || 3000;
 
 _index.default.sequelize.sync({
   alter: false
