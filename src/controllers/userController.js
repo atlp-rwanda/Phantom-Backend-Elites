@@ -2,42 +2,32 @@ import bcrypt from "bcrypt";
 import "dotenv/config";
 import getPassword from "../services/createPassword.js";
 import sendEmail from "../services/sendEmail.js";
-import Users from '../../sequelize/models/user'
-import { development } from "../../sequelize/config/config.js";
-import { Sequelize } from "sequelize";
-let sequelize = new Sequelize(development);
-let User = Users(sequelize, Sequelize);
+import {User} from '../../sequelize/models'
+
+
+
+
+
 class UserController {
-  async createUser(req, res) {
+   async createUser(req, res) {
     const userpassword = getPassword();
-    const password = await bcrypt.hash(userpassword, 12);
-
-
+    console.log(userpassword)
+    const password = await bcrypt.hash(userpassword, 12)
     User.create({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      password,
-      roleId: req.body.roleId,
-      dateofbirth: req.body.dateofbirth,
-      gender: req.body.gender,
-      address: req.body.address,
-    }).then(async data => {
-       
-            const output = `
+        firstName: req.body.firstName,lastName: req.body.lastName,email: req.body.email,password, roleId: req.body.roleId,gender: req.body.gender,
+    })
+      .then(async data => { const output = `
             <h2>Your account has been registered. you can login in</h2>
             <a href="http://localhost:3000/login">phantom app</a>
             <p>Use ${req.body.email} and your password  <a href="#">${userpassword}</a></p>
         `;
-          sendEmail(output, data.email);
-          console.log(data.email)
-          return results;
-      }).catch(err => {
-        res.status(500).send({
-          message: err.message || "Some error occurred while creating the User."
-        })
-      });
-  };
+            sendEmail(output, data.email);
+            res.status(201).json({message: "User created successfully!",data});
+          }).catch(err => {
+        res.status(500).json({
+          message:
+            err.message || "Some error occurred while creating the User."
+        });});};
 
 
   async findOneUser(req, res) {
@@ -68,8 +58,8 @@ class UserController {
         exclude: ['password']
     }})
       .then(data => {
-        
-        res.status(200).json({message:'List of all available users.',data});
+        console.log(data)
+        res.status(200).json(data);
 
       })
       .catch(err => {

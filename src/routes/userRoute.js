@@ -2,7 +2,7 @@ import express from 'express'
 import userController from '../controllers/userController'
 import canUpdateProfile from '../middleware/canUpdateProfile';
 import isAdmin from '../middleware/isAdmin';
-// import auth from '../middleware/auth'
+import Validate from '../middleware/validator'
 
 const router = express.Router();
 
@@ -98,9 +98,8 @@ const router = express.Router();
  *         description: "Server error"
  *   
  */
-router.post('/',Validate.userFields, isAdmin, new userController().createUser);
-
-router.get('/',isAdmin,new userController().findAllUsers);
+router.post('/',Validate.userFields, new userController().createUser);
+router.get('/',new userController().findAllUsers);
 router.get('/:id',new userController().findOneUser);
 router.put('/profiles/:id',canUpdateProfile,new userController().updateProfile);
 router.delete('/:id',new userController().deleteUser);

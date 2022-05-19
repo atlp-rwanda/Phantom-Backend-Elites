@@ -138,11 +138,9 @@ class Validate{
     }
     async resetPassword(req, res, next){
         const schema = Joi.object({
+            token: Joi.string().required(),
             password: Joi.string().required(),
-            confirmPassword: Joi.string().required(),
-            token: Joi.string().required()
-            
-        })
+            confirmPassword: Joi.string().required()})
         const {error, value} = schema.validate(req.body,{ abortEarly: false })
         if(error){
             const { details } = error;
@@ -150,24 +148,6 @@ class Validate{
             for (let item of details) errors[item.path[0]] = item.message;
             return res.status(400).send(errors)
         }    
-        const user = await User.findOne({ where: { email: req.body.email } });
-        if (!user) return res.status(400).json({ message: "Unable to reset your password!!" });
-        next()
-    }
-
-    async viewListOfBuses(req, res, next){
-        const schema = Joi.object({
-            source: Joi.string().required(),
-            destination: Joi.string().required(),
-            
-        })
-        const {error, value} = schema.validate(req.body,{ abortEarly: false })
-        if(error){
-            const { details } = error;
-            const errors = {};
-            for (let item of details) errors[item.path[0]] = item.message;
-            return res.status(400).json({message: 'An error occured during retrieval of buses on this route.'})
-        }
         next()
     }
 }
