@@ -22,7 +22,8 @@ class AuthController {
             email: accessor.email,
             createdAt: accessor.createdAt,
             updatedAt: accessor.updatedAt,
-            role: accessor.roleId
+            role: accessor.roleId,
+
           },
           token: data.token
         });
