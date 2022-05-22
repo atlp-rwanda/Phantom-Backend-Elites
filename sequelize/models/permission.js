@@ -1,5 +1,6 @@
-const  {Model} = require("sequelize") 
-module.exports = function (sequelize, DataTypes){
+const { Model } = require('sequelize');
+
+module.exports = function(sequelize, DataTypes)  {
   class Permission extends Model {
     /**
      * Helper method for defining associations.
@@ -18,11 +19,7 @@ module.exports = function (sequelize, DataTypes){
   Permission.init({
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: {
-        args: true,
-        msg: 'Permission already exists',
-      },
+      allowNull: false
     },
     assignedId: DataTypes.INTEGER,
   }, {

@@ -5,21 +5,19 @@ import sendEmail from "../services/sendEmail.js";
 import {User} from '../../sequelize/models'
 
 
-
-
-
 class UserController {
    async createUser(req, res) {
     const userpassword = getPassword();
-    console.log(userpassword)
     const password = await bcrypt.hash(userpassword, 12)
     User.create({
         firstName: req.body.firstName,lastName: req.body.lastName,email: req.body.email,password, roleId: req.body.roleId,gender: req.body.gender,
     })
       .then(async data => { const output = `
-            <h2>Your account has been registered. you can login in</h2>
-            <a href="http://localhost:3000/login">phantom app</a>
-            <p>Use ${req.body.email} and your password  <a href="#">${userpassword}</a></p>
+            <h3>Hi ${req.body.firstName}</h3>
+            <h3>Welcome to Phantom!</h3>
+            <h3>You have been successfully registered. You can login using the following credentials:</h3>
+            <p><span style="font-weight:bold">Email:</span>${req.body.email} </p>
+            <p><span style="font-weight:bold">Password:</span>${userpassword}</p>
         `;
             sendEmail(output, data.email);
             res.status(201).json({message: "User created successfully!",data});
@@ -28,7 +26,6 @@ class UserController {
           message:
             err.message || "Some error occurred while creating the User."
         });});};
-
 
   async findOneUser(req, res) {
     const id = req.params.id;
@@ -71,26 +68,35 @@ class UserController {
   };
 
 async updateProfile(req, res) {
+  try {
     const id = req.params.id;
-    User.update(req.body, {
-      where: { id: id }
+    const profilePic = req.file?.path;
+    console.log(profilePic,"----")
+    const bodyData = req.body
+    const body = profilePic
+      ? { ...bodyData, profilePic}
+      : bodyData
+    console.log(body)
+    const updatedUser = await User.update(body, {
+      where: { id: id },
+      returning: true
     })
-      .then(num => {
-        if (num == 1) {
-          res.json({
-            message: "Profile was updated successfully."
+  if(updatedUser[1].length){
+    res.status(200).json({
+            message: "Profile was updated successfully.",
+            data:updatedUser[1][0]
           });
         } else {
-          res.json({
-            message: `Cannot update this profile. Maybe User was not found or req.body is empty!`
+          res.status(404).json({
+            error: `User with the ${id} does not exist`
           });
         }
-      })
-      .catch(err => {
-        res.status(500).json({
-          message: "Invalid inputs detected, and we cannot update your profile id=" + id
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+          error: "Oops, something went wrong"
         });
-      });
+  }
   };
 
   async deleteUser(req, res) {

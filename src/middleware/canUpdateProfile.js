@@ -1,6 +1,6 @@
 import verifyToken from '../helpers/verifyToken';
-import Models from '../../sequelize/models';
-const { Role,Token } = Models;
+import Models from '../../sequelize/models'
+let {Token, Role} = Models
 
 
 const canUpdateProfile = async (req, res, next) => {

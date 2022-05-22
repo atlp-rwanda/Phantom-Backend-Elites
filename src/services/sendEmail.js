@@ -1,11 +1,12 @@
 import nodemailer from "nodemailer";
 import "dotenv/config";
 
-function sendEmail(output, toEmail) {
+function sendEmail(output, email) {
   let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
+    service: 'gmail',
+    host: process.env.TRANSPORTER_HOST ,
+    port: process.env.TRANSPORTER_PORT,
+    secure: process.env.SECURE,
     auth: {
       user: process.env.USER_EMAIL,
       pass: process.env.USER_EMAIL_P,
@@ -13,8 +14,8 @@ function sendEmail(output, toEmail) {
   });
   let mailOptions = {
     from: process.env.USER_EMAIL, // sender address
-    to: toEmail, // list of receivers
-    subject: "Phantom is informing you that:", // Subject line
+    to: email, // list of receivers
+    subject: "Successfully Registered", // Subject line
     html: output, // html body
   };
 

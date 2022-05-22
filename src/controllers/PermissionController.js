@@ -1,4 +1,4 @@
-import Permission from '../../sequelize/models'
+import {Permission} from '../../sequelize/models'
 class PermissionController{
     async findOnePermission(req, res) {
         const id = req.params.id;
