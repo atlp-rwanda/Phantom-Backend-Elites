@@ -90,8 +90,9 @@ class Validate {
 
     }
     async createPermission(req, res, next) {
+        console.log(req.body);
         const schema = Joi.object({
-            name: Joi.string().required(),
+            name: Joi.array().items(Joi.string().required()).required(),
             assignedId: Joi.number().required(),
         });
         const { error, value } = schema.validate(req.body, { abortEarly: false });
@@ -101,25 +102,7 @@ class Validate {
             for (let item of details) errors[item.path[0]] = item.message;
             return res.status(400).send(errors);
         }
-        const role = await Role.findOne({ where: { id: req.body.assignedId } });
-        if (!role) return res.status(400).json({ message: "Assigned Role doesn't exist" });
-        const driverPermissions = ['start', 'stop', 'change', 'edit', 'view'];
-        const adminPermissions = ['create', 'update', 'delete', 'view', 'edit'];
-        const operatorPermission = ['create', 'update', 'delete', 'view', 'register', 'remove'];
-
-        switch (role.name) {
-            case "driver":
-                if (!driverPermissions.includes(req.body.name)) return res.status(400).json({ message: "Driver is not allowed to have that permission" });
-                break;
-            case "operator":
-                if (!operatorPermission.includes(req.body.name)) return res.status(400).json({ message: "Operator is not allowed to have that permission" });
-                break;
-            case "admin":
-                if (!adminPermissions.includes(req.body.name)) return res.status(400).json({ message: "Administrator is not allowed to have that permission" });
-                break;
-            default:
-                return res.status(400).json({ message: "Unknown user" });
-        }
+        next();
     }
     async updatePermission(req, res, next) {
         const schema = Joi.object({

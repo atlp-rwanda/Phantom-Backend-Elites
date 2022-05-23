@@ -1,6 +1,6 @@
-import { Role } from '../../sequelize/models'
+import { Role } from '../../sequelize/models';
 
-class RoleController{
+class RoleController {
 
   async createRole(req, res) {
     // Validate request
@@ -10,10 +10,10 @@ class RoleController{
       });
       return;
     }
-    const  { name } = req.body
+    const { name } = req.body;
     Role.create({ name })
       .then(data => {
-        res.status(201).json({data, message: 'Role created successfully!'});
+        res.status(201).json({ data, message: 'Role created successfully!' });
       })
       .catch(err => {
         res.status(500).json({
@@ -21,25 +21,26 @@ class RoleController{
             err.message || "Some error occurred while creating the Role."
         });
       });
-};
+  };
 
 
-async findOneRole(req, res) {
+  async findOneRole(req, res) {
     const id = req.params.id;
     Role.findByPk(id)
       .then(data => {
-          res.status(200).json({data});
-        }).catch(err => {
+        console.log('ROLE DATA', data);
+        res.status(200).json({ data });
+      }).catch(err => {
         res.status(500).json({
-          message: err.message || "Error retrieving that Role" 
+          message: err.message || "Error retrieving that Role"
         });
       });
-};
+  };
 
-async findAllRoles(req, res) {
+  async findAllRoles(req, res) {
     Role.findAll()
       .then(data => {
-        res.status(200).json({message: 'List of all Roles',data});
+        res.status(200).json({ message: 'List of all Roles', data });
       })
       .catch(err => {
         res.status(500).json({
@@ -47,32 +48,33 @@ async findAllRoles(req, res) {
             err.message || "Some error occurred while retrieving Roles."
         });
       });
-};
+  };
 
-async updateRole(req, res) {
-    const id = req.params.id;
-    Role.update(req.body, {
-      where: { id: id }
-    })
-      .then(num => {
-        if (num == 1) {
-          res.status(200).json({
-            message: "Role was updated successfully."
-          });
-        } else {
-          res.json({
-            message: `Cannot update Role with id=${id}. Maybe Role was not found or req.body is empty!`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).json({
-          message: "Error updating Role with id=" + id
-        });
+  async updateRole(req, res) {
+    try {
+      const id = req.params.id;
+      const updatedRole = await Role.update(req.body, {
+        where: { id: id },
+        returning: true
       });
-};
+      if (updatedRole[1].length) {
+        res.status(200).json({
+          message: "Role updated successfully.",
+          data: updatedRole[1][0]
+        });
+      } else {
+        res.status(404).json({
+          error: `Role with the ${id} does not exist`
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        error: "Oops, something went wrong"
+      });
+    }
+  };
 
-async deleteRole(req, res) {
+  async deleteRole(req, res) {
     const id = req.params.id;
     Role.destroy({
       where: { id: id }
@@ -93,8 +95,7 @@ async deleteRole(req, res) {
           message: "Could not delete Role with id=" + id
         });
       });
-};
+  };
 
 }
-export default RoleController
- 
+export default RoleController;
