@@ -15,7 +15,8 @@ module.exports = function (sequelize, DataTypes) {
     name: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false
-    }
+    },
+    roleName: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Permission',

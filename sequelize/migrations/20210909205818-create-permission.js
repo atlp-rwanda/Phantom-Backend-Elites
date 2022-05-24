@@ -21,6 +21,7 @@ module.exports = {
         type: Sequelize.INTEGER,
 
       },
+      roleName: Sequelize.STRING
     });
   },
   async down(queryInterface, Sequelize) {

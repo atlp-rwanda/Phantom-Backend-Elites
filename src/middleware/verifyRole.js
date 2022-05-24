@@ -1,9 +1,7 @@
 import { Role } from '../../sequelize/models';
 
 const verifyRole = async (req, res, next) => {
-    const role = await Role.findOne({ where: { id: req.body.assignedId } });
-    console.log(role);
-    console.log(role);
+    const role = await Role.findOne({ where: { name: req.body.roleName } });
 
     if (!role) return res.status(400).json({ message: "Assigned Role doesn't exist" });
     const driverPermissions = ['start', 'stop', 'change', 'edit', 'view'];
