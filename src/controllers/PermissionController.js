@@ -1,4 +1,4 @@
-import Permission from '../../sequelize/models'
+import {Permission, Role} from '../../sequelize/models'
 class PermissionController{
     async findOnePermission(req, res) {
         const id = req.params.id;
@@ -13,20 +13,25 @@ class PermissionController{
     };
 
   async createPermission(req, res) {
-    const { assignedId, name } = req.body
-   
-      const newPermission = await Permission.create({ assignedId, name })
-      console.log(newPermission)
-      return res.status(201).json({
-        message: "Permission created successfully",
-        data: newPermission
-      })
-  
-    // catch(error){
-    //   res.status(500).json({
-    //     error: "Some error occurred while creating the Permission."
-    //   });
-    // }
+    
+    try {
+      const { roleName, name } = req.body
+      
+      const permission = await Permission.findOne({where: {roleName}})
+      if(permission) return res.status(409).json({message: `This role is already asigned permissions`})
+      
+      const role = await Role.findOne({where: {name: roleName}})
+        console.log();
+        console.log('ROLE', role);
+        console.log();
+      const newPermission = await Permission.create({assignedId: role.dataValues.id, name, roleName })
+        return res.status(201).json({
+          message: "Permission created successfully",
+          data: newPermission
+        })
+    } catch (error) {
+      console.log(error);
+    }
 };
 
 async findAllPermissions(req, res) {
@@ -43,26 +48,27 @@ async findAllPermissions(req, res) {
 };
 
 async updatePermission(req, res) {
+  try {
     const id = req.params.id;
-    await Permission.update(req.body, {
-      where: { id: id }
-    })
-      .then(num => {
-        if (num == 1) {
-          res.json({
-            message: "Permission was updated successfully."
-          });
-        } else {
-          res.json({
-            message: `Cannot update Permission with id=${id}. Maybe Permission was not found or req.body is empty!`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).json({
-          message: "Error updating Permission with id=" + id
-        });
+    console.log(req.params)
+    const updatedPermission = await Permission.update(req.body, {
+      where: {id }
+    });
+    if (updatedPermission) {
+      res.status(200).json({
+        message: "Permission updated successfully.",
+        data: updatedPermission
       });
+    } else {
+      res.status(404).json({
+        error: `Permission with the ${id} does not exist`
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      error: "Oops, something went wrong"
+    });
+  }
 };
 
 async deletePermission(req, res) {

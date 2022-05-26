@@ -7,13 +7,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _models = require("../../sequelize/models");
+
 var _crypto = _interopRequireDefault(require("crypto"));
 
 var _sendEmail = _interopRequireDefault(require("../services/sendEmail.js"));
 
 var _bcrypt = _interopRequireDefault(require("bcrypt"));
-
-var _models = require("../../sequelize/models");
 
 class ResetTokenController {
   async createResetLink(req, res) {
@@ -70,7 +70,6 @@ class ResetTokenController {
           token: req.body.token
         }
       });
-      console.log(tokenData.email);
 
       if (!tokenData) {
         return res.status(404).json({
@@ -87,7 +86,6 @@ class ResetTokenController {
 
       if (req.body.password === req.body.confirmPassword) {
         let newPassword = await _bcrypt.default.hash(req.body.password, 12);
-        console.log(newPassword);
         await _models.User.update({
           password: newPassword
         }, {

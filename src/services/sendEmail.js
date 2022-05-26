@@ -20,7 +20,7 @@ function sendEmail(output, toEmail) {
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      return console.log(error);
+      return error;
     }
 
     res.render("contact", { msg: "Email has been sent" });
