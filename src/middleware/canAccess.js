@@ -1,16 +1,42 @@
 import { sendErrorResponse } from '../utils/sendResponse.js';
-import model from '../models';
+import model from '../../sequelize/models';
 
-const { Role, Permission } = model;
+const { Role, Permission, User } = model;
 
-export default (permission) => async (req, res, next) => {
-    const access = await Permission.findOne({
-        where: { name: permission },
-        include: [{ attributes: ['id', 'name'], model: Role, as: 'roles', through: { attributes: [] } }],
-    });
-    if (await req.userData.hasPermissionTo(access)) {
-        return next();
+const canAccess= async (req, res, next) => {
+    const {id, role, requiredPermissions} = req.headers
+
+    const permissions = 
+    [
+    'change bus speed', 
+    'edit profile',
+    'create',
+    'delete',
+    'view',
+    'edit', 
+    'update'
+]
+
+
+    const user = await User.findOne({id, role})
+    if(user){
+        const permission = await Permission.findOne({where: {assignedId: role}})
+        const name = permission.name
+
+        if(name.length > 0){
+            for(let i=0; i< name.length; i++){
+                if(!permissions.includes(name[i]))
+                return res.json({message: `You are not allowed to ${name[i]}` })
+                else if(requiredPermissions.includes(name[i])){
+
+                    next()
+                }
+                else
+                    return res.status(404).json({message: `The minimum permissions (${[...requiredPermissions]}) not found`})  
+            }
+        }
+        else return res.json({message: 'You are not yet assigned to permissions'})
     }
-    console.error('You do not have the authorization to access this.');
-    return sendErrorResponse(res, 403, 'You do not have the authorization to access this');
 };
+
+export default canAccess

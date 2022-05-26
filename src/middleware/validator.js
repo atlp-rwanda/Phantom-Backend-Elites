@@ -88,8 +88,9 @@ class Validate {
 
     }
     async createPermission(req, res, next) {
+        console.log(req.body);
         const schema = Joi.object({
-            name: Joi.string().required(),
+            name: Joi.array().items(Joi.string().required()).required(),
             assignedId: Joi.number().required(),
         });
         const { error, value } = schema.validate(req.body, { abortEarly: false });

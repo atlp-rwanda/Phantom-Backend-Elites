@@ -9,15 +9,15 @@ module.exports = {
       },
       name: {
         allowNull: false,
-        type: Sequelize.STRING,
-        unique: true,
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        unique: false,
       },
       assignedId: {
-        references:{
+        references: {
           model: "Roles",
           key: "id"
-        },   
-        allowNull: false,    
+        },
+        allowNull: false,
         type: Sequelize.INTEGER,
 
       },

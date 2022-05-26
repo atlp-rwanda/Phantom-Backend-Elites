@@ -1,21 +1,21 @@
 const { Model } = require('sequelize');
 
-module.exports = function(sequelize, DataTypes)  {
+module.exports = function (sequelize, DataTypes) {
   class Permission extends Model {
     static associate(models) {
       Permission.belongsTo(models.Role, {
         foreignKey: 'assignedId',
         as: 'assigned',
         onDelete: 'CASCADE',
-      })
+      });
     }
   }
   Permission.init({
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
     assignedId: DataTypes.INTEGER,
+    name: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'Permission',

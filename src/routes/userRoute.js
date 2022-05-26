@@ -1,5 +1,6 @@
 import express from 'express'
 import userController from '../controllers/userController'
+import canAccess from '../middleware/canAccess';
 import canUpdateProfile from '../middleware/canUpdateProfile';
 import isAdmin from '../middleware/isAdmin';
 import Validate from '../middleware/validator'
@@ -98,7 +99,7 @@ const router = express.Router();
  *         description: "Server error"
  *   
  */
-router.post('/',Validate.userFields, new userController().createUser);
+router.post('/',Validate.userFields, canAccess, new userController().createUser);
 router.get('/',new userController().findAllUsers);
 router.get('/:id',new userController().findOneUser);
 router.put('/profiles/:id',canUpdateProfile,new userController().updateProfile);
