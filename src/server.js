@@ -21,11 +21,12 @@ import passwordResetRoutes from './routes/passwordResetRoutes.js'
 import viewBusesRoutes from './routes/viewBusesRoutes.js'
 import assignDriversRoutes from './routes/assignDriversRoutes.js'
 
-
+import socket from 'socket.io'
 import busRoute from './routes/busRoutes'
 
 dotenv.config();
 const app = express();
+app.use(cors());
 app.use('/', auth);
 
 const options = {
@@ -63,7 +64,7 @@ app.get("/junior", (req, res) => {
 });
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
-app.use(cors());
+
 app.use(express.json());
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/roles', roleRoutes);
@@ -80,11 +81,32 @@ app.use('/api/v1/bus-stations', busStationRoute);
 
 const PORT = process.env.PORT || 3000;
 
-db.sequelize.sync({ alter: false }).then(() => {
-  console.log('Database Connected!');
-  app.listen(PORT, () => {
-    console.log(`Server listening on port: ${PORT}`);
+    
+
+
+const server = app.listen(PORT, () => {
+  console.log(`Server listening on port: ${PORT}`);
+  db.sequelize.sync({ alter: false }).then(() => {
+      console.log('Database Connected!');
   });
 });
+const io = socket(server, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST']
+  }
+})
 
+const clients = [];
+
+io.on("connection", (client) => {
+  clients.push(client.id);
+  console.log(clients.length)
+    
+    client.on("start", data => {
+      client.broadcast.emit("start", data);
+      console.log(data)
+      })
+
+    });
 export { app as default };

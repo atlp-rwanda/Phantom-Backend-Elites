@@ -93,7 +93,7 @@ const getSingleRoute = async (req, res) => {
         const route = await Route.findByPk(req.params.id);
         if (!route) return res.status(400).json({ status: 400, message: 'Route with the given ID was not found.' });
 
-        res.status(200).json({ status: 200, message: 'Route found successfully', data: route });
+        res.status(200).json(route);
 
     } catch (err) {
         res.status(500).json({ status: 500, message: 'Server error' });
