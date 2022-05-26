@@ -91,7 +91,7 @@ class Validate {
         console.log(req.body);
         const schema = Joi.object({
             name: Joi.array().items(Joi.string().required()).required(),
-            assignedId: Joi.number().required(),
+            roleName: Joi.string().required(),
         });
         const { error, value } = schema.validate(req.body, { abortEarly: false });
         if (error) {
@@ -100,31 +100,13 @@ class Validate {
             for (let item of details) errors[item.path[0]] = item.message;
             return res.status(400).send(errors);
         }
-        const role = await Role.findOne({ where: { id: req.body.assignedId } });
-        if (!role) return res.status(400).json({ message: "Assigned Role doesn't exist" });
-        const driverPermissions = ['start', 'stop', 'change', 'edit', 'view'];
-        const adminPermissions = ['create', 'update', 'delete', 'view', 'edit'];
-        const operatorPermission = ['create', 'update', 'delete', 'view', 'register', 'remove'];
-
-        switch (role.name) {
-            case "driver":
-                if (!driverPermissions.includes(req.body.name)) return res.status(400).json({ message: "Driver is not allowed to have that permission" });
-                break;
-            case "operator":
-                if (!operatorPermission.includes(req.body.name)) return res.status(400).json({ message: "Operator is not allowed to have that permission" });
-                break;
-            case "admin":
-                if (!adminPermissions.includes(req.body.name)) return res.status(400).json({ message: "Administrator is not allowed to have that permission" });
-                break;
-            default:
-                return res.status(400).json({ message: "Unknown user" });
-        }
         next();
-
     }
     async updatePermission(req, res, next) {
         const schema = Joi.object({
-            id: Joi.number().required()
+            id: Joi.number(),
+            name: Joi.array().items(Joi.string().required()),
+            roleName: Joi.string()
         });
         const { error, value } = schema.validate({ id: req.params.id }, { abortEarly: false });
         if (error) {
@@ -136,9 +118,6 @@ class Validate {
 
         const permission = await Permission.findOne({ where: { id: req.params.id } });
         if (!permission) return res.status(400).json({ message: "Permission you are trying to update doesn't exists" });
-
-        const role = await Role.findOne({ where: { id: req.body.assignedId } });
-        if (!role) return res.status(400).json({ message: "Assigned Role doesn't exist" });
         next();
     }
     async resetPassword(req, res, next) {

@@ -13,16 +13,18 @@ class PermissionController{
     };
 
   async createPermission(req, res) {
-    console.log(req.body);
+    
     try {
-      const { assignedId, name } = req.body
+      const { roleName, name } = req.body
       
-      const permission = await Permission.findOne({where: {assignedId}})
-      const role = await Role.findOne({where: {id: assignedId}})
-
-      if(permission) return res.status(409).json({message: `This role (${role.dataValues.name}) is already asigned permissions`})
-        
-      const newPermission = await Permission.create({ assignedId, name })
+      const permission = await Permission.findOne({where: {roleName}})
+      if(permission) return res.status(409).json({message: `This role is already asigned permissions`})
+      
+      const role = await Role.findOne({where: {name: roleName}})
+        console.log();
+        console.log('ROLE', role);
+        console.log();
+      const newPermission = await Permission.create({assignedId: role.dataValues.id, name, roleName })
         return res.status(201).json({
           message: "Permission created successfully",
           data: newPermission
@@ -48,14 +50,14 @@ async findAllPermissions(req, res) {
 async updatePermission(req, res) {
   try {
     const id = req.params.id;
+    console.log(req.params)
     const updatedPermission = await Permission.update(req.body, {
-      where: { id: id },
-      returning: true
+      where: {id }
     });
-    if (updatedPermission[1].length) {
+    if (updatedPermission) {
       res.status(200).json({
         message: "Permission updated successfully.",
-        data: updatedPermission[1][0]
+        data: updatedPermission
       });
     } else {
       res.status(404).json({
